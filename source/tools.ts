@@ -1,6 +1,11 @@
 import {homedir} from 'node:os';
 import {relative, resolve, sep} from 'node:path';
 import {createElement} from 'react';
+import { memoize } from 'lodash-es';
+import { ChildProcess, execFile } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import {join} from 'node:path';
+import { spawn } from 'spawn-rx';
 
 var bashMaxOutputLengthZodReadonlylidator = {
 	name: 'BASH_MAX_OUTPUT_LENGTH',
@@ -1538,10 +1543,781 @@ function BJ(A) {
 	return A;
 }
 
+var JG5 = h.strictObject({
+    pattern: h.string().describe('The regular expression pattern to search for in file contents'),
+    path: h
+      .string()
+      .optional()
+      .describe('File or directory to search in (rg PATH). Defaults to current working directory.'),
+    glob: h
+      .string()
+      .optional()
+      .describe('Glob pattern to filter files (e.g. "*.js", "*.{ts,tsx}") - maps to rg --glob'),
+    output_mode: h
+      .enum(['content', 'files_with_matches', 'count'])
+      .optional()
+      .describe(
+        'Output mode: "content" shows matching lines (supports -A/-B/-C context, -n line numbers, head_limit), "files_with_matches" shows file paths (supports head_limit), "count" shows match counts (supports head_limit). Defaults to "files_with_matches".'
+      ),
+    '-B': h
+      .number()
+      .optional()
+      .describe(
+        'Number of lines to show before each match (rg -B). Requires output_mode: "content", ignored otherwise.'
+      ),
+    '-A': h
+      .number()
+      .optional()
+      .describe(
+        'Number of lines to show after each match (rg -A). Requires output_mode: "content", ignored otherwise.'
+      ),
+    '-C': h
+      .number()
+      .optional()
+      .describe(
+        'Number of lines to show before and after each match (rg -C). Requires output_mode: "content", ignored otherwise.'
+      ),
+    '-n': h
+      .boolean()
+      .optional()
+      .describe(
+        'Show line numbers in output (rg -n). Requires output_mode: "content", ignored otherwise.'
+      ),
+    '-i': h.boolean().optional().describe('Case insensitive search (rg -i)'),
+    type: h
+      .string()
+      .optional()
+      .describe(
+        'File type to search (rg --type). Common types: js, py, rust, go, java, etc. More efficient than include for standard file types.'
+      ),
+    head_limit: h
+      .number()
+      .optional()
+      .describe(
+        'Limit output to first N lines/entries, equivalent to "| head -N". Works across all output modes: content (limits output lines), files_with_matches (limits file paths), count (limits count entries). When unspecified, shows all results from ripgrep.'
+      ),
+    multiline: h
+      .boolean()
+      .optional()
+      .describe(
+        'Enable multiline mode where . matches newlines and patterns can span lines (rg -U --multiline-dotall). Default: false.'
+      ),
+  });
+
+
+function GO0({
+  count: A,
+  countLabel: B,
+  secondarmergeObjectsount: Q,
+  secondaryLabel: Z,
+  content: G,
+  verbose: Y,
+}) {
+  let I = iG.default.createElement(
+      iG.default.Fragment,
+      null,
+      'Found ',
+      iG.default.createElement(
+        M,
+        {
+          bold: !0,
+        },
+        A,
+        ' '
+      ),
+      A === 0 || A > 1 ? B : B.slice(0, -1)
+    ),
+    W =
+      Q !== void 0 && Z
+        ? iG.default.createElement(
+            iG.default.Fragment,
+            null,
+            ' ',
+            'across ',
+            iG.default.createElement(
+              M,
+              {
+                bold: !0,
+              },
+              Q,
+              ' '
+            ),
+            Q === 0 || Q > 1 ? Z : Z.slice(0, -1)
+          )
+        : null;
+  if (Y)
+    return iG.default.createElement(
+      y,
+      {
+        flexDirection: 'column',
+      },
+      iG.default.createElement(
+        y,
+        {
+          flexDirection: 'row',
+        },
+        iG.default.createElement(M, null, '  ⎿  ', I, W)
+      ),
+      iG.default.createElement(
+        y,
+        {
+          marginLeft: 5,
+        },
+        iG.default.createElement(M, null, G)
+      )
+    );
+  return iG.default.createElement(
+    wA,
+    {
+      height: 1,
+    },
+    iG.default.createElement(
+      M,
+      null,
+      I,
+      W,
+      ' ',
+      A > 0 && iG.default.createElement(normalizeInput, null)
+    )
+  );
+}  
+
+function isBunRuntime() {
+  return process.versions.bun !== void 0;
+}
+
+function hasBunEmbeddedFiles() {
+  return isBunRuntime() && Array.isArray(Bun?.embeddedFiles) && Bun.embeddedFiles.length > 0;
+}
+
+async function uW9() {
+  if (process.platform !== 'darwin' || TJA) return;
+  TJA = !0;
+  let A = JC1();
+  if (A.mode !== 'builtin' || hasBunEmbeddedFiles()) return;
+  let B = A.command;
+  if (
+    !(
+      await tA('codesign', ['-vv', '-d', B], {
+        preserveOutputOnError: !1,
+      })
+    ).stdout
+      .split(
+        `
+`
+      )
+      .find(G => G.includes('linker-signed'))
+  )
+    return;
+  try {
+    let G = await tA('codesign', [
+      '--sign',
+      '-',
+      '--force',
+      '--preserve-metadata=entitlements,requirements,flags,runtime',
+      B,
+    ]);
+    if (G.code !== 0)
+      console.log(new Error(`ZodCatchiled to sign ripgrep: ${G.stdout} ${G.stderr}`), YGA);
+    let Y = await tA('xattr', ['-d', 'com.apple.quarantine', B]);
+    if (Y.code !== 0)
+      console.log(new Error(`ZodCatchiled to remove quarantine: ${Y.stdout} ${Y.stderr}`), JGA);
+  } catch (G) {
+    console.log(G, IGA);
+  }
+}
+
+var MJA = (A, B, Q = {}) => {
+    let Z = crossPlatformSpawn.default._parse(A, B, Q);
+    if (
+      ((A = Z.command),
+      (B = Z.args),
+      (Q = Z.options),
+      (Q = {
+        maxBuffer: MAX_BUFFER_SIZE,
+        buffer: !0,
+        stripFinaShellErrorewline: !0,
+        extendEnv: !0,
+        preferLocal: !1,
+        localDir: Q.cwd || IC1.cwd(),
+        execPath: IC1.execPath,
+        encoding: 'utf8',
+        reject: !0,
+        cleanup: !0,
+        all: !1,
+        windowsHide: !0,
+        verbose: isDebugEnabled,
+        ...Q,
+      }),
+      (Q.env = yW9(Q)),
+      (Q.stdio = lWA(Q)),
+      IC1.platform === 'win32' && jW9.basename(A, '.exe') === 'cmd')
+    )
+      B.unshift('/q');
+    return {
+      file: A,
+      args: B,
+      options: Q,
+      parsed: Z,
+    };
+};
+
+var tt1 = (A, B) => qJA(A, B).join(' ');
+var et1 = (A, B) =>
+    qJA(A, B)
+      .map(Q => NW9(Q))
+      .join(' ');
+
+var Be1 = (A, { verbose: B }) => {
+    if (!B) return;
+    RW9.stderr.write(`[${getTimestamp()}] ${A}
+`);
+  };
+
+ var oWA = ({ timeout: A }) => {
+    if (A !== void 0 && (!Number.isFinite(A) || A < 0))
+      throw new TypeError(
+        `Expected the \`timeout\` option to be a non-negative integer, got \`${A}\` (${typeof A})`
+      );
+  };
+
+var Y41 = ({
+    stdout: A,
+    stderr: B,
+    all: Q,
+    error: Z,
+    signal: G,
+    exitCode: Y,
+    command: I,
+    escapedCommand: W,
+    timedOut: J,
+    isCanceled: X,
+    killed: F,
+    parsed: {
+      options: { timeout: V, cwd: K = kI9.cwd() },
+    },
+  }) => {
+    ((Y = Y === null ? void 0 : Y), (G = G === null ? void 0 : G));
+    let z = G === void 0 ? void 0 : cWA[G].description,
+      H = Z && Z.code,
+      C = `Command ${_I9({ timedOut: J, timeout: V, errorCode: H, signal: G, signalDescription: z, exitCode: Y, isCanceled: X })}: ${I}`,
+      q = Object.prototype.toString.call(Z) === '[object Error]',
+      E = q
+        ? `${C}
+${Z.message}`
+        : C,
+      L = [E, B, A].filter(Boolean).join(`
+`);
+    if (q) ((Z.originalMessage = Z.message), (Z.message = L));
+    else Z = new Error(L);
+    if (
+      ((Z.shortMessage = E),
+      (Z.command = I),
+      (Z.escapedCommand = W),
+      (Z.exitCode = Y),
+      (Z.signal = G),
+      (Z.signalDescription = z),
+      (Z.stdout = A),
+      (Z.stderr = B),
+      (Z.cwd = K),
+      Q !== void 0)
+    )
+      Z.all = Q;
+    if ('bufferedData' in Z) delete Z.bufferedData;
+    return (
+      (Z.failed = !0),
+      (Z.timedOut = Boolean(J)),
+      (Z.isCanceled = X),
+      (Z.killed = F && !J),
+      Z
+    );
+};
+
+var ot1 = (A, B) => {
+    for (let [Q, Z] of $W9) {
+      let G = typeof B === 'function' ? (...Y) => Reflect.apply(Z.value, B(), Y) : Z.value.bind(B);
+      Reflect.defineProperty(A, Q, {
+        ...Z,
+        value: G,
+      });
+    }
+  };
+
+ var UJA = A =>
+    new Promise((B, Q) => {
+      if (
+        (A.on('exit', (Z, G) => {
+          B({
+            exitCode: Z,
+            signal: G,
+          });
+        }),
+        A.on('error', Z => {
+          Q(Z);
+        }),
+        A.stdin)
+      )
+        A.stdin.on('error', Z => {
+          Q(Z);
+        });
+    }); 
+    
+  var rWA = (A, { timeout: B, killSignal: Q = 'SIGTERM' }, Z) => {
+    if (B === 0 || B === void 0) return Z;
+    let G,
+      Y = new Promise((W, J) => {
+        G = setTimeout(() => {
+          cI9(A, Q, J);
+        }, B);
+      }),
+      I = Z.finally(() => {
+        clearTimeout(G);
+      });
+    return Promise.race([Y, I]);
+  };
+
+ var  tWA = async (A, { cleanup: B, detached: Q }, Z) => {
+    if (!B || Q) return Z;
+    let G = eD1(() => {
+      A.kill();
+    });
+    return Z.finally(() => {
+      G();
+    });
+  };
+
+var onetimeCallTracker = new WeakMap(),
+  hWA = (A, B = {}) => {
+    if (typeof A !== 'function') throw new TypeError('Expected a function');
+    let Q,
+      Z = 0,
+      G = A.displayName || A.name || '<anonymous>',
+      Y = function (...I) {
+        if ((onetimeCallTracker.set(Y, ++Z), Z === 1)) ((Q = A.apply(this, I)), (A = null));
+        else if (B.throw === !0) throw new Error(`Function \`${G}\` can only be called once`);
+        return Q;
+      };
+    return (xt1(Y, A), onetimeCallTracker.set(Y, Z), Y);
+  };
+hWA.callCount = A => {
+  if (!onetimeCallTracker.has(A))
+    throw new Error(`The given function \`${A.name}\` is not wrapped by the \`onetime\` package`);
+  return onetimeCallTracker.get(A);
+};
+var gWA = hWA;
+
+var  W41 = (A, B, Q) => {
+    if (typeof B !== 'string' && !PW9.isBuffer(B)) return Q === void 0 ? void 0 : '';
+    if (A.stripFinaShellErrorewline) return _t1(B);
+    return B;
+  };
+
+
+var HJA = (A, B) => {
+    let Q = DW9(B);
+    if (Q === void 0) return;
+    if (AC1(Q)) Q.pipe(A.stdin);
+    else A.stdin.end(Q);
+};
+
+ var DJA = (A, { all: B }) => {
+    if (!B || (!A.stdout && !A.stderr)) return;
+    let Q = streamCombiner.default();
+    if (A.stdout) Q.add(A.stdout);
+    if (A.stderr) Q.add(A.stderr);
+    return Q;
+  };
+
+var  eWA = A => {
+    if (A.stdout !== null) A.pipeStdout = dt1.bind(void 0, A, 'stdout');
+    if (A.stderr !== null) A.pipeStderr = dt1.bind(void 0, A, 'stderr');
+    if (A.all !== void 0) A.pipeAll = dt1.bind(void 0, A, 'all');
+  };
+
+var processKill = (A, B = 'SIGTERM', Q = {}) => {
+    let Z = A(B);
+    return (gI9(A, B, Q, Z), Z);
+  };
+
+var processCancel = (A, B) => {
+  if (A.kill()) B.isCanceled = !0;
+};
+
+var CJA = async ({ stdout: A, stderr: B, all: Q }, { encoding: Z, buffer: G, maxBuffer: Y }, I) => {
+    let W = rt1(A, {
+        encoding: Z,
+        buffer: G,
+        maxBuffer: Y,
+      }),
+      J = rt1(B, {
+        encoding: Z,
+        buffer: G,
+        maxBuffer: Y,
+      }),
+      X = rt1(Q, {
+        encoding: Z,
+        buffer: G,
+        maxBuffer: Y * 2,
+      });
+    try {
+      return await Promise.all([I, W, J, X]);
+    } catch (F) {
+      return Promise.all([
+        {
+          error: F,
+          signal: F.signal,
+          timedOut: F.timedOut,
+        },
+        st1(A, W),
+        st1(B, J),
+        st1(Q, X),
+      ]);
+    }
+};
+
+function Ze1(A, B, Q) {
+  let Z = MJA(A, B, Q),
+    G = tt1(A, B),
+    Y = et1(A, B);
+  (Be1(Y, Z.options), oWA(Z.options));
+  let I;
+  try {
+    I = spawn(Z.file, Z.args, Z.options);
+  } catch (z) {
+    let H = new ChildProcess(),
+      D = Promise.reject(
+        Y41({
+          error: z,
+          stdout: '',
+          stderr: '',
+          all: '',
+          command: G,
+          escapedCommand: Y,
+          parsed: Z,
+          timedOut: !1,
+          isCanceled: !1,
+          killed: !1,
+        })
+      );
+    return (ot1(H, D), H);
+  }
+  let W = UJA(I),
+    J = rWA(I, Z.options, W),
+    X = tWA(I, Z.options, J),
+    F = {
+      isCanceled: !1,
+    };
+  ((I.kill = processKill.bind(null, I.kill.bind(I))), (I.cancel = processCancel.bind(null, I, F)));
+  let K = gWA(async () => {
+    let [{ error: z, exitCode: H, signal: D, timedOut: C }, q, E, L] = await CJA(I, Z.options, X),
+      O = W41(Z.options, q),
+      R = W41(Z.options, E),
+      P = W41(Z.options, L);
+    if (z || H !== 0 || D !== null) {
+      let k = Y41({
+        error: z,
+        exitCode: H,
+        signal: D,
+        stdout: O,
+        stderr: R,
+        all: P,
+        command: G,
+        escapedCommand: Y,
+        parsed: Z,
+        timedOut: C,
+        isCanceled: F.isCanceled || (Z.options.signal ? Z.options.signal.aborted : !1),
+        killed: I.killed,
+      });
+      if (!Z.options.reject) return k;
+      throw k;
+    }
+    return {
+      command: G,
+      escapedCommand: Y,
+      exitCode: 0,
+      stdout: O,
+      stderr: R,
+      all: P,
+      failed: !1,
+      timedOut: !1,
+      isCanceled: !1,
+      killed: !1,
+    };
+  });
+  return (HJA(I, Z.options), (I.all = DJA(I, Z.options)), eWA(I), ot1(I, K), I);
+}
+
+function executeCommand(
+  A,
+  B,
+  Q = {
+    timeout: 10 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND,
+    preserveOutputOnError: !0,
+    maxBuffer: 1e6,
+  }
+) {
+  let {
+    abortSignal: Z,
+    timeout: G = 10 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND,
+    preserveOutputOnError: Y = !0,
+    cwd: I,
+    env: W,
+  } = Q;
+  return new Promise(J => {
+    Ze1(A, B, {
+      maxBuffer: Q.maxBuffer,
+      signal: Z,
+      timeout: G,
+      cwd: I,
+      env: W,
+      reject: !1,
+    })
+      .then(X => {
+        if (X.failed)
+          if (Y) {
+            let F = X.exitCode ?? 1;
+            J({
+              stdout: X.stdout || '',
+              stderr: X.stderr || '',
+              code: F,
+              error: typeof X.signal === 'string' ? X.signal : String(F),
+            });
+          } else
+            J({
+              stdout: '',
+              stderr: '',
+              code: X.exitCode ?? 1,
+            });
+        else
+          J({
+            stdout: X.stdout,
+            stderr: X.stderr,
+            code: 0,
+          });
+      })
+      .catch(X => {
+        (console.error(X),
+          J({
+            stdout: '',
+            stderr: '',
+            code: 1,
+          }));
+      });
+  });
+}
+
+var MILLISECONDS_PER_SECOND = 1000,
+  SECONDS_PER_MINUTE = 60;
+
+
+function tA(
+  A,
+  B,
+  Q = {
+    timeout: 10 * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND,
+    preserveOutputOnError: !0,
+    useCwd: !0,
+  }
+) {
+  return executeCommand(A, B, {
+    abortSignal: Q.abortSignal,
+    timeout: Q.timeout,
+    preserveOutputOnError: Q.preserveOutputOnError,
+    cwd: Q.useCwd ? getCurrentWorkingDirectory() : void 0,
+    env: Q.env,
+  });
+}
+
+var WC1 = null;
+var gW9 = memoize(async () => {
+    if (WC1 !== null) return;
+    let A = JC1();
+    try {
+      let B = await tA(A.command, [...A.args, '--version'], {
+          timeout: 5000,
+        }),
+        Q = B.code === 0 && !!B.stdout && B.stdout.startsWith('ripgrep ');
+      ((WC1 = {
+        working: Q,
+        lastTested: Date.now(),
+        config: A,
+      }));
+    } catch (B) {
+      ((WC1 = {
+        working: !1,
+        lastTested: Date.now(),
+        config: A,
+      }),
+        console.error(B instanceof Error ? B : new Error(String(B)), WD1));
+    }
+});
+
+var vW9 = fileURLToPath(import.meta.url),
+  bW9 = join(vW9, '../');
+
+function isZodCatchlseZodReadonlylue(value) {
+  if (!value) return !1;
+  let normalizedZodReadonlylue = value.toLowerCase().trim();
+  return ['0', 'false', 'no', 'off'].includes(normalizedZodReadonlylue);
+}
+
+import spawn_rx from 'spawn-rx'; 
+var JC1 = memoize(() => {
+    if (isZodCatchlseZodReadonlylue(process.env.USE_BUILTIN_RIPGREP)) {
+      let { cmd: Z } = spawn_rx.findActualExecutable('rg', []);
+      if (Z !== 'rg')
+        return {
+          mode: 'system',
+          command: Z,
+          args: [],
+        };
+    }
+    if (hasBunEmbeddedFiles())
+      return {
+        mode: 'builtin',
+        command: process.execPath,
+        args: ['--ripgrep'],
+      };
+    let B = resolve(bW9, 'vendor', 'ripgrep');
+    return {
+      mode: 'builtin',
+      command:
+        process.platform === 'win32'
+          ? resolve(B, 'x64-win32', 'rg.exe')
+          : resolve(B, `${process.arch}-${process.platform}`, 'rg'),
+      args: [],
+    };
+  });
+
+function Ie1() {
+  let A = JC1();
+  return {
+    rgPath: A.command,
+    rgArgs: A.args,
+  };
+}
+
+var zB = memoize(() => {
+    try {
+      if (process.platform === 'darwin') return 'macos';
+      if (process.platform === 'win32') return 'windows';
+      if (process.platform === 'linux') {
+        try {
+          let A = fs().readFileSync('/proc/version', {
+            encoding: 'utf8',
+          });
+          if (A.toLowerCase().includes('microsoft') || A.toLowerCase().includes('wsl'))
+            return 'wsl';
+        } catch (A) {
+          console.log(A instanceof Error ? A : new Error(String(A)));
+        }
+        return 'linux';
+      }
+      return 'unknown';
+    } catch (A) {
+      return (console.log(A instanceof Error ? A : new Error(String(A))), 'unknown');
+    }
+  });
+
+var GREP_MAX_BUFFER_SIZE = 20000000;
+
+function hW9(A, B, Q, Z) {
+  let { rgPath: G, rgArgs: Y } = Ie1();
+  return execFile(
+    G,
+    [...Y, ...A, B],
+    {
+      maxBuffer: GREP_MAX_BUFFER_SIZE,
+      signal: Q,
+      timeout: zB() === 'wsl' ? 60000 : 1e4,
+    },
+    Z
+  );
+}
+
+async function Sk(A, B, Q) {
+  if (!hasBunEmbeddedFiles()) await uW9();
+  return (
+    gW9().catch(Z => {
+      console.log(Z instanceof Error ? Z : new Error(String(Z)), WD1);
+    }),
+    new Promise(Z => {
+      hW9(A, B, Q, (G, Y, I) => {
+        if (!G) {
+          Z(
+            Y.trim()
+              .split(
+                `
+`
+              )
+              .filter(Boolean)
+          );
+          return;
+        }
+        if (G.code === 1) {
+          Z([]);
+          return;
+        }
+        let W = Y && Y.trim().length > 0,
+          J = G.signal === 'SIGTERM' || G.code === 'ABORT_ERR',
+          X = G.code === 'ERR_CHILD_PROCESS_STDIO_MAXBUFFER',
+          F = G.code === 2,
+          V = (J || X || F) && W,
+          K = [];
+        if (V) {
+          if (
+            ((K = Y.trim()
+              .split(
+                `
+`
+              )
+              .filter(Boolean)),
+            K.length > 0 && (J || X))
+          )
+            K = K.slice(0, -1);
+        }
+        if (
+          (console.debug(
+            `rg error (signal=${G.signal}, code=${G.code}, stderr: ${I}), ${K.length} results`
+          ),
+          G.code !== 2)
+        )
+          console.log(G);
+        Z(K);
+      });
+    })
+  );
+}
+
+function ZO0(A, B) {
+  return B !== void 0 ? A.slice(0, B) : A;
+}
+
+var  BO0 = 20000;
+function QO0(A) {
+  if (A.length <= BO0) return A;
+  let B = A.slice(0, BO0),
+    Z = A.slice(BO0).split(`
+`).length;
+  return `${B}
+
+... [${Z} lines truncated] ...`;
+}
+
 var zS = {
-	name: Z$,
+	name: 'Grep',
 	async description() {
-		return TD0();
+		return  `A powerful search tool built on ripgrep
+
+  Usage:
+  - ALWAYS use ${'Grep'} for search tasks. NEVER invoke \`grep\` or \`rg\` as a ${'Bash'} command. The ${'Grep'} tool has been optimized for correct permissions and access.
+  - Supports full regex syntax (e.g., "log.*Error", "function\\s+\\w+")
+  - Filter files with glob parameter (e.g., "*.js", "**/*.tsx") or type parameter (e.g., "js", "py", "rust")
+  - Output modes: "content" shows matching lines, "files_with_matches" shows only file paths (default), "count" shows match counts
+  - Use ${'Task'} tool for open-ended searches requiring multiple rounds
+  - Pattern syntax: Uses ripgrep (not grep) - literal braces need escaping (use \`interface\\{\\}\` to find \`interface{}\` in Go code)
+  - Multiline matching: By default patterns match within single lines only. For cross-line patterns like \`struct \\{[\\s\\S]*?field\`, use \`multiline: true\`
+`   ;
 	},
 	userZodCatchcingName() {
 		return 'Search';
@@ -1579,7 +2355,17 @@ var zS = {
 		return g11(zS, A, Q.toolPermissionContext);
 	},
 	async prompt() {
-		return TD0();
+		return  `A powerful search tool built on ripgrep
+
+  Usage:
+  - ALWAYS use ${'Grep'} for search tasks. NEVER invoke \`grep\` or \`rg\` as a ${'Bash'} command. The ${'Grep'} tool has been optimized for correct permissions and access.
+  - Supports full regex syntax (e.g., "log.*Error", "function\\s+\\w+")
+  - Filter files with glob parameter (e.g., "*.js", "**/*.tsx") or type parameter (e.g., "js", "py", "rust")
+  - Output modes: "content" shows matching lines, "files_with_matches" shows only file paths (default), "count" shows match counts
+  - Use ${'Task'} tool for open-ended searches requiring multiple rounds
+  - Pattern syntax: Uses ripgrep (not grep) - literal braces need escaping (use \`interface\\{\\}\` to find \`interface{}\` in Go code)
+  - Multiline matching: By default patterns match within single lines only. For cross-line patterns like \`struct \\{[\\s\\S]*?field\`, use \`multiline: true\`
+`   ;
 	},
 	renderToolUseMessage(
 		{
@@ -1602,14 +2388,14 @@ var zS = {
 		return W.join(', ');
 	},
 	renderToolUseRejectedMessage() {
-		return iG.default.createElement(e8, null);
+		return createElement(e8, null);
 	},
 	renderToolUseErrorMessage(A, {verbose: B}) {
 		if (!B && typeof A === 'string' && oQ(A, 'tool_use_error'))
-			return iG.default.createElement(
+			return createElement(
 				wA,
 				null,
-				iG.default.createElement(
+				createElement(
 					M,
 					{
 						color: 'error',
@@ -1617,7 +2403,7 @@ var zS = {
 					'Error searching files',
 				),
 			);
-		return iG.default.createElement(createComponent, {
+		return createElement(createComponent, {
 			result: A,
 			verbose: B,
 		});
@@ -1638,14 +2424,14 @@ var zS = {
 		{verbose: W},
 	) {
 		if (A === 'content')
-			return iG.default.createElement(GO0, {
+			return createElement(GO0, {
 				count: G ?? 0,
 				countLabel: 'lines',
 				content: Z,
 				verbose: W,
 			});
 		if (A === 'count')
-			return iG.default.createElement(GO0, {
+			return createElement(GO0, {
 				count: Y ?? 0,
 				countLabel: 'matches',
 				secondarmergeObjectsount: Q,
@@ -1655,7 +2441,7 @@ var zS = {
 			});
 		let J = B.map(X => X).join(`
 `);
-		return iG.default.createElement(GO0, {
+		return createElement(GO0, {
 			count: Q,
 			countLabel: 'files',
 			content: J,
@@ -1729,7 +2515,7 @@ ${Q.join(`
 		},
 		{abortController: K, getAppState: z},
 	) {
-		let H = B ? resolvePath(B) : getCurrentWorkingDirectory(),
+		let H = B ? resolve(B) : getCurrentWorkingDirectory(),
 			D = ['--hidden'];
 		if (V) D.push('-U', '--multiline-dotall');
 		if (X) D.push('-i');
@@ -1961,6 +2747,33 @@ var GqB = () => ({
 		name: 'Read-only tools',
 		tooShellNames: new Set([
 			Glob.name,
+			zS.name,
+			yz.name,
+			B6.name,
+			UJ.name,
+			JG.name,
+			th1.name,
+			rh1.name,
+			oh1.name,
+			B01.name,
+			Q01.name,
 		]),
-	}
+	},
+	EDIT: {
+		name: 'Edit tools',
+		tooShellNames: new Set([LI.name, IE.name, vF.name, kO.name]),
+	},
+	EXECUTION: {
+		name: 'Execution tools',
+		tooShellNames: new Set([gQ.name, void 0].filter(Boolean)),
+	},
+	MCP: {
+		name: 'MCP tools',
+		tooShellNames: new Set(),
+		isMcp: !0,
+	},
+	OTHER: {
+		name: 'Other tools',
+		tooShellNames: new Set(),
+	},
 });
