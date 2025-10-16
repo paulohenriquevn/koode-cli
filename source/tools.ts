@@ -117,6 +117,14 @@ function createInitialGlobalState() {
 }
 var globalState = createInitialGlobalState();
 
+function getFlagSettingsPath() {
+  return globalState.flagSettingsPath;
+}
+
+function setFlagSettingsPath(flagSettingsPath) {
+  globalState.flagSettingsPath = flagSettingsPath;
+}
+
 var XG5 = h.strictObject({
 	pattern: h.string().describe('The glob pattern to match files against'),
 	path: h
@@ -2761,7 +2769,33 @@ function QO0(A) {
 ... [${Z} lines truncated] ...`;
 }
 
-var zS = {
+
+function getProviderType() {
+  return process.env.JOSE_CODE_USE_BEDROCK
+    ? 'bedrock'
+    : process.env.JOSE_CODE_USE_VERTEX
+      ? 'vertex'
+      : 'firstParty';
+}
+
+
+function isFirstPartyProvider() {
+  return getProviderType() === 'firstParty';
+}
+
+var ne6 = h.strictObject({
+    plan: h
+      .string()
+      .describe(
+        'The plan you came up with, that you want to run by the user for approval. Supports markdown. The plan should be pretty concise.'
+      ),
+  }),
+  YN7 = h.object({
+    plan: h.string().describe('The plan that was presented to the user'),
+    isAgent: h.boolean(),
+  });
+
+var Grep = {
 	name: 'Grep',
 	async description() {
 		return  `A powerful search tool built on ripgrep
@@ -3199,17 +3233,1535 @@ var Glob = {
 	},
 };
 
+var ExitPlanMode = {
+    name: 'ExitPlanMode',
+    async description() {
+      return 'Prompts the user to exit plan mode and start coding';
+    },
+    async prompt() {
+      return `Use this tool when you are in plan mode and have finished presenting your plan and are ready to code. This will prompt the user to exit plan mode. 
+		IMPORTANT: Only use this tool when the task requires planning the implementation steps of a task that requires writing code. For research tasks where you're gathering information, searching files, reading files or in general trying to understand the codebase - do NOT use this tool.
+
+		Eg. 
+		1. Initial task: "Search for and understand the implementation of vim mode in the codebase" - Do not use the exit plan mode tool because you are not planning the implementation steps of a task.
+		2. Initial task: "Help me implement yank mode for vim" - Use the exit plan mode tool after you have finished planning the implementation steps of the task.
+		`;
+    },
+    inputSchema: ne6,
+    userZodCatchcingName() {
+      return '';
+    },
+    isEnabled() {
+      return !0;
+    },
+    isConcurrencySafe() {
+      return !0;
+    },
+    isReadOnly() {
+      return !0;
+    },
+    async checkPermissions(A) {
+      return {
+        behavior: 'ask',
+        message: 'Exit plan mode?',
+        updatedInput: A,
+      };
+    },
+    renderToolUseMessage() {
+      return null;
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage({ plan: A }, B, { theme: Q }) {
+      return createElement(
+        y,
+        {
+          flexDirection: 'column',
+          marginTop: 1,
+        },
+        createElement(
+          y,
+          {
+            flexDirection: 'row',
+          },
+          createElement(
+            M,
+            {
+              color: fC1('plan'),
+            },
+            WO
+          ),
+          createElement(M, null, "User approved Jose's plan:")
+        ),
+        createElement(
+          wA,
+          null,
+          createElement(
+            M,
+            {
+              dimColor: !0,
+            },
+            EX(A, Q)
+          )
+        )
+      );
+    },
+    renderToolUseRejectedMessage({ plan: A }, { theme: B }) {
+      return createElement(nv1, {
+        plan: A,
+        themeName: B,
+      });
+    },
+    renderToolUseErrorMessage() {
+      return null;
+    },
+    async *call({ plan: A }, B) {
+      let Q = B.agentId !== getSessionId();
+      yield {
+        type: 'result',
+        data: {
+          plan: A,
+          isAgent: Q,
+        },
+      };
+    },
+    mapToolResultToToolResultBlockParam({ isAgent: A }, B) {
+      if (A)
+        return {
+          type: 'tool_result',
+          content:
+            'User has approved the plan. There is nothing else needed from you now. Please respond with "ok"',
+          tool_use_id: B,
+        };
+      return {
+        type: 'tool_result',
+        content:
+          'User has approved your plan. You can now start coding. Start with updating your todo list if applicable',
+        tool_use_id: B,
+      };
+    },
+};
+
+var M41 = 2000;
+var CC9 = 2000;
+var Read = {
+    name: 'Read',
+    async description() {
+      return 'Read a file from the local filesystem.';
+    },
+    async prompt() {
+      return `Reads a file from the local filesystem. You can access any file directly by using this tool.
+Assume this tool is able to read all files on the machine. If the User provides a path to a file assume that path is valid. It is okay to read a file that does not exist; an error will be returned.
+
+Usage:
+- The file_path parameter must be an absolute path, not a relative path
+- By default, it reads up to ${M41} lines starting from the beginning of the file
+- You can optionally specify a line offset and limit (especially handy for long files), but it's recommended to read the whole file by not providing these parameters
+- Any lines longer than ${CC9} characters will be truncated
+- Results are returned using cat -n format, with line numbers starting at 1
+- This tool allows Jose Code to read images (eg PNG, JPG, etc). When reading an image file the contents are presented visually as Jose Code is a multimodal LLM.${
+    isFirstPartyProvider()
+      ? `
+- This tool can read PDF files (.pdf). PDFs are processed page by page, extracting both text and visual content for analysis.`
+      : ''
+  }
+- This tool can read Jupyter notebooks (.ipynb files) and returns all cells with their outputs, combining code, text, and visualizations.
+- This tool can only read files, not directories. To read a directory, use an ls command via the ${'Bash'} tool.
+- You have the capability to call multiple tools in a single response. It is always better to speculatively read multiple files as a batch that are potentially useful. 
+- You will regularly be asked to read screenshots. If the user provides a path to a screenshot ALWAYS use this tool to view the file at the path. This tool will work with all temporary file paths like /var/folders/123/abc/T/TemporaryItems/NSIRD_screencaptureui_ZfB1tD/Screenshot.png
+- If you read a file that exists but has empty contents you will receive a system reminder warning in place of file contents.`;
+    },
+    inputSchema: du6,
+    userZodCatchcingName() {
+      return 'Read';
+    },
+    isEnabled() {
+      return !0;
+    },
+    isConcurrencySafe() {
+      return !0;
+    },
+    isReadOnly() {
+      return !0;
+    },
+    getPath({ file_path: A }) {
+      return A || getCurrentWorkingDirectory();
+    },
+    async checkPermissions(A, B) {
+      let Q = await B.getAppState();
+      return g11(B6, A, Q.toolPermissionContext);
+    },
+    renderToolUseMessage({ file_path: A, offset: B, limit: Q }, { verbose: Z }) {
+      if (!A) return null;
+      if (Z) return `file_path: "${A}"${B ? `, offset: ${B}` : ''}${Q ? `, limit: ${Q}` : ''}`;
+      return BJ(A);
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage(A) {
+      switch (A.type) {
+        case 'image': {
+          let { originalSize: B } = A.file,
+            Q = dJ(B);
+          return createElement(
+            wA,
+            {
+              height: 1,
+            },
+            createElement(M, null, 'Read image (', Q, ')')
+          );
+        }
+        case 'notebook': {
+          let { cells: B } = A.file;
+          if (!B || B.length < 1)
+            return createElement(
+              M,
+              {
+                color: 'error',
+              },
+              'No cells found in notebook'
+            );
+          return createElement(
+            wA,
+            {
+              height: 1,
+            },
+            createElement(
+              M,
+              null,
+              'Read ',
+              createElement(
+                M,
+                {
+                  bold: !0,
+                },
+                B.length
+              ),
+              ' cells'
+            )
+          );
+        }
+        case 'pdf': {
+          let { originalSize: B } = A.file,
+            Q = dJ(B);
+          return createElement(
+            wA,
+            {
+              height: 1,
+            },
+            createElement(M, null, 'Read PDF (', Q, ')')
+          );
+        }
+        case 'text': {
+          let { numLines: B } = A.file;
+          return createElement(
+            wA,
+            {
+              height: 1,
+            },
+            createElement(
+              M,
+              null,
+              'Read ',
+              createElement(
+                M,
+                {
+                  bold: !0,
+                },
+                B
+              ),
+              ' ',
+              B === 1 ? 'line' : 'lines',
+              ' ',
+              B > 0 && createElement(normalizeInput, null)
+            )
+          );
+        }
+      }
+    },
+    renderToolUseRejectedMessage() {
+      return createElement(e8, null);
+    },
+    renderToolUseErrorMessage(A, { verbose: B }) {
+      if (!B && typeof A === 'string' && oQ(A, 'tool_use_error'))
+        return createElement(
+          wA,
+          null,
+          createElement(
+            M,
+            {
+              color: 'error',
+            },
+            'Error reading file'
+          )
+        );
+      return createElement(createComponent, {
+        result: A,
+        verbose: B,
+      });
+    },
+    async validatAPIAbortErrornput({ file_path: A, offset: B, limit: Q }) {
+      let Z = fs(),
+        G = $d(A);
+      if (V$(G))
+        return {
+          result: !1,
+          message: 'File is in a directory that is ignored by your project configuration.',
+          errorCode: 1,
+        };
+      if (!Z.existsSync(G)) {
+        let F = y_1(G),
+          V = 'File does not exist.',
+          K = getCurrentWorkingDirectory(),
+          z = getOriginalWorkingDirectory();
+        if (K !== z) V += ` Current working directory: ${K}`;
+        if (F) V += ` Did you mean ${F}?`;
+        return {
+          result: !1,
+          message: V,
+          errorCode: 2,
+        };
+      }
+      let I = Z.statSync(G).size,
+        W = pathHelpers.extname(G).toLowerCase();
+      if (mu6.has(W.slice(1)) && !(isFirstPartyProvider() && gC1(W)))
+        return {
+          result: !1,
+          message: `This tool cannot read binary files. The file appears to be a binary ${W} file. Please use appropriate tools for binary file analysis.`,
+          errorCode: 4,
+        };
+      if (I === 0) {
+        if (P_1.has(W.slice(1)))
+          return {
+            result: !1,
+            message: 'Empty image files cannot be processed.',
+            errorCode: 5,
+          };
+      }
+      let J = W === '.ipynb',
+        X = isFirstPartyProvider() && gC1(W);
+      if (!P_1.has(W.slice(1)) && !J && !X) {
+        if (I > j_1 && !B && !Q)
+          return {
+            result: !1,
+            message: mC0(I),
+            meta: {
+              fileSize: I,
+            },
+            errorCode: 6,
+          };
+      }
+      return {
+        result: !0,
+      };
+    },
+    async *call({ file_path: A, offset: B = 1, limit: Q = void 0 }, Z) {
+      let {
+          readFileState: G,
+          options: { isNonInteractiveSession: Y },
+          fileReadingLimits: I,
+        } = Z,
+        W = j_1,
+        J = I?.maxTokens ?? k4B,
+        X = pathHelpers.extname(A).toLowerCase().slice(1),
+        F = $d(A);
+      if (X === 'ipynb') {
+        let C = P4B(F),
+          q = JSON.stringify(C);
+        if (q.length > W)
+          throw new Error(`Notebook content (${dJ(q.length)}) exceeds maximum allowed size (${dJ(W)}). Use ${bashTooShellErrorame} with jq to read specific portions:
+  cat "${A}" | jq '.cells[:20]' # First 20 cells
+  cat "${A}" | jq '.cells[100:120]' # Cells 100-120
+  cat "${A}" | jq '.cells | length' # Count total cells
+  cat "${A}" | jq '.cells[] | select(.cell_type=="code") | .source' # All code sources`);
+        (await y4B(q, X, {
+          isNonInteractiveSession: Y,
+          maxSizeBytes: W,
+          maxTokens: J,
+        }),
+          G.set(F, {
+            content: q,
+            timestamp: fs().statSync(F).mtimeMs,
+          }),
+          Z.nestedMemoryAttachmentTriggers?.add(F),
+          yield {
+            type: 'result',
+            data: {
+              type: 'notebook',
+              file: {
+                filePath: A,
+                cells: C,
+              },
+            },
+          });
+        return;
+      }
+      if (P_1.has(X)) {
+        let C = await eu6(F, X);
+        if (Math.ceil(C.file.base64.length * 0.125) > J) {
+          let E = await pu6(F, J);
+          (G.set(F, {
+            content: E.file.base64,
+            timestamp: fs().statSync(F).mtimeMs,
+          }),
+            Z.nestedMemoryAttachmentTriggers?.add(F),
+            yield {
+              type: 'result',
+              data: E,
+            });
+          return;
+        }
+        (G.set(F, {
+          content: C.file.base64,
+          timestamp: fs().statSync(F).mtimeMs,
+        }),
+          Z.nestedMemoryAttachmentTriggers?.add(F),
+          yield {
+            type: 'result',
+            data: C,
+          });
+        return;
+      }
+      if (isFirstPartyProvider() && gC1(X)) {
+        let C = await MUA(F);
+        yield {
+          type: 'result',
+          data: C,
+          newMessages: [
+            vA({
+              content: [
+                {
+                  type: 'document',
+                  source: {
+                    type: 'base64',
+                    media_type: 'application/pdf',
+                    data: C.file.base64,
+                  },
+                },
+              ],
+              isMeta: !0,
+            }),
+          ],
+        };
+        return;
+      }
+      let V = B === 0 ? 0 : B - 1,
+        { content: K, lineCount: z, totalLines: H } = _4B(F, V, Q);
+      if (K.length > W) throw new Error(mC0(K.length, W));
+      (await y4B(K, X, {
+        isNonInteractiveSession: Y,
+        maxSizeBytes: W,
+        maxTokens: J,
+      }),
+        G.set(F, {
+          content: K,
+          timestamp: fs().statSync(F).mtimeMs,
+        }),
+        Z.nestedMemoryAttachmentTriggers?.add(F),
+        yield {
+          type: 'result',
+          data: {
+            type: 'text',
+            file: {
+              filePath: A,
+              content: K,
+              numLines: z,
+              startLine: B,
+              totalLines: H,
+            },
+          },
+        });
+    },
+    mapToolResultToToolResultBlockParam(A, B) {
+      switch (A.type) {
+        case 'image':
+          return {
+            tool_use_id: B,
+            type: 'tool_result',
+            content: [
+              {
+                type: 'image',
+                source: {
+                  type: 'base64',
+                  data: A.file.base64,
+                  media_type: A.file.type,
+                },
+              },
+            ],
+          };
+        case 'notebook':
+          return j4B(A.file.cells, B);
+        case 'pdf':
+          return {
+            tool_use_id: B,
+            type: 'tool_result',
+            content: `PDF file read: ${A.file.filePath} (${dJ(A.file.originalSize)})`,
+          };
+        case 'text': {
+          let Q;
+          if (A.file.content) Q = saveVersion(A.file) + lu6;
+          else
+            Q =
+              A.file.totalLines === 0
+                ? '<system-reminder>Warning: the file exists but the contents are empty.</system-reminder>'
+                : `<system-reminder>Warning: the file exists but is shorter than the provided offset (${A.file.startLine}). The file has ${A.file.totalLines} lines.</system-reminder>`;
+          return {
+            tool_use_id: B,
+            type: 'tool_result',
+            content: Q,
+          };
+        }
+      }
+    },
+};
+
+var WebFetch = {
+  name: 'WebFetch',
+  async description(A) {
+    let { url: B } = A;
+    try {
+      return `Jose wants to fetch content from ${new URL(B).hostname}`;
+    } catch {
+      return 'Jose wants to fetch content from this URL';
+    }
+  },
+  userZodCatchcingName() {
+    return 'Fetch';
+  },
+  isEnabled() {
+    return !0;
+  },
+  inputSchema: fZ5,
+  isConcurrencySafe() {
+    return !0;
+  },
+  isReadOnly() {
+    return !0;
+  },
+  async checkPermissions(A, B) {
+    let Z = (await B.getAppState()).toolPermissionContext;
+    try {
+      let { url: X } = A,
+        F = new URL(X),
+        V = F.hostname,
+        K = F.pathname;
+      for (let z of g$B)
+        if (z.includes('/')) {
+          let [H, ...D] = z.split('/'),
+            C = '/' + D.join('/');
+          if (V === H && K.startsWith(C))
+            return {
+              behavior: 'allow',
+              updatedInput: A,
+              decisionReason: {
+                type: 'other',
+                reason: 'Preapproved host and path',
+              },
+            };
+        } else if (V === z)
+          return {
+            behavior: 'allow',
+            updatedInput: A,
+            decisionReason: {
+              type: 'other',
+              reason: 'Preapproved host',
+            },
+          };
+    } catch {}
+    let G = hZ5(A),
+      Y = ow(Z, WebFetch, 'deny').get(G);
+    if (Y)
+      return {
+        behavior: 'deny',
+        message: `${WebFetch.name} denied access to ${G}.`,
+        decisionReason: {
+          type: 'rule',
+          rule: Y,
+        },
+      };
+    let I = addConfiguration();
+    if (I !== null) {
+      if (!nUA(A.url, I))
+        return {
+          behavior: 'ask',
+          message: `${A.url} is not in your allowed hosts. Do you want to continue`,
+          decisionReason: {
+            type: 'other',
+            reason: 'URL does not match any allowed hosts',
+          },
+        };
+    }
+    let W = ow(Z, WebFetch, 'ask').get(G);
+    if (W)
+      return {
+        behavior: 'ask',
+        message: `Jose requested permissions to use ${WebFetch.name}, but you haven't granted it yet.`,
+        decisionReason: {
+          type: 'rule',
+          rule: W,
+        },
+      };
+    let J = ow(Z, WebFetch, 'allow').get(G);
+    if (J)
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+        decisionReason: {
+          type: 'rule',
+          rule: J,
+        },
+      };
+    return {
+      behavior: 'ask',
+      message: `Jose requested permissions to use ${WebFetch.name}, but you haven't granted it yet.`,
+    };
+  },
+  async prompt() {
+    return `
+- Fetches content from a specified URL and processes it using an AI model
+- Takes a URL and a prompt as input
+- Fetches the URL content, converts HTML to markdown
+- Processes the content with the prompt using a small, fast model
+- Returns the model's response about the content
+- Use this tool when you need to retrieve and analyze web content
+
+Usage notes:
+  - IMPORTANT: If an MCP-provided web fetch tool is available, prefer using that tool instead of this one, as it may have fewer restrictions. All MCP-provided tools start with "mcp__".
+  - The URL must be a fully-formed valid URL
+  - HTTP URLs will be automatically upgraded to HTTPS
+  - The prompt should describe what information you want to extract from the page
+  - This tool is read-only and does not modify any files
+  - Results may be summarized if the content is very large
+  - Includes a self-cleaning 15-minute cache for faster responses when repeatedly accessing the same URL
+  - When a URL redirects to a different host, the tool will inform you and provide the redirect URL in a special format. You should then make a new WebFetch request with the redirect URL to fetch the content.
+`;
+  },
+  async validatAPIAbortErrornput(A) {
+    let { url: B } = A;
+    try {
+      new URL(B);
+    } catch {
+      return {
+        result: !1,
+        message: `Error: Invalid URL "${B}". The URL provided could not be parsed.`,
+        meta: {
+          reason: 'invalid_url',
+        },
+        errorCode: 1,
+      };
+    }
+    return {
+      result: !0,
+    };
+  },
+  renderToolUseMessage({ url: A, prompt: B }, { verbose: Q }) {
+    if (!A) return null;
+    if (Q) return `url: "${A}"${Q && B ? `, prompt: "${B}"` : ''}`;
+    return A;
+  },
+  renderToolUseRejectedMessage() {
+    return createElement(e8, null);
+  },
+  renderToolUseErrorMessage(A, { verbose: B }) {
+    return createElement(createComponent, {
+      result: A,
+      verbose: B,
+    });
+  },
+  renderToolUseProgressMessage() {
+    return createElement(
+      wA,
+      {
+        height: 1,
+      },
+      createElement(
+        M,
+        {
+          dimColor: !0,
+        },
+        'Fetching…'
+      )
+    );
+  },
+  renderToolResultMessage({ bytes: A, code: B, codeText: Q, result: Z }, G, { verbose: Y }) {
+    let I = dJ(A);
+    if (Y)
+      return createElement(
+        y,
+        {
+          flexDirection: 'column',
+        },
+        createElement(
+          wA,
+          {
+            height: 1,
+          },
+          createElement(
+            M,
+            null,
+            'Received ',
+            createElement(
+              M,
+              {
+                bold: !0,
+              },
+              I
+            ),
+            ' (',
+            B,
+            ' ',
+            Q,
+            ')'
+          )
+        ),
+        createElement(
+          y,
+          {
+            flexDirection: 'column',
+          },
+          createElement(M, null, Z)
+        )
+      );
+    return createElement(
+      wA,
+      {
+        height: 1,
+      },
+      createElement(
+        M,
+        null,
+        'Received ',
+        createElement(
+          M,
+          {
+            bold: !0,
+          },
+          I
+        ),
+        ' (',
+        B,
+        ' ',
+        Q,
+        ')'
+      )
+    );
+  },
+  async *call(
+    { url: A, prompt: B },
+    { abortController: Q, options: { isNonInteractiveSession: Z } }
+  ) {
+    let G = Date.now(),
+      Y = await f$B(A, Q);
+    if ('type' in Y && Y.type === 'redirect') {
+      let K =
+          Y.statusCode === 301
+            ? 'Moved Permanently'
+            : Y.statusCode === 308
+              ? 'Permanent Redirect'
+              : Y.statusCode === 307
+                ? 'Temporary Redirect'
+                : 'Found',
+        z = `REDIRECT DETECTED: The URL redirects to a different host.
+
+Original URL: ${Y.originalUrl}
+Redirect URL: ${Y.redirectUrl}
+Status: ${Y.statusCode} ${K}
+
+To complete your request, I need to fetch content from the redirected URL. Please use WebFetch again with these parameters:
+- url: "${Y.redirectUrl}"
+- prompt: "${B}"`;
+      yield {
+        type: 'result',
+        data: {
+          bytes: Buffer.byteLength(z),
+          code: Y.statusCode,
+          codeText: K,
+          result: z,
+          durationMs: Date.now() - G,
+          url: A,
+        },
+      };
+      return;
+    }
+    let { content: I, bytes: W, code: J, codeText: X } = Y,
+      F = await h$B(B, I, Q.signal, Z);
+    yield {
+      type: 'result',
+      data: {
+        bytes: W,
+        code: J,
+        codeText: X,
+        result: F,
+        durationMs: Date.now() - G,
+        url: A,
+      },
+    };
+  },
+  mapToolResultToToolResultBlockParam({ result: A }, B) {
+    return {
+      tool_use_id: B,
+      type: 'tool_result',
+      content: A,
+    };
+  },
+};
+
+var a2B =
+    'Update the todo list for the current session. To be used proactively and often to track progress and pending tasks. Make sure that at least one task is in_progress at all times. Always provide both content (imperative) and activeForm (present continuous) for each task.';
+
+var UX = 'Edit';
+var n2B = `Use this tool to create and manage a structured task list for your current coding session. This helps you track progress, organize complex tasks, and demonstrate thoroughness to the user.
+It also helps the user understand the progress of the task and overall progress of their requests.
+
+## When to Use This Tool
+Use this tool proactively in these scenarios:
+
+1. Complex multi-step tasks - When a task requires 3 or more distinct steps or actions
+2. Non-trivial and complex tasks - Tasks that require careful planning or multiple operations
+3. User explicitly requests todo list - When the user directly asks you to use the todo list
+4. User provides multiple tasks - When users provide a list of things to be done (numbered or comma-separated)
+5. After receiving new instructions - Immediately capture user requirements as todos
+6. When you start working on a task - Mark it as in_progress BEFORE beginning work. Ideally you should only have one todo as in_progress at a time
+7. After completing a task - Mark it as completed and add any new follow-up tasks discovered during implementation
+
+## When NOT to Use This Tool
+
+Skip using this tool when:
+1. There is only a single, straightforward task
+2. The task is trivial and tracking it provides no organizational benefit
+3. The task can be completed in less than 3 trivial steps
+4. The task is purely conversational or informational
+
+NOTE that you should not use this tool if there is only one trivial task to do. In this case you are better off just doing the task directly.
+
+## Examples of When to Use the Todo List
+
+<example>
+User: I want to add a dark mode toggle to the application settings. Make sure you run the tests and build when you're done!
+Assistant: I'll help add a dark mode toggle to your application settings. Let me create a todo list to track this implementation.
+*Creates todo list with the following items:*
+1. Creating dark mode toggle component in Settings page
+2. Adding dark mode state management (context/store)
+3. Implementing CSS-in-JS styles for dark theme
+4. Updating existing components to support theme switching
+5. Running tests and build process, addressing any failures or errors that occur
+*Begins working on the first task*
+
+<reasoning>
+The assistant used the todo list because:
+1. Adding dark mode is a multi-step feature requiring UI, state management, and styling changes
+2. The user explicitly requested tests and build be run afterward
+3. The assistant inferred that tests and build need to pass by adding "Ensure tests and build succeed" as the final task
+</reasoning>
+</example>
+
+<example>
+User: Help me rename the function getCwd to getCurrentWorkingDirectory across my project
+Assistant: Let me first search through your codebase to find all occurrences of 'getCwd'.
+*Uses grep or search tools to locate all instances of getCwd in the codebase*
+Assistant: I've found 15 instances of 'getCwd' across 8 different files. Let me create a todo list to track these changes.
+*Creates todo list with specific items for each file that needs updating*
+
+<reasoning>
+The assistant used the todo list because:
+1. First, the assistant searched to understand the scope of the task
+2. Upon finding multiple occurrences across different files, it determined this was a complex task with multiple steps
+3. The todo list helps ensure every instance is tracked and updated systematically
+4. This approach prevents missing any occurrences and maintains code consistency
+</reasoning>
+</example>
+
+
+<example>
+User: I need to implement these features for my e-commerce site: user registration, product catalog, shopping cart, and checkout flow.
+Assistant: I'll help implement these features. First, let's add all the features to the todo list.
+*Creates a todo list breaking down each feature into specific tasks based on the project architecture*
+Assistant: Let's start with user registration. This will involve creating database models, API endpoints, and frontend forms that integrate with your existing authentication system.
+
+<reasoning>
+The assistant used the todo list because:
+1. The user provided multiple complex features to implement in a comma separated list
+2. The todo list helps organize these large features into manageable tasks
+3. This approach allows for tracking progress across the entire implementation
+</reasoning>
+</example>
+
+<example>
+User: Can you help optimize my React application? It's rendering slowly and has performance issues.</user>
+Assistant: I'll help optimize your React application. First, let me examine your codebase to identify potential performance bottlenecks.
+*Reviews component structure, render patterns, state management, and data fetching*
+Assistant: After analyzing your codebase, I've identified several performance issues. Let me create a todo list to track our optimization efforts.
+*Creates todo list with items like: 1) Implementing memoization for expensive calculations in ProductList, 2) Adding virtualization for long lists in Dashboard, 3) Optimizing image loading in Gallery component, 4) Fixing state update loops in ShoppingCart, 5) Reviewing bundle size and implementing code splitting*
+Let's start by implementing memoization for the expensive calculations in your ProductList component.</assistant>
+
+<reasoning>
+The assistant used the todo list because:
+1. First, the assistant examined the codebase to identify specific performance issues
+2. Based on this analysis, it identified multiple optimization opportunities
+3. Performance optimization is a non-trivial task requiring multiple steps
+4. The todo list helps methodically track improvements across different components
+5. This systematic approach ensures all performance bottlenecks are addressed
+</reasoning>
+</example>
+
+## Examples of When NOT to Use the Todo List
+
+<example>
+User: How do I print 'Hello World' in Python?
+Assistant: In Python, you can print "Hello World" with this simple code:
+
+python
+print("Hello World")
+
+This will output the text "Hello World" to the console when executed.</assistant>
+
+<reasoning>
+The assistant did not use the todo list because this is a single, trivial task that can be completed in one step. There's no need to track multiple tasks or steps for such a straightforward request.
+</reasoning>
+</example>
+
+<example>
+User: What does the git status command do?
+Assistant: The git status command shows the current state of your working directory and staging arreactModule. It displays which changes have been staged, which haven't, and which files aren't being tracked by Git. This is a fundamental command for understanding the current state of your repository before making commits.
+
+<reasoning>
+The assistant did not use the todo list because this is an informational request with no actual coding task to complete. The user is simply asking for an explanation, not for the assistant to perform multiple steps or tasks.
+</reasoning>
+</example>
+
+<example>
+User: Can you add a comment to the calculateTotal function to explain what it does?
+Assistant: Sure, let me add a comment to the calculateTotal function to explain what it does.
+* Uses the ${UX} tool to add a comment to the calculateTotal function *
+
+<reasoning>
+The assistant did not use the todo list because this is a single, straightforward task confined to one location in the code. Adding a comment doesn't require tracking multiple steps or systematic organization.
+</reasoning>
+</example>
+
+<example>
+User: Run npm install for me and tell me what happens.
+Assistant: I'll run the npm install command for you.
+
+*Executes: npm install*
+
+The command completed successfully. Here's the output:
+[Output of npm install command]
+
+All dependencies have been installed according to your package.json file.
+
+<reasoning>
+The assistant did not use the todo list because this is a single command execution with immediate results. There are no multiple steps to track or organize, making the todo list unnecessary for this straightforward task.
+</reasoning>
+</example>
+
+## Task States and Management
+
+1. **Task States**: Use these states to track progress:
+   - pending: Task not yet started
+   - in_progress: Currently working on (limit to ONE task at a time)
+   - completed: Task finished successfully
+
+   **IMPORTANT**: Task descriptions must have two forms:
+   - content: The imperative form describing what needs to be done (e.g., "Run tests", "Build the project")
+   - activeForm: The present continuous form shown during execution (e.g., "Running tests", "Building the project")
+
+2. **Task Management**:
+   - Update task status in real-time as you work
+   - Mark tasks complete IMMEDIATELY after finishing (don't batch completions)
+   - Exactly ONE task must be in_progress at any time (not less, not more)
+   - Complete current tasks before starting new ones
+   - Remove tasks that are no longer relevant from the list entirely
+
+3. **Task Completion Requirements**:
+   - ONLY mark a task as completed when you have FULLY accomplished it
+   - If you encounter errors, blockers, or cannot finish, keep the task as in_progress
+   - When blocked, create a new task describing what needs to be resolved
+   - Never mark a task as completed if:
+     - Tests are failing
+     - Implementation is partial
+     - You encountered unresolved errors
+     - You couldn't find necessary files or dependencies
+
+4. **Task Breakdown**:
+   - Create specific, actionable items
+   - Break complex tasks into smaller, manageable steps
+   - Use clear, descriptive task names
+   - Always provide both forms:
+     - content: "Fix authentication bug"
+     - activeForm: "Fixing authentication bug"
+
+When in doubt, use this tool. Being proactive with task management demonstrates attentiveness and ensures you complete all requirements successfully.
+`,
+
+var A_6 = h.strictObject({
+    todos: L11.describe('The updated todo list'),
+});
+
+var TodoWrite = {
+    name: 'TodoWrite',
+    async description() {
+      return a2B;
+    },
+    async prompt() {
+      return n2B;
+    },
+    inputSchema: A_6,
+    userZodCatchcingName() {
+      return '';
+    },
+    isEnabled() {
+      return !0;
+    },
+    isConcurrencySafe() {
+      return !1;
+    },
+    isReadOnly() {
+      return !1;
+    },
+    async checkPermissions(A) {
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+      };
+    },
+    renderToolUseMessage() {
+      return null;
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolUseRejectedMessage() {
+      return null;
+    },
+    renderToolUseErrorMessage() {
+      return null;
+    },
+    renderToolResultMessage() {
+      return null;
+    },
+    async *call({ todos: A }, B) {
+      let Z = (await B.getAppState()).todos[B.agentId] ?? [],
+        G = A.every(Y => Y.status === 'completed') ? [] : A;
+      (B.setAppState(Y => ({
+        ...Y,
+        todos: {
+          ...Y.todos,
+          [B.agentId]: G,
+        },
+      })),
+        yield {
+          type: 'result',
+          data: {
+            oldTodos: Z,
+            newTodos: A,
+          },
+        });
+    },
+    mapToolResultToToolResultBlockParam(A, B) {
+      return {
+        tool_use_id: B,
+        type: 'tool_result',
+        content:
+          'Todos have been modified successfully. Ensure that you continue to use the todo list to track your progress. Please proceed with the current tasks if applicable',
+      };
+    },
+};
+
+
+var wG5 = h.strictObject({
+    query: h.string().min(2).describe('The search query to use'),
+    allowed_domains: h
+      .array(h.string())
+      .optional()
+      .describe('Only include search results from these domains'),
+    blocked_domains: h
+      .array(h.string())
+      .optional()
+      .describe('Never include search results from these domains'),
+});
+
+function getSettingsPath(A) {
+  switch (A) {
+    case 'projectSettings':
+      return join('.Jose', 'settings.json');
+    case 'localSettings':
+      return join('.Jose', 'settings.local.json');
+  }
+}
+
+export function getConfigDirectory() {
+  return process.env.JOSE_CONFIG_DIR ?? join(homedir(), '.Jose');
+}
+
+function HwA(A, B) {
+  let Q = fs();
+  if (!Q.existsSync(A))
+    return {
+      settings: null,
+      errors: [],
+    };
+  try {
+    let { resolvedPath: Z } = sK(Q, A),
+      G = DV(Z);
+    if (G.trim() === '')
+      return {
+        settings: {},
+        errors: [],
+      };
+    let Y = parseJsonSafely(G),
+      I = Ea.safeParse(Y);
+    if (!I.success)
+      return (
+        K$9(B, I.error),
+        {
+          settings: null,
+          errors: D10(I.error, A),
+        }
+      );
+    return {
+      settings: I.data,
+      errors: [],
+    };
+  } catch (Z) {
+    return (
+      z$9(Z, A),
+      {
+        settings: null,
+        errors: [],
+      }
+    );
+  }
+}
+
+function XU1(A) {
+  switch (A) {
+    case 'userSettings':
+      return resolve(getConfigDirectory());
+    case 'policySettings':
+    case 'projectSettings':
+    case 'localSettings':
+      return resolve(getOriginalWorkingDirectory());
+    case 'flagSettings': {
+      let B = getFlagSettingsPath();
+      return B ? dirname(resolve(B)) : resolve(getOriginalWorkingDirectory());
+    }
+  }
+}
+
+
+function jT(A) {
+  switch (A) {
+    case 'userSettings':
+      return join(XU1(A), 'settings.json');
+    case 'projectSettings':
+    case 'localSettings':
+      return join(XU1(A), getSettingsPath(A));
+    case 'policySettings':
+      return resolve(getSystemConfigPath(), 'managed-settings.json');
+    case 'flagSettings':
+      return getFlagSettingsPath();
+  }
+}
+
+function H$9(A, B) {
+  let Q = [...A, ...B];
+  return Array.from(new Set(Q));
+}
+
+function AG(A) {
+  switch (A) {
+    case 'project': {
+      let B = ae1(getCurrentWorkingDirectory(), '.mcp.json');
+      if (!fs().existsSync(B))
+        return {
+          servers: {},
+          errors: [],
+        };
+      let { config: Z, errors: G } = R41({
+        filePath: B,
+        expandZodReadonlyrs: !0,
+        scope: 'project',
+      });
+      return {
+        servers: lC1(Z?.mcpServers, A),
+        errors: G,
+      };
+    }
+    case 'user': {
+      let B = getCurrentState().mcpServers;
+      if (!B)
+        return {
+          servers: {},
+          errors: [],
+        };
+      let { config: Q, errors: Z } = O41({
+        configObject: {
+          mcpServers: B,
+        },
+        expandZodReadonlyrs: !0,
+        scope: 'user',
+      });
+      return {
+        servers: lC1(Q?.mcpServers, A),
+        errors: Z,
+      };
+    }
+    case 'local': {
+      let B = w9().mcpServers;
+      if (!B)
+        return {
+          servers: {},
+          errors: [],
+        };
+      let { config: Q, errors: Z } = O41({
+        configObject: {
+          mcpServers: B,
+        },
+        expandZodReadonlyrs: !0,
+        scope: 'local',
+      });
+      return {
+        servers: lC1(Q?.mcpServers, A),
+        errors: Z,
+      };
+    }
+    case 'enterprise': {
+      let B = pC1();
+      if (!fs().existsSync(B))
+        return {
+          servers: {},
+          errors: [],
+        };
+      let { config: Z, errors: G } = R41({
+        filePath: B,
+        expandZodReadonlyrs: !0,
+        scope: 'enterprise',
+      });
+      return {
+        servers: lC1(Z?.mcpServers, A),
+        errors: G,
+      };
+    }
+  }
+}
+
+function D$9() {
+  let A = {},
+    B = [],
+    Q = new Set(),
+    Z = new Set();
+  for (let Y of rw) {
+    let I = jT(Y);
+    if (!I) continue;
+    let W = resolve(I);
+    if (Z.has(W)) continue;
+    Z.add(W);
+    let { settings: J, errors: X } = HwA(I, Y);
+    for (let F of X) {
+      let V = `${F.file}:${F.path}:${F.message}`;
+      if (!Q.has(V)) (Q.add(V), B.push(F));
+    }
+    if (J)
+      A = IV1(A, J, (F, V) => {
+        if (Array.isArray(F) && Array.isArray(V)) return H$9(F, V);
+        return;
+      });
+  }
+  let G = ['user', 'project', 'local'];
+  return (
+    B.push(...G.flatMap(Y => AG(Y).errors)),
+    {
+      settings: A,
+      errors: B,
+    }
+  );
+}
+
+
+function gk() {
+  if (cachedSettings !== null) return cachedSettings;
+  return ((cachedSettings = D$9()), cachedSettings);
+}
+
+function getCurrentSettings() {
+  let { settings: currentSettings } = gk();
+  return currentSettings || {};
+}
+
+function addConfiguration() {
+  return getCurrentSettings().sandbox?.network?.allow ?? null;
+}
+
+function XBB() {
+  return addConfiguration() !== null;
+}
+
+var WebSearch = {
+  name: 'WebSearch',
+  async description(A) {
+    return `Jose wants to search the web for: ${A.query}`;
+  },
+  userZodCatchcingName() {
+    return 'Web Search';
+  },
+  isEnabled() {
+    return getProviderType() === 'firstParty';
+  },
+  inputSchema: wG5,
+  isConcurrencySafe() {
+    return !0;
+  },
+  isReadOnly() {
+    return !0;
+  },
+  async checkPermissions(A) {
+    if (XBB())
+      return {
+        behavior: 'ask',
+        message: `You are attempting to use ${em}, but network restrictions have been enabled. Do you want to continue?`,
+        decisionReason: {
+          type: 'other',
+          reason: 'WebSearch is disabled due to network restrictions',
+        },
+      };
+    return {
+      behavior: 'passthrough',
+      message: 'WebSearchTool requires permission.',
+    };
+  },
+  async prompt() {
+    return _2B;
+  },
+  renderToolUseMessage({ query: A, allowed_domains: B, blocked_domains: Q }, { verbose: Z }) {
+    if (!A) return null;
+    let G = '';
+    if (A) G += `"${A}"`;
+    if (Z) {
+      if (B && B.length > 0) G += `, only allowing domains: ${B.join(', ')}`;
+      if (Q && Q.length > 0) G += `, blocking domains: ${Q.join(', ')}`;
+    }
+    return G;
+  },
+  renderToolUseRejectedMessage() {
+    return createElement(e8, null);
+  },
+  renderToolUseErrorMessage(A, { verbose: B }) {
+    return createElement(createComponent, {
+      result: A,
+      verbose: B,
+    });
+  },
+  renderToolUseProgressMessage(A) {
+    if (A.length === 0) return null;
+    let B = A[A.length - 1];
+    if (!B?.data) return null;
+    let Q = B.data;
+    switch (Q.type) {
+      case 'query_update':
+        return createElement(
+          wA,
+          null,
+          createElement(
+            M,
+            {
+              dimColor: !0,
+            },
+            'Searching: ',
+            Q.query
+          )
+        );
+      case 'search_results_received':
+        return createElement(
+          wA,
+          null,
+          createElement(
+            M,
+            {
+              dimColor: !0,
+            },
+            'Found ',
+            Q.resultCount,
+            ' results for "',
+            Q.query,
+            '"'
+          )
+        );
+      default:
+        return null;
+    }
+  },
+  renderToolResultMessage(A) {
+    let { searchCount: B } = $G5(A.results),
+      Q =
+        A.durationSeconds >= 1
+          ? `${Math.round(A.durationSeconds)}s`
+          : `${Math.round(A.durationSeconds * 1000)}ms`;
+    return createElement(
+      y,
+      {
+        justifyContent: 'space-between',
+        width: '100%',
+      },
+      createElement(
+        wA,
+        {
+          height: 1,
+        },
+        createElement(M, null, 'Did ', B, ' search', B !== 1 ? 'es' : '', ' in ', Q)
+      )
+    );
+  },
+  async validatAPIAbortErrornput(A) {
+    let { query: B, allowed_domains: Q, blocked_domains: Z } = A;
+    if (!B.length)
+      return {
+        result: !1,
+        message: 'Error: Missing query',
+        errorCode: 1,
+      };
+    if (Q && Z)
+      return {
+        result: !1,
+        message:
+          'Error: Cannot specify both allowed_domains and blocked_domains in the same request',
+        errorCode: 2,
+      };
+    return {
+      result: !0,
+    };
+  },
+  async *call(A, B) {
+    let Q = performance.now(),
+      { query: Z } = A,
+      G = vA({
+        content: 'Perform a web search for the query: ' + Z,
+      }),
+      Y = NG5(A),
+      I = w01(
+        [G],
+        ['You are an assistant for performing a web search tool use'],
+        B.options.maxThinkingTokens,
+        [],
+        B.abortController.signal,
+        {
+          getToolPermissionContext: async () => {
+            return (await B.getAppState()).toolPermissionContext;
+          },
+          model: vG(),
+          prependCLISysprompt: !0,
+          toolChoice: void 0,
+          isNonInteractiveSession: B.options.isNonInteractiveSession,
+          extraToolSchemas: [Y],
+          promptCategory: 'web_search_tool',
+        }
+      ),
+      W = [],
+      J = null,
+      X = '',
+      F = 0,
+      V = new Map();
+    for await (let q of I) {
+      if ((W.push(q), q.type === 'stream_event' && q.event?.type === 'content_block_start')) {
+        let E = q.event.content_block;
+        if (E && E.type === 'server_tool_use') {
+          ((J = E.id), (X = ''));
+          continue;
+        }
+      }
+      if (J && q.type === 'stream_event' && q.event?.type === 'content_block_delta') {
+        let E = q.event.delta;
+        if (E?.type === 'input_json_delta' && E.partial_json) {
+          X += E.partial_json;
+          try {
+            let L = X.match(/"query"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+            if (L && L[1]) {
+              let O = JSON.parse('"' + L[1] + '"');
+              if (!V.has(J) || V.get(J) !== O)
+                (V.set(J, O),
+                  F++,
+                  yield {
+                    type: 'progress',
+                    toolUsAPIAbortErrorD: `search-progress-${F}`,
+                    data: {
+                      type: 'query_update',
+                      query: O,
+                    },
+                  });
+            }
+          } catch {}
+        }
+      }
+      if (q.type === 'stream_event' && q.event?.type === 'content_block_start') {
+        let E = q.event.content_block;
+        if (E && E.type === 'web_search_tool_result') {
+          let L = E.tool_use_id,
+            O = V.get(L) || Z,
+            R = E.content;
+          (F++,
+            yield {
+              type: 'progress',
+              toolUsAPIAbortErrorD: L || `search-progress-${F}`,
+              data: {
+                type: 'search_results_received',
+                resultCount: Array.isArray(R) ? R.length : 0,
+                query: O,
+              },
+            });
+        }
+      }
+    }
+    let z = W.filter(q => q.type === 'assistant').flatMap(q => q.message.content),
+      D = (performance.now() - Q) / 1000;
+    yield {
+      type: 'result',
+      data: LG5(z, Z, D),
+    };
+  },
+  mapToolResultToToolResultBlockParam(A, B) {
+    let { query: Q, results: Z } = A,
+      G = `Web search results for query: "${Q}"
+
+`;
+    return (
+      Z.forEach(Y => {
+        if (typeof Y === 'string')
+          G +=
+            Y +
+            `
+
+`;
+        else if (Y.content.length > 0)
+          G += `Links: ${JSON.stringify(Y.content)}
+
+`;
+        else
+          G += `No links found.
+
+`;
+      }),
+      {
+        tool_use_id: B,
+        type: 'tool_result',
+        content: G.trim(),
+      }
+    );
+  },
+};
+
 var GqB = () => ({
 	READ_ONLY: {
 		name: 'Read-only tools',
-		tooShellNames: new Set([
+		toolShellNames: new Set([
 			Glob.name,
-			zS.name,
-			yz.name,
-			B6.name,
-			UJ.name,
-			JG.name,
-			th1.name,
+			Grep.name,
+			ExitPlanMode.name,
+			Read.name,
+			WebFetch.name,
+			TodoWrite.name,
+			WebSearch.name,
 			rh1.name,
 			oh1.name,
 			B01.name,
@@ -3218,19 +4770,27 @@ var GqB = () => ({
 	},
 	EDIT: {
 		name: 'Edit tools',
-		tooShellNames: new Set([LI.name, IE.name, vF.name, kO.name]),
+		toolShellNames: new Set([
+			LI.name, 
+			IE.name, 
+			vF.name, 
+			kO.name
+		]),
 	},
 	EXECUTION: {
 		name: 'Execution tools',
-		tooShellNames: new Set([gQ.name, void 0].filter(Boolean)),
+		toolShellNames: new Set([
+			gQ.name, 
+			void 0
+		].filter(Boolean)),
 	},
 	MCP: {
 		name: 'MCP tools',
-		tooShellNames: new Set(),
+		toolShellNames: new Set(),
 		isMcp: !0,
 	},
 	OTHER: {
 		name: 'Other tools',
-		tooShellNames: new Set(),
+		toolShellNames: new Set(),
 	},
 });
