@@ -1,11 +1,14 @@
 import {homedir} from 'node:os';
-import {relative, resolve, sep} from 'node:path';
+import {basename, relative, resolve, sep} from 'node:path';
 import {createElement} from 'react';
-import { memoize } from 'lodash-es';
+import { isBuffer, memoize } from 'lodash-es';
 import { ChildProcess, execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {join} from 'node:path';
 import { spawn } from 'spawn-rx';
+import { SIGTERM } from 'node:constants';
+import { createReadStream, createWriteStream } from 'node:fs';
+import CombinedStream from 'combined-stream';
 
 var bashMaxOutputLengthZodReadonlylidator = {
 	name: 'BASH_MAX_OUTPUT_LENGTH',
@@ -1727,8 +1730,88 @@ async function uW9() {
   }
 }
 
+var zI9 = ({
+    cwd: A = sD1.cwd(),
+    path: B = sD1.env[aD1()],
+    preferLocal: Q = !0,
+    execPath: Z = sD1.execPath,
+    addExecPath: G = !0,
+  } = {}) => {
+    let Y = A instanceof URL ? bWA(A) : A,
+      I = G41.resolve(Y),
+      W = [];
+    if (Q) HI9(W, I);
+    if (G) DI9(W, Z, I);
+    return [...W, B].join(G41.delimiter);
+};
+
+function aD1(A = {}) {
+  let { env: B = process.env, platform: Q = process.platform } = A;
+  if (Q !== 'win32') return 'PATH';
+  return (
+    Object.keys(B)
+      .reverse()
+      .find(Z => Z.toUpperCase() === 'PATH') || 'Path'
+  );
+}
+
+var fWA = ({ env: A = sD1.env, ...B } = {}) => {
+    A = {
+      ...A,
+    };
+    let Q = aD1({
+      env: A,
+    });
+    return ((B.path = A[Q]), (A[Q] = zI9(B)), A);
+  };
+
+import cross_spawn from 'cross-spawn';
+var MAX_BUFFER_SIZE = 1e8;
+var yW9 = ({ env: A, extendEnv: B, preferLocal: Q, localDir: Z, execPath: G }) => {
+    let Y = B
+      ? {
+          ...IC1.env,
+          ...A,
+        }
+      : A;
+    if (Q)
+      return fWA({
+        env: Y,
+        cwd: Z,
+        execPath: G,
+      });
+    return Y;
+};
+
+var oD1 = ['stdin', 'stdout', 'stderr'];
+var xI9 = A => oD1.some(B => A[B] !== void 0);
+
+var lWA = A => {
+    if (!A) return;
+    let { stdio: B } = A;
+    if (B === void 0) return oD1.map(Z => A[Z]);
+    if (xI9(A))
+      throw new Error(
+        `It's not possible to provide \`stdio\` in combination with one of ${oD1.map(Z => `\`${Z}\``).join(', ')}`
+      );
+    if (typeof B === 'string') return B;
+    if (!Array.isArray(B))
+      throw new TypeError(
+        `Expected \`stdio\` to be of type \`string\` or \`Array\`, got \`${typeof B}\``
+      );
+    let Q = Math.max(B.length, oD1.length);
+    return Array.from(
+      {
+        length: Q,
+      },
+      (Z, G) => B[G]
+    );
+};
+
+import { debuglog as OW9 } from 'node:util';
+var isDebugEnabled = OW9('execa').enabled,
 var MJA = (A, B, Q = {}) => {
-    let Z = crossPlatformSpawn.default._parse(A, B, Q);
+    let Z = cross_spawn._parse(A, B, Q);
     if (
       ((A = Z.command),
       (B = Z.args),
@@ -1739,8 +1822,8 @@ var MJA = (A, B, Q = {}) => {
         stripFinaShellErrorewline: !0,
         extendEnv: !0,
         preferLocal: !1,
-        localDir: Q.cwd || IC1.cwd(),
-        execPath: IC1.execPath,
+        localDir: Q.cwd || process.cwd(),
+        execPath: process.execPath,
         encoding: 'utf8',
         reject: !0,
         cleanup: !0,
@@ -1751,7 +1834,7 @@ var MJA = (A, B, Q = {}) => {
       }),
       (Q.env = yW9(Q)),
       (Q.stdio = lWA(Q)),
-      IC1.platform === 'win32' && jW9.basename(A, '.exe') === 'cmd')
+      process.platform === 'win32' && basename(A, '.exe') === 'cmd')
     )
       B.unshift('/q');
     return {
@@ -1762,15 +1845,32 @@ var MJA = (A, B, Q = {}) => {
     };
 };
 
+var qJA = (A, B = []) => {
+    if (!Array.isArray(B)) return [A];
+    return [A, ...B];
+};
+
+var EW9 = /^[\w.-]+$/;
+var  NW9 = A => {
+    if (typeof A !== 'string' || EW9.test(A)) return A;
+    return `"${A.replaceAll('"', '\\"')}"`;
+  };
+
 var tt1 = (A, B) => qJA(A, B).join(' ');
 var et1 = (A, B) =>
     qJA(A, B)
       .map(Q => NW9(Q))
       .join(' ');
 
+var YC1 = (A, B) => String(A).padStart(B, '0');
+var getTimestamp = () => {
+    let A = new Date();
+    return `${YC1(A.getHours(), 2)}:${YC1(A.getMinutes(), 2)}:${YC1(A.getSeconds(), 2)}.${YC1(A.getMilliseconds(), 3)}`;
+};
+
 var Be1 = (A, { verbose: B }) => {
     if (!B) return;
-    RW9.stderr.write(`[${getTimestamp()}] ${A}
+    process.stderr.write(`[${getTimestamp()}] ${A}
 `);
   };
 
@@ -1862,19 +1962,29 @@ var ot1 = (A, B) => {
         });
     }); 
     
-  var rWA = (A, { timeout: B, killSignal: Q = 'SIGTERM' }, Z) => {
-    if (B === 0 || B === void 0) return Z;
-    let G,
-      Y = new Promise((W, J) => {
-        G = setTimeout(() => {
-          cI9(A, Q, J);
-        }, B);
-      }),
-      I = Z.finally(() => {
-        clearTimeout(G);
-      });
-    return Promise.race([Y, I]);
+var	cI9 = (A, B, Q) => {
+    (A.kill(B),
+      Q(
+        Object.assign(new Error('Timed out'), {
+          timedOut: !0,
+          signal: B,
+        })
+      ));
   };
+
+var rWA = (A, { timeout: B, killSignal: Q = 'SIGTERM' }, Z) => {
+if (B === 0 || B === void 0) return Z;
+let G,
+	Y = new Promise((W, J) => {
+	G = setTimeout(() => {
+		cI9(A, Q, J);
+	}, B);
+	}),
+	I = Z.finally(() => {
+	clearTimeout(G);
+	});
+	return Promise.race([Y, I]);
+};
 
  var  tWA = async (A, { cleanup: B, detached: Q }, Z) => {
     if (!B || Q) return Z;
@@ -1906,12 +2016,34 @@ hWA.callCount = A => {
 };
 var gWA = hWA;
 
+function _t1(A) {
+  let B =
+      typeof A === 'string'
+        ? `
+`
+        : `
+`.charCodeAt(),
+    Q = typeof A === 'string' ? '\r' : '\r'.charCodeAt();
+  if (A[A.length - 1] === B) A = A.slice(0, -1);
+  if (A[A.length - 1] === Q) A = A.slice(0, -1);
+  return A;
+}
+
 var  W41 = (A, B, Q) => {
-    if (typeof B !== 'string' && !PW9.isBuffer(B)) return Q === void 0 ? void 0 : '';
+    if (typeof B !== 'string' && !isBuffer(B)) return Q === void 0 ? void 0 : '';
     if (A.stripFinaShellErrorewline) return _t1(B);
     return B;
   };
 
+var KJA = A => {
+    if (A !== void 0)
+      throw new TypeError('The `input` and `inputFile` options cannot be both set.');
+};
+
+var DW9 = ({ input: A, inputFile: B }) => {
+    if (typeof B !== 'string') return A;
+    return (KJA(A), createReadStream(B));
+};
 
 var HJA = (A, B) => {
     let Q = DW9(B);
@@ -1920,12 +2052,37 @@ var HJA = (A, B) => {
     else A.stdin.end(Q);
 };
 
- var DJA = (A, { all: B }) => {
+var DJA = (A, { all: B }) => {
     if (!B || (!A.stdout && !A.stderr)) return;
-    let Q = streamCombiner.default();
+    let Q = new CombinedStream();
     if (A.stdout) Q.add(A.stdout);
     if (A.stderr) Q.add(A.stderr);
     return Q;
+};
+
+function AC1(A) {
+  return A !== null && typeof A === 'object' && typeof A.pipe === 'function';
+}
+
+function mt1(A) {
+  return (
+    AC1(A) &&
+    A.writable !== !1 &&
+    typeof A._write === 'function' &&
+    typeof A._writableState === 'object'
+  );
+}
+
+var iI9 = A => A instanceof ChildProcess && typeof A.then === 'function',
+var dt1 = (A, B, Q) => {
+    if (typeof Q === 'string') return (A[B].pipe(createWriteStream(Q)), A);
+    if (mt1(Q)) return (A[B].pipe(Q), A);
+    if (!iI9(Q))
+      throw new TypeError(
+        'The second argument must be a string, a stream or an Execa child process.'
+      );
+    if (!mt1(Q.stdin)) throw new TypeError("The target child process's stdin must be available.");
+    return (A[B].pipe(Q.stdin), Q);
   };
 
 var  eWA = A => {
@@ -1934,6 +2091,28 @@ var  eWA = A => {
     if (A.all !== void 0) A.pipeAll = dt1.bind(void 0, A, 'all');
   };
 
+var hI9 = 5000;
+var uI9 = (A, { forceKillAfterTimeout: B }, Q) => mI9(A) && B !== !1 && Q,
+  mI9 = A =>
+    A === SIGTERM || (typeof A === 'string' && A.toUpperCase() === 'SIGTERM'),
+  dI9 = ({ forceKillAfterTimeout: A = !0 }) => {
+    if (A === !0) return hI9;
+    if (!Number.isFinite(A) || A < 0)
+      throw new TypeError(
+        `Expected the \`forceKillAfterTimeout\` option to be a non-negative integer, got \`${A}\` (${typeof A})`
+      );
+    return A;
+;
+
+var gI9 = (A, B, Q, Z) => {
+    if (!uI9(B, Q, Z)) return;
+    let G = dI9(Q),
+      Y = setTimeout(() => {
+        A('SIGKILL');
+      }, G);
+    if (Y.unref) Y.unref();
+};
+
 var processKill = (A, B = 'SIGTERM', Q = {}) => {
     let Z = A(B);
     return (gI9(A, B, Q, Z), Z);
@@ -1941,6 +2120,263 @@ var processKill = (A, B = 'SIGTERM', Q = {}) => {
 
 var processCancel = (A, B) => {
   if (A.kill()) B.isCanceled = !0;
+};
+
+var rI9 = () => ({
+    contents: new ArrayBuffer(0),
+  }),
+  oI9 = A => tI9.encode(A),
+  tI9 = new TextEncoder(),
+  ZJA = A => new Uint8Array(A),
+  GJA = A => new Uint8Array(A.buffer, A.byteOffset, A.byteLength),
+  APIAbortError9 = (A, B) => A.slice(0, B),
+  AW9 = (A, { contents: B, length: Q }, Z) => {
+    let G = WJA() ? QW9(B, Z) : BW9(B, Z);
+    return (new Uint8Array(G).set(A, Q), G);
+  },
+  BW9 = (A, B) => {
+    if (B <= A.byteLength) return A;
+    let Q = new ArrayBuffer(IJA(B));
+    return (new Uint8Array(Q).set(new Uint8Array(A), 0), Q);
+  },
+  QW9 = (A, B) => {
+    if (B <= A.maxByteLength) return (A.resize(B), A);
+    let Q = new ArrayBuffer(B, {
+      maxByteLength: IJA(B),
+    });
+    return (new Uint8Array(Q).set(new Uint8Array(A), 0), Q);
+  },
+  IJA = A => YJA ** Math.ceil(Math.log(A) / Math.log(YJA)),
+  YJA = 2,
+  ZW9 = ({ contents: A, length: B }) => (WJA() ? A : A.slice(0, B)),
+  WJA = () => 'resize' in ArrayBuffer.prototype;
+
+var BC1 = A => {
+    throw new Error(`Streams in object mode are not supported: ${String(A)}`);
+};
+
+var QC1 = A => A.length;
+var pt1 = () => {
+    return;
+};
+
+var GW9 = {
+    init: rI9,
+    convertChunk: {
+      string: oI9,
+      buffer: ZJA,
+      arrayBuffer: ZJA,
+      dataView: GJA,
+      typedArray: GJA,
+      others: BC1,
+    },
+    getSize: QC1,
+    truncateChunk: APIAbortError9,
+    addChunk: AW9,
+    getFinalChunk: pt1,
+    finalize: ZW9,
+};
+
+var createBuffer = data => globalThis.Buffer.from(data);
+async function nt1(A, B) {
+  return I41(A, GW9, B);
+}
+
+async function ZC1(A, B) {
+  if (!('Buffer' in globalThis))
+    throw new Error('getStreamAsBuffer() is only supported in Node.js');
+  try {
+    return createBuffer(await nt1(A, B));
+  } catch (Q) {
+    if (Q.bufferedData !== void 0) Q.bufferedData = createBuffer(Q.bufferedData);
+    throw Q;
+  }
+}
+
+var CW9 = async (A, B, Q) => {
+    return (
+      await ZC1(A, {
+        maxBuffer: B,
+      })
+    ).toString(Q);
+};
+
+var aI9 = A => typeof A === 'object' && A !== null && typeof A[Symbol.asyncIterator] === 'function';
+var { toString: BJA } = Object.prototype;
+
+var sI9 = A => {
+    let B = typeof A;
+    if (B === 'string') return 'string';
+    if (B !== 'object' || A === null) return 'others';
+    if (globalThis.Buffer?.isBuffer(A)) return 'buffer';
+    let Q = BJA.call(A);
+    if (Q === '[object ArrayBuffer]') return 'arrayBuffer';
+    if (Q === '[object DataView]') return 'dataView';
+    if (
+      Number.isInteger(A.byteLength) &&
+      Number.isInteger(A.byteOffset) &&
+      BJA.call(A.buffer) === '[object ArrayBuffer]'
+    )
+      return 'typedArray';
+    return 'others';
+};
+
+var AJA = (A, B, Q, Z) => {
+    ((B.contents = Q(A, B, Z)), (B.length = Z));
+};
+
+var QJA = ({
+    convertedChunk: A,
+    state: B,
+    getSize: Q,
+    truncateChunk: Z,
+    addChunk: G,
+    maxBuffer: Y,
+  }) => {
+    let I = Q(A),
+      W = B.length + I;
+    if (W <= Y) {
+      AJA(A, B, G, W);
+      return;
+    }
+    let J = Z(A, Y - B.length);
+    if (J !== void 0) AJA(J, B, G, Y);
+    throw new Error();
+};
+
+var nI9 = ({
+    state: A,
+    getSize: B,
+    truncateChunk: Q,
+    addChunk: Z,
+    getFinalChunk: G,
+    maxBuffer: Y,
+  }) => {
+    let I = G(A);
+    if (I !== void 0)
+      QJA({
+        convertedChunk: I,
+        state: A,
+        getSize: B,
+        truncateChunk: Q,
+        addChunk: Z,
+        maxBuffer: Y,
+      });
+};
+
+var I41 = async (
+    A,
+    {
+      init: B,
+      convertChunk: Q,
+      getSize: Z,
+      truncateChunk: G,
+      addChunk: Y,
+      getFinalChunk: I,
+      finalize: W,
+    },
+    { maxBuffer: J = Number.POSITIVE_INFINITY } = {}
+  ) => {
+    if (!aI9(A))
+      throw new Error(
+        'The first argument must be a Readable, a ReadableStream, or an async iterable.'
+      );
+    let X = B();
+    X.length = 0;
+    try {
+      for await (let F of A) {
+        let V = sI9(F),
+          K = Q[V](F, X);
+        QJA({
+          convertedChunk: K,
+          state: X,
+          getSize: Z,
+          truncateChunk: G,
+          addChunk: Y,
+          maxBuffer: J,
+        });
+      }
+      return (
+        nI9({
+          state: X,
+          convertChunk: Q,
+          getSize: Z,
+          truncateChunk: G,
+          addChunk: Y,
+          getFinalChunk: I,
+          maxBuffer: J,
+        }),
+        W(X)
+      );
+    } catch (F) {
+      throw ((F.bufferedData = W(X)), F);
+    }
+};
+
+var YW9 = () => ({
+    contents: '',
+    textDecoder: new TextDecoder(),
+  });
+
+
+var lt1 = A => A;
+var GC1 = (A, { textDecoder: B }) =>
+    B.decode(A, {
+      stream: !0,
+    });
+
+
+var IW9 = (A, { contents: B }) => B + A;
+var WW9 = (A, B) => A.slice(0, B);
+var JW9 = ({ textDecoder: A }) => {
+	let B = A.decode();
+	return B === '' ? void 0 : B;
+};
+
+var it1 = ({ contents: A }) => A;
+
+var XW9 = {
+    init: YW9,
+    convertChunk: {
+      string: lt1,
+      buffer: GC1,
+      arrayBuffer: GC1,
+      dataView: GC1,
+      typedArray: GC1,
+      others: BC1,
+    },
+    getSize: QC1,
+    truncateChunk: WW9,
+    addChunk: IW9,
+    getFinalChunk: JW9,
+    finalize: it1,
+};
+
+async function at1(A, B) {
+  return I41(A, XW9, B);
+}
+
+var rt1 = (A, { encoding: B, buffer: Q, maxBuffer: Z }) => {
+    if (!A || !Q) return;
+    if (B === 'utf8' || B === 'utf-8')
+      return at1(A, {
+        maxBuffer: Z,
+      });
+    if (B === null || B === 'buffer')
+      return ZC1(A, {
+        maxBuffer: Z,
+      });
+    return CW9(A, Z, B);
+};
+
+var st1 = async (A, B) => {
+    if (!A || B === void 0) return;
+    (await setTimeout(0), A.destroy());
+    try {
+      return await B;
+    } catch (Q) {
+      return Q.bufferedData;
+    }
 };
 
 var CJA = async ({ stdout: A, stderr: B, all: Q }, { encoding: Z, buffer: G, maxBuffer: Y }, I) => {
