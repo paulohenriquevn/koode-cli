@@ -10,11 +10,13 @@ const cli = meow(
 	  $ koode-cli
 
 	Options
-		--name  Your name
+		--name      Your name (default: "User")
+		--api-key   OpenAI API key (can also use OPENAI_API_KEY env var)
 
 	Examples
 	  $ koode-cli --name=Jane
-	  Hello, Jane
+	  $ koode-cli --api-key=sk-...
+	  $ OPENAI_API_KEY=sk-... koode-cli
 `,
 	{
 		importMeta: import.meta,
@@ -22,8 +24,13 @@ const cli = meow(
 			name: {
 				type: 'string',
 			},
+			apiKey: {
+				type: 'string',
+			},
 		},
 	},
 );
 
-render(<App name={cli.flags.name} />);
+const apiKey = cli.flags.apiKey || process.env['OPENAI_API_KEY'];
+
+render(<App name={cli.flags.name} apiKey={apiKey} />);
