@@ -1,6 +1,6 @@
 import {homedir} from 'node:os';
-import {basename, relative, resolve, sep} from 'node:path';
-import {createElement} from 'react';
+import {basename, delimiter, relative, resolve, sep} from 'node:path';
+import {createElement, Fragment} from 'react';
 import { isBuffer, memoize } from 'lodash-es';
 import { ChildProcess, execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -1607,6 +1607,17 @@ var JG5 = h.strictObject({
       ),
   });
 
+var u2B = '(ctrl+o to expand)';
+
+function normalizeInput() {
+  return createElement(
+    M,
+    {
+      dimColor: !0,
+    },
+    u2B
+  );
+}
 
 function GO0({
   count: A,
@@ -1616,11 +1627,11 @@ function GO0({
   content: G,
   verbose: Y,
 }) {
-  let I = iG.default.createElement(
-      iG.default.Fragment,
+  let I = createElement(
+      Fragment,
       null,
       'Found ',
-      iG.default.createElement(
+      createElement(
         M,
         {
           bold: !0,
@@ -1632,12 +1643,12 @@ function GO0({
     ),
     W =
       Q !== void 0 && Z
-        ? iG.default.createElement(
-            iG.default.Fragment,
+        ? createElement(
+            Fragment,
             null,
             ' ',
             'across ',
-            iG.default.createElement(
+            createElement(
               M,
               {
                 bold: !0,
@@ -1649,38 +1660,38 @@ function GO0({
           )
         : null;
   if (Y)
-    return iG.default.createElement(
+    return createElement(
       y,
       {
         flexDirection: 'column',
       },
-      iG.default.createElement(
+      createElement(
         y,
         {
           flexDirection: 'row',
         },
-        iG.default.createElement(M, null, '  ⎿  ', I, W)
+        createElement(M, null, '  ⎿  ', I, W)
       ),
-      iG.default.createElement(
+      createElement(
         y,
         {
           marginLeft: 5,
         },
-        iG.default.createElement(M, null, G)
+        createElement(M, null, G)
       )
     );
-  return iG.default.createElement(
+  return createElement(
     wA,
     {
       height: 1,
     },
-    iG.default.createElement(
+    createElement(
       M,
       null,
       I,
       W,
       ' ',
-      A > 0 && iG.default.createElement(normalizeInput, null)
+      A > 0 && createElement(normalizeInput, null)
     )
   );
 }  
@@ -1726,23 +1737,33 @@ async function uW9() {
     if (Y.code !== 0)
       console.log(new Error(`ZodCatchiled to remove quarantine: ${Y.stdout} ${Y.stderr}`), JGA);
   } catch (G) {
-    console.log(G, IGA);
+    console.log(G);
   }
 }
 
+var HI9 = (A, B) => {
+    let Q;
+    while (Q !== B) (A.push(join(B, 'node_modules/.bin')), (Q = B), (B = resolve(B, '..')));
+};
+
+var DI9 = (A, B, Q) => {
+    let Z = B instanceof URL ? fileURLToPath(B) : B;
+    A.push(resolve(Q, Z, '..'));
+};
+
 var zI9 = ({
-    cwd: A = sD1.cwd(),
-    path: B = sD1.env[aD1()],
+    cwd: A = process.cwd(),
+    path: B = process.env[aD1()],
     preferLocal: Q = !0,
-    execPath: Z = sD1.execPath,
+    execPath: Z = process.execPath,
     addExecPath: G = !0,
   } = {}) => {
-    let Y = A instanceof URL ? bWA(A) : A,
-      I = G41.resolve(Y),
+    let Y = A instanceof URL ? fileURLToPath(A) : A,
+      I = resolve(Y),
       W = [];
     if (Q) HI9(W, I);
     if (G) DI9(W, Z, I);
-    return [...W, B].join(G41.delimiter);
+    return [...W, B].join(delimiter);
 };
 
 function aD1(A = {}) {
@@ -1755,7 +1776,7 @@ function aD1(A = {}) {
   );
 }
 
-var fWA = ({ env: A = sD1.env, ...B } = {}) => {
+var fWA = ({ env: A = process.env, ...B } = {}) => {
     A = {
       ...A,
     };
@@ -1809,7 +1830,7 @@ var lWA = A => {
 };
 
 import { debuglog as OW9 } from 'node:util';
-var isDebugEnabled = OW9('execa').enabled,
+var isDebugEnabled = OW9('execa').enabled;
 var MJA = (A, B, Q = {}) => {
     let Z = cross_spawn._parse(A, B, Q);
     if (
