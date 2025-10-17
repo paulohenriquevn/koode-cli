@@ -13,14 +13,15 @@ The José CLI is a sophisticated AI-powered coding assistant that provides an in
 
 ```typescript
 function Fn5() {
-    // System initialization
-    // Sets up React render environment
-    // Configures terminal settings
-    // Initializes input handlers
+	// System initialization
+	// Sets up React render environment
+	// Configures terminal settings
+	// Initializes input handlers
 }
 ```
 
 **Execution Flow**:
+
 1. `#!/usr/bin/env node` - System startup via terminal
 2. `Fn5()` invocation - Main entry point
 3. React/Ink environment setup
@@ -36,14 +37,15 @@ function Fn5() {
 
 ```typescript
 function _6(A) {
-    // Input configuration management
-    // Handles different input modes
-    // Manages state transitions
-    // Configures event handlers
+	// Input configuration management
+	// Handles different input modes
+	// Manages state transitions
+	// Configures event handlers
 }
 ```
 
 **Responsibilities**:
+
 - Input mode configuration (insert, command, visual)
 - Event handler registration
 - State management for input contexts
@@ -56,14 +58,15 @@ function _6(A) {
 
 ```typescript
 function Mw1() {
-    // Core input processing
-    // Character-by-character handling
-    // Command parsing and validation
-    // State management for user interactions
+	// Core input processing
+	// Character-by-character handling
+	// Command parsing and validation
+	// State management for user interactions
 }
 ```
 
 **Key Features**:
+
 - **Real-time Input Processing**: Handles each keystroke immediately
 - **Command Recognition**: Identifies user intents and commands
 - **State Management**: Maintains conversation context and history
@@ -76,10 +79,10 @@ function Mw1() {
 
 ```typescript
 function RTA() {
-    // Real-time event streaming
-    // ANSI escape sequence processing
-    // Terminal event normalization
-    // Input buffering and optimization
+	// Real-time event streaming
+	// ANSI escape sequence processing
+	// Terminal event normalization
+	// Input buffering and optimization
 }
 ```
 
@@ -88,11 +91,13 @@ function RTA() {
 #### 3.1 Raw TTY Mode Configuration
 
 **Process**:
+
 1. **Terminal Initialization**: Switch to raw mode for direct key capture
 2. **ANSI Processing**: Handle escape sequences for special keys
 3. **Event Normalization**: Convert raw bytes to structured events
 
 **Key Sequences Handled**:
+
 ```
 Enter: \r (0x0D) or \n (0x0A)
 Backspace: \x7F (127) or \b (0x08)
@@ -110,6 +115,7 @@ Terminal Input → Raw TTY Events → ANSI Parser → Event Normalizer → Input
 ```
 
 **Detailed Flow**:
+
 1. **Raw Events**: Direct terminal byte stream
 2. **ANSI Parser**: Processes escape sequences
 3. **Event Normalizer**: Creates structured input events
@@ -124,14 +130,15 @@ Terminal Input → Raw TTY Events → ANSI Parser → Event Normalizer → Input
 
 ```tsx
 function ToolSelector({tools, initialTools, onComplete, onCancel}) {
-    // Multi-select tool interface
-    // Keyboard navigation (↑↓ arrows)
-    // Space to toggle selection
-    // Enter to confirm, Esc to cancel
+	// Multi-select tool interface
+	// Keyboard navigation (↑↓ arrows)
+	// Space to toggle selection
+	// Enter to confirm, Esc to cancel
 }
 ```
 
 **Features**:
+
 - Visual selection indicators
 - Search/filter capabilities
 - Batch selection operations
@@ -144,10 +151,10 @@ function ToolSelector({tools, initialTools, onComplete, onCancel}) {
 
 ```tsx
 function SelectTools({tools}) {
-    // Wizard integration component
-    // Manages tool selection state
-    // Handles navigation between steps
-    // Persists selections in wizard context
+	// Wizard integration component
+	// Manages tool selection state
+	// Handles navigation between steps
+	// Persists selections in wizard context
 }
 ```
 
@@ -158,10 +165,10 @@ function SelectTools({tools}) {
 
 ```tsx
 function Yg1() {
-    // Color theme selection
-    // Visual preview of themes
-    // Real-time theme application
-    // Persistence of user preferences
+	// Color theme selection
+	// Visual preview of themes
+	// Real-time theme application
+	// Persistence of user preferences
 }
 ```
 
@@ -170,6 +177,7 @@ function Yg1() {
 #### 5.1 Agent Selection Process
 
 **Flow**:
+
 1. User input captured by `Mw1`
 2. Intent analysis determines agent requirements
 3. Tool selection via `ToolSelector`
@@ -179,6 +187,7 @@ function Yg1() {
 #### 5.2 Context Management
 
 **Components**:
+
 - **Session Context**: Maintains conversation history
 - **Project Context**: Tracks current working directory and files
 - **Tool Context**: Available capabilities and permissions
@@ -192,16 +201,17 @@ function Yg1() {
 
 ```typescript
 const openRouterConfig = {
-    baseURL: 'https://openrouter.ai/api/v1',
-    apiKey: process.env.OPENROUTER_API_KEY,
-    defaultModel: 'anthropic/claude-3.5-sonnet',
-    fallbackModels: ['openai/gpt-4o', 'meta-llama/llama-3.1-405b']
+	baseURL: 'https://openrouter.ai/api/v1',
+	apiKey: process.env.OPENROUTER_API_KEY,
+	defaultModel: 'anthropic/claude-3.5-sonnet',
+	fallbackModels: ['openai/gpt-4o', 'meta-llama/llama-3.1-405b'],
 };
 ```
 
 #### 6.2 Request Processing Pipeline
 
 **Flow**:
+
 1. **Input Validation**: Verify user input completeness
 2. **Context Assembly**: Gather relevant context (files, history, tools)
 3. **Prompt Construction**: Build structured prompt for LLM
@@ -214,10 +224,10 @@ const openRouterConfig = {
 
 ```typescript
 async function processLLMStream(response) {
-    // Handle streaming responses
-    // Real-time UI updates
-    // Token-by-token processing
-    // Error handling and recovery
+	// Handle streaming responses
+	// Real-time UI updates
+	// Token-by-token processing
+	// Error handling and recovery
 }
 ```
 
@@ -226,6 +236,7 @@ async function processLLMStream(response) {
 #### 7.1 Tool Categories
 
 **Available Tools**:
+
 - **File Operations**: Read, write, edit, delete files
 - **Code Analysis**: Parse, analyze, and understand code
 - **Terminal Commands**: Execute system commands
@@ -235,6 +246,7 @@ async function processLLMStream(response) {
 #### 7.2 Permission System
 
 **Security Model**:
+
 - **Tool Permissions**: Granular control over tool access
 - **File System Permissions**: Restricted access to project directories
 - **Network Permissions**: Controlled external API access
@@ -251,6 +263,7 @@ User Intent → Tool Selection → Permission Check → Execution → Result Val
 #### 8.1 Input Error Handling
 
 **Strategies**:
+
 - **Validation**: Real-time input validation
 - **Correction**: Auto-correction of common mistakes
 - **Suggestion**: Intelligent error suggestions
@@ -259,6 +272,7 @@ User Intent → Tool Selection → Permission Check → Execution → Result Val
 #### 8.2 LLM Error Handling
 
 **Error Types**:
+
 - **API Errors**: Network, authentication, rate limits
 - **Model Errors**: Invalid responses, timeouts
 - **Context Errors**: Token limits, context overflow
@@ -268,10 +282,10 @@ User Intent → Tool Selection → Permission Check → Execution → Result Val
 
 ```typescript
 async function handleError(error, context) {
-    // Error classification
-    // Recovery strategy selection
-    // User notification
-    // Fallback execution
+	// Error classification
+	// Recovery strategy selection
+	// User notification
+	// Fallback execution
 }
 ```
 
@@ -299,18 +313,18 @@ async function handleError(error, context) {
 
 ```json
 {
-    "theme": "dark",
-    "defaultModel": "claude-3.5-sonnet",
-    "toolPermissions": {
-        "fileSystem": true,
-        "network": false,
-        "terminal": true
-    },
-    "shortcuts": {
-        "quickChat": "Ctrl+Enter",
-        "toolSelector": "Ctrl+T",
-        "exit": "Ctrl+C"
-    }
+	"theme": "dark",
+	"defaultModel": "claude-3.5-sonnet",
+	"toolPermissions": {
+		"fileSystem": true,
+		"network": false,
+		"terminal": true
+	},
+	"shortcuts": {
+		"quickChat": "Ctrl+Enter",
+		"toolSelector": "Ctrl+T",
+		"exit": "Ctrl+C"
+	}
 }
 ```
 
@@ -320,14 +334,14 @@ async function handleError(error, context) {
 
 ```json
 {
-    "projectType": "typescript",
-    "includePaths": ["src/", "lib/"],
-    "excludePaths": ["node_modules/", "dist/"],
-    "customTools": ["./tools/custom-analyzer.js"],
-    "preferences": {
-        "codeStyle": "standard",
-        "testFramework": "vitest"
-    }
+	"projectType": "typescript",
+	"includePaths": ["src/", "lib/"],
+	"excludePaths": ["node_modules/", "dist/"],
+	"customTools": ["./tools/custom-analyzer.js"],
+	"preferences": {
+		"codeStyle": "standard",
+		"testFramework": "vitest"
+	}
 }
 ```
 
@@ -336,6 +350,7 @@ async function handleError(error, context) {
 #### 11.1 IDE Integration
 
 **Features**:
+
 - **VSCode Extension**: Direct integration with editor
 - **Language Server**: Code completion and analysis
 - **Debugging Support**: Integrated debugging capabilities
@@ -344,6 +359,7 @@ async function handleError(error, context) {
 #### 11.2 CI/CD Integration
 
 **Capabilities**:
+
 - **Pre-commit Hooks**: Automated code review
 - **Build Integration**: Continuous analysis during builds
 - **Test Generation**: Automated test creation
@@ -370,6 +386,7 @@ async function handleError(error, context) {
 #### 13.1 Testing Strategy
 
 **Test Types**:
+
 - **Unit Tests**: Individual component testing
 - **Integration Tests**: Component interaction testing
 - **E2E Tests**: Full workflow testing
@@ -378,6 +395,7 @@ async function handleError(error, context) {
 #### 13.2 Quality Metrics
 
 **Monitoring**:
+
 - **Response Time**: LLM and tool execution times
 - **Accuracy**: Tool execution success rates
 - **User Satisfaction**: Feedback and usage metrics

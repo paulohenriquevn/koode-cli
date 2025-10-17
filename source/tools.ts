@@ -145,7 +145,10 @@ const fs = () => {
 				if (prop === 'mkdirSync') {
 					return (path, options) => {
 						try {
-							return target.mkdirSync(path, {recursive: true, ...options});
+							return target.mkdirSync(path, {
+								recursive: true,
+								...options,
+							});
 						} catch (err) {
 							if (err.code === 'EEXIST') {
 								// Directory already exists, ignore the error
@@ -306,15 +309,18 @@ function g11(A, B, Q) {
 			},
 		};
 	let W = resolvePath(Z),
-		J = rqB(rq(getOriginalWorkingDirectory()), 'bash-outputs', getSessionId());
+		J = rqB(
+			rq(getOriginalWorkingDirectory()),
+			'bash-outputs',
+			getSessionId(),
+		);
 	if (W.startsWith(J))
 		return {
 			behavior: 'allow',
 			updatedInput: B,
 			decisionReason: {
 				type: 'other',
-				reason:
-					'Bash output files from current session are allowed for reading',
+				reason: 'Bash output files from current session are allowed for reading',
 			},
 		};
 	let X = rqB(getConfigDirectory(), 'session-memory');
@@ -489,7 +495,8 @@ class FileExplorer {
 		} else {
 			let G = this.opts.posix ? A.relativePosix() : A.relative(),
 				Y =
-					this.opts.dotRelative && !G.startsWith('..' + this.#processed)
+					this.opts.dotRelative &&
+					!G.startsWith('..' + this.#processed)
 						? '.' + this.#processed
 						: '';
 			this.matchEmit(!G ? '.' + Z : Y + G + Z);
@@ -607,7 +614,8 @@ class PathScurry {
 		{nocase: Z, childrenCacheSize: G = 16384, fs: Y = o91} = {},
 	) {
 		if (
-			((this.#children = _IA(Y)), A instanceof URL || A.startsWith('file://'))
+			((this.#children = _IA(Y)),
+			A instanceof URL || A.startsWith('file://'))
 		)
 			A = KY9(A);
 		let I = B.resolve(A);
@@ -619,7 +627,9 @@ class PathScurry {
 		let W = I.substring(this.rootPath.length).split(Q);
 		if (W.length === 1 && !W[0]) W.pop();
 		if (Z === void 0)
-			throw new TypeError('must provide nocase setting to PathScurryBase ctor');
+			throw new TypeError(
+				'must provide nocase setting to PathScurryBase ctor',
+			);
 		(this.nocase = Z),
 			(this.root = this.newRoot(this.#children)),
 			(this.roots[this.rootPath] = this.root);
@@ -729,7 +739,8 @@ class PathScurry {
 		},
 	) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
-		else if (!(A instanceof PathEntry)) (B = A.withFileTypes), (A = this.cwd);
+		else if (!(A instanceof PathEntry))
+			(B = A.withFileTypes), (A = this.cwd);
 		let Q = await A.readlink();
 		return B ? Q : Q?.fullpath();
 	}
@@ -740,7 +751,8 @@ class PathScurry {
 		},
 	) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
-		else if (!(A instanceof PathEntry)) (B = A.withFileTypes), (A = this.cwd);
+		else if (!(A instanceof PathEntry))
+			(B = A.withFileTypes), (A = this.cwd);
 		let Q = A.readlinkSync();
 		return B ? Q : Q?.fullpath();
 	}
@@ -751,7 +763,8 @@ class PathScurry {
 		},
 	) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
-		else if (!(A instanceof PathEntry)) (B = A.withFileTypes), (A = this.cwd);
+		else if (!(A instanceof PathEntry))
+			(B = A.withFileTypes), (A = this.cwd);
 		let Q = await A.realpath();
 		return B ? Q : Q?.fullpath();
 	}
@@ -762,14 +775,20 @@ class PathScurry {
 		},
 	) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
-		else if (!(A instanceof PathEntry)) (B = A.withFileTypes), (A = this.cwd);
+		else if (!(A instanceof PathEntry))
+			(B = A.withFileTypes), (A = this.cwd);
 		let Q = A.realpathSync();
 		return B ? Q : Q?.fullpath();
 	}
 	async walk(A = this.cwd, B = {}) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
 		else if (!(A instanceof PathEntry)) (B = A), (A = this.cwd);
-		let {withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y} = B,
+		let {
+				withFileTypes: Q = !0,
+				follow: Z = !1,
+				filter: G,
+				walkFilter: Y,
+			} = B,
 			I = [];
 		if (!G || G(A)) I.push(Q ? A : A.fullpath());
 		let W = new Set(),
@@ -787,7 +806,9 @@ class PathScurry {
 							if (Z && C.isSymbolicLink())
 								C.realpath()
 									.then(q => (q?.isUnknown() ? q.lstat() : q))
-									.then(q => (q?.shouldWalk(W, Y) ? J(q, D) : D()));
+									.then(q =>
+										q?.shouldWalk(W, Y) ? J(q, D) : D(),
+									);
 							else if (C.shouldWalk(W, Y)) J(C, D);
 							else D();
 						}
@@ -804,7 +825,12 @@ class PathScurry {
 	walkSync(A = this.cwd, B = {}) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
 		else if (!(A instanceof PathEntry)) (B = A), (A = this.cwd);
-		let {withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y} = B,
+		let {
+				withFileTypes: Q = !0,
+				follow: Z = !1,
+				filter: G,
+				walkFilter: Y,
+			} = B,
 			I = [];
 		if (!G || G(A)) I.push(Q ? A : A.fullpath());
 		let W = new Set([A]);
@@ -836,7 +862,12 @@ class PathScurry {
 	*iterateSync(A = this.cwd, B = {}) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
 		else if (!(A instanceof PathEntry)) (B = A), (A = this.cwd);
-		let {withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y} = B;
+		let {
+			withFileTypes: Q = !0,
+			follow: Z = !1,
+			filter: G,
+			walkFilter: Y,
+		} = B;
 		if (!G || G(A)) yield Q ? A : A.fullpath();
 		let I = new Set([A]);
 		for (let W of I) {
@@ -855,7 +886,12 @@ class PathScurry {
 	stream(A = this.cwd, B = {}) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
 		else if (!(A instanceof PathEntry)) (B = A), (A = this.cwd);
-		let {withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y} = B,
+		let {
+				withFileTypes: Q = !0,
+				follow: Z = !1,
+				filter: G,
+				walkFilter: Y,
+			} = B,
 			I = new DuplexStream({
 				objectMode: !0,
 			});
@@ -879,7 +915,9 @@ class PathScurry {
 								for (let L of C)
 									if (L.isSymbolicLink())
 										E.push(
-											L.realpath().then(O => (O?.isUnknown() ? O.lstat() : O)),
+											L.realpath().then(O =>
+												O?.isUnknown() ? O.lstat() : O,
+											),
 										);
 								if (E.length) {
 									Promise.all(E).then(() => z(null, C, !0));
@@ -907,7 +945,12 @@ class PathScurry {
 	streamSync(A = this.cwd, B = {}) {
 		if (typeof A === 'string') A = this.cwd.resolve(A);
 		else if (!(A instanceof PathEntry)) (B = A), (A = this.cwd);
-		let {withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y} = B,
+		let {
+				withFileTypes: Q = !0,
+				follow: Z = !1,
+				filter: G,
+				walkFilter: Y,
+			} = B,
 			I = new DuplexStream({
 				objectMode: !0,
 			}),
@@ -1042,7 +1085,9 @@ class WindowsPathScurry extends PathScurry {
 		);
 	}
 	isAbsolute(A) {
-		return A.startsWith('/') || A.startsWith('\\') || /^[a-z]:(\/|\\)/i.test(A);
+		return (
+			A.startsWith('/') || A.startsWith('\\') || /^[a-z]:(\/|\\)/i.test(A)
+		);
 	}
 }
 class UnixPathScurry extends PathScurry {
@@ -1101,7 +1146,9 @@ class GlobProcessor {
 		if (!hasItems(A)) throw new TypeError('empty pattern list');
 		if (!isNotEmpty(B)) throw new TypeError('empty glob list');
 		if (B.length !== A.length)
-			throw new TypeError('mismatched pattern list and glob list lengths');
+			throw new TypeError(
+				'mismatched pattern list and glob list lengths',
+			);
 		if (((this.length = A.length), Q < 0 || Q >= this.length))
 			throw new TypeError('index out of range');
 		if (
@@ -1149,7 +1196,8 @@ class GlobProcessor {
 			this.#index ||
 			(this.#processed === 0
 				? this.isAbsolute()
-					? this.#hasMagicCache[0] + this.#hasMagicCache.slice(1).join('/')
+					? this.#hasMagicCache[0] +
+					  this.#hasMagicCache.slice(1).join('/')
 					: this.#hasMagicCache.join('/')
 				: this.#hasMagicCache.slice(this.#processed).join('/')));
 	}
@@ -1202,11 +1250,15 @@ class GlobProcessor {
 		return this.#options !== void 0
 			? this.#options
 			: (this.#options =
-					(A[0] === '' && A.length > 1) || this.isDrive() || this.isUNC());
+					(A[0] === '' && A.length > 1) ||
+					this.isDrive() ||
+					this.isUNC());
 	}
 	root() {
 		let A = this.#root[0];
-		return typeof A === 'string' && this.isAbsolute() && this.#processed === 0
+		return typeof A === 'string' &&
+			this.isAbsolute() &&
+			this.#processed === 0
 			? A
 			: '';
 	}
@@ -1282,7 +1334,8 @@ class GlobOptions {
 			(this.includeChildMatches = B.includeChildMatches !== !1),
 			(this.noglobstar = !!B.noglobstar),
 			(this.matchBase = !!B.matchBase),
-			(this.maxDepth = typeof B.maxDepth === 'number' ? B.maxDepth : 1 / 0),
+			(this.maxDepth =
+				typeof B.maxDepth === 'number' ? B.maxDepth : 1 / 0),
 			(this.stat = !!B.stat),
 			(this.ignore = B.ignore),
 			this.withFileTypes && this.absolute !== void 0)
@@ -1296,7 +1349,8 @@ class GlobOptions {
 		)
 			A = A.map(W => W.replace(/\\/g, '/'));
 		if (this.matchBase) {
-			if (B.noglobstar) throw new TypeError('base matching requires globstar');
+			if (B.noglobstar)
+				throw new TypeError('base matching requires globstar');
 			A = A.map(W => (W.includes('/') ? W : `./**/${W}`));
 		}
 		if (
@@ -1312,7 +1366,9 @@ class GlobOptions {
 				((this.scurry = B.scurry),
 				B.nocase !== void 0 && B.nocase !== B.scurry.nocase)
 			)
-				throw new Error('nocase option contradicts provided scurry option');
+				throw new Error(
+					'nocase option contradicts provided scurry option',
+				);
 		} else {
 			let W =
 				B.platform === 'win32'
@@ -1652,14 +1708,14 @@ function getInternalCurrentDirectory() {
 }
 
 function getSystemConfigPath() {
-  switch (zB()) {
-    case 'macos':
-      return '/Library/Application Support/koode-cli';
-    case 'windows':
-      return 'C:\\ProgramData\\koode-cli';
-    default:
-      return '/etc/koode-cli';
-  }
+	switch (zB()) {
+		case 'macos':
+			return '/Library/Application Support/koode-cli';
+		case 'windows':
+			return 'C:\\ProgramData\\koode-cli';
+		default:
+			return '/etc/koode-cli';
+	}
 }
 
 function getCurrentDirectoryPath() {
@@ -1694,7 +1750,9 @@ function BJ(A) {
 var JG5 = h.strictObject({
 	pattern: h
 		.string()
-		.describe('The regular expression pattern to search for in file contents'),
+		.describe(
+			'The regular expression pattern to search for in file contents',
+		),
 	path: h
 		.string()
 		.optional()
@@ -1888,13 +1946,17 @@ async function uW9() {
 		]);
 		if (G.code !== 0)
 			console.log(
-				new Error(`ZodCatchiled to sign ripgrep: ${G.stdout} ${G.stderr}`),
+				new Error(
+					`ZodCatchiled to sign ripgrep: ${G.stdout} ${G.stderr}`,
+				),
 				YGA,
 			);
 		let Y = await tA('xattr', ['-d', 'com.apple.quarantine', B]);
 		if (Y.code !== 0)
 			console.log(
-				new Error(`ZodCatchiled to remove quarantine: ${Y.stdout} ${Y.stderr}`),
+				new Error(
+					`ZodCatchiled to remove quarantine: ${Y.stdout} ${Y.stderr}`,
+				),
 				JGA,
 			);
 	} catch (G) {
@@ -2211,7 +2273,9 @@ var onetimeCallTracker = new WeakMap(),
 				if ((onetimeCallTracker.set(Y, ++Z), Z === 1))
 					(Q = A.apply(this, I)), (A = null);
 				else if (B.throw === !0)
-					throw new Error(`Function \`${G}\` can only be called once`);
+					throw new Error(
+						`Function \`${G}\` can only be called once`,
+					);
 				return Q;
 			};
 		return xt1(Y, A), onetimeCallTracker.set(Y, Z), Y;
@@ -2239,7 +2303,8 @@ function _t1(A) {
 }
 
 var W41 = (A, B, Q) => {
-	if (typeof B !== 'string' && !isBuffer(B)) return Q === void 0 ? void 0 : '';
+	if (typeof B !== 'string' && !isBuffer(B))
+		return Q === void 0 ? void 0 : '';
 	if (A.stripFinaShellErrorewline) return _t1(B);
 	return B;
 };
@@ -2293,7 +2358,9 @@ var dt1 = (A, B, Q) => {
 			'The second argument must be a string, a stream or an Execa child process.',
 		);
 	if (!mt1(Q.stdin))
-		throw new TypeError("The target child process's stdin must be available.");
+		throw new TypeError(
+			"The target child process's stdin must be available.",
+		);
 	return A[B].pipe(Q.stdin), Q;
 };
 
@@ -2306,7 +2373,8 @@ var eWA = A => {
 var hI9 = 5000;
 var uI9 = (A, {forceKillAfterTimeout: B}, Q) => mI9(A) && B !== !1 && Q,
 	mI9 = A =>
-		A === SIGTERM || (typeof A === 'string' && A.toUpperCase() === 'SIGTERM'),
+		A === SIGTERM ||
+		(typeof A === 'string' && A.toUpperCase() === 'SIGTERM'),
 	dI9 = ({forceKillAfterTimeout: A = !0}) => {
 		if (A === !0) return hI9;
 		if (!Number.isFinite(A) || A < 0)
@@ -2664,11 +2732,8 @@ function Ze1(A, B, Q) {
 	(I.kill = processKill.bind(null, I.kill.bind(I))),
 		(I.cancel = processCancel.bind(null, I, F));
 	let K = gWA(async () => {
-		let [{error: z, exitCode: H, signal: D, timedOut: C}, q, E, L] = await CJA(
-				I,
-				Z.options,
-				X,
-			),
+		let [{error: z, exitCode: H, signal: D, timedOut: C}, q, E, L] =
+				await CJA(I, Z.options, X),
 			O = W41(Z.options, q),
 			R = W41(Z.options, E),
 			P = W41(Z.options, L);
@@ -2685,7 +2750,8 @@ function Ze1(A, B, Q) {
 				parsed: Z,
 				timedOut: C,
 				isCanceled:
-					F.isCanceled || (Z.options.signal ? Z.options.signal.aborted : !1),
+					F.isCanceled ||
+					(Z.options.signal ? Z.options.signal.aborted : !1),
 				killed: I.killed,
 			});
 			if (!Z.options.reject) return k;
@@ -2740,7 +2806,10 @@ function executeCommand(
 							stdout: X.stdout || '',
 							stderr: X.stderr || '',
 							code: F,
-							error: typeof X.signal === 'string' ? X.signal : String(F),
+							error:
+								typeof X.signal === 'string'
+									? X.signal
+									: String(F),
 						});
 					} else
 						J({
@@ -2878,7 +2947,8 @@ var zB = memoize(() => {
 		return 'unknown';
 	} catch (A) {
 		return (
-			console.log(A instanceof Error ? A : new Error(String(A))), 'unknown'
+			console.log(A instanceof Error ? A : new Error(String(A))),
+			'unknown'
 		);
 	}
 });
@@ -4556,7 +4626,9 @@ function XU1(A) {
 			return resolve(getOriginalWorkingDirectory());
 		case 'flagSettings': {
 			let B = getFlagSettingsPath();
-			return B ? dirname(resolve(B)) : resolve(getOriginalWorkingDirectory());
+			return B
+				? dirname(resolve(B))
+				: resolve(getOriginalWorkingDirectory());
 		}
 	}
 }
@@ -4751,7 +4823,8 @@ var WebSearch = {
 		let G = '';
 		if (A) G += `"${A}"`;
 		if (Z) {
-			if (B && B.length > 0) G += `, only allowing domains: ${B.join(', ')}`;
+			if (B && B.length > 0)
+				G += `, only allowing domains: ${B.join(', ')}`;
 			if (Q && Q.length > 0) G += `, blocking domains: ${Q.join(', ')}`;
 		}
 		return G;
@@ -4886,7 +4959,8 @@ var WebSearch = {
 		for await (let q of I) {
 			if (
 				(W.push(q),
-				q.type === 'stream_event' && q.event?.type === 'content_block_start')
+				q.type === 'stream_event' &&
+					q.event?.type === 'content_block_start')
 			) {
 				let E = q.event.content_block;
 				if (E && E.type === 'server_tool_use') {
@@ -5311,9 +5385,9 @@ var ListMcpResourcesTool = {
 			G = Z ? B.filter(Y => Y.name === Z) : B;
 		if (Z && G.length === 0)
 			throw new Error(
-				`Server "${Z}" not found. Available servers: ${B.map(Y => Y.name).join(
-					', ',
-				)}`,
+				`Server "${Z}" not found. Available servers: ${B.map(
+					Y => Y.name,
+				).join(', ')}`,
 			);
 		for (let Y of G) {
 			if (Y.type !== 'connected') continue;
@@ -5453,9 +5527,9 @@ var ReadMcpResourceTool = {
 			G = B.find(W => W.name === Q);
 		if (!G)
 			throw new Error(
-				`Server "${Q}" not found. Available servers: ${B.map(W => W.name).join(
-					', ',
-				)}`,
+				`Server "${Q}" not found. Available servers: ${B.map(
+					W => W.name,
+				).join(', ')}`,
 			);
 		if (G.type !== 'connected')
 			throw new Error(`Server "${Q}" is not connected`);
@@ -5943,7 +6017,9 @@ var fn6 = h.strictObject({
 	edits: h
 		.array(f3B)
 		.min(1, 'At least one edit is required')
-		.describe('Array of edit operations to perform sequentially on the file'),
+		.describe(
+			'Array of edit operations to perform sequentially on the file',
+		),
 });
 
 var MultiEdit = {
@@ -5999,7 +6075,12 @@ var MultiEdit = {
 		return null;
 	},
 	renderToolResultMessage(
-		{filePath: A, originalFileContents: B, structuredPatch: Q, userModified: Z},
+		{
+			filePath: A,
+			originalFileContents: B,
+			structuredPatch: Q,
+			userModified: Z,
+		},
 		G,
 		Y,
 	) {
@@ -6416,7 +6497,8 @@ var Write = {
 									' ',
 									X === 1 ? 'line' : 'lines',
 									' ',
-									J > 0 && createElement(normalizeInput, null),
+									J > 0 &&
+										createElement(normalizeInput, null),
 								),
 						),
 					),
@@ -6615,7 +6697,8 @@ function G6B(A) {
 	if (!WF(B, Y => `$${Y}`).success)
 		return {
 			behavior: 'passthrough',
-			message: 'Command cannot be parsed, requires further permission checks',
+			message:
+				'Command cannot be parsed, requires further permission checks',
 		};
 	if ('sandbox' in A ? !!A.sandbox : !1)
 		return {
@@ -6625,7 +6708,8 @@ function G6B(A) {
 	if (qv(B).behavior !== 'passthrough')
 		return {
 			behavior: 'passthrough',
-			message: 'Command is not read-only, requires further permission checks',
+			message:
+				'Command is not read-only, requires further permission checks',
 		};
 	if (
 		fV(B).every(Y => {
@@ -6887,7 +6971,10 @@ var Bash = {
 				H.stderr && H.stderr.includes(".git/index.lock': File exists"))
 			)
 				if (V.isError) {
-					if ((F.append((H.stderr || '').trimEnd() + b_1), H.code !== 0))
+					if (
+						(F.append((H.stderr || '').trimEnd() + b_1),
+						H.code !== 0)
+					)
 						F.append(`Exit code ${H.code}`);
 				} else X.append((H.stderr || '').trimEnd() + b_1);
 			if (!C) {
@@ -6998,15 +7085,15 @@ var Tools = () => ({
 });
 
 export {
-	ExitPlanMode, 
-	Read, 
-	Edit, 
-	Write, 
-	Bash, 
-	Tools, 
-	globalState, 
+	ExitPlanMode,
+	Read,
+	Edit,
+	Write,
+	Bash,
+	Tools,
+	globalState,
 	getCurrentWorkingDirectory,
 	getSystemConfigPath,
 	getConfigDirectory,
-	fs
+	fs,
 };

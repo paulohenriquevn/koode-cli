@@ -41,9 +41,15 @@ function SelectInput() {
 						key={item}
 						aria-role="listitem"
 						aria-state={{selected: isSelected}}
-						aria-label={isScreenReaderEnabled ? screenReaderLabel : undefined}
+						aria-label={
+							isScreenReaderEnabled
+								? screenReaderLabel
+								: undefined
+						}
 					>
-						<Text color={isSelected ? 'blue' : undefined}>{label}</Text>
+						<Text color={isSelected ? 'blue' : undefined}>
+							{label}
+						</Text>
 					</Box>
 				);
 			})}

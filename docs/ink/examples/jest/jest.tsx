@@ -49,22 +49,36 @@ class Jest extends React.Component<Record<string, unknown>, State> {
 			<Box flexDirection="column">
 				<Static items={completedTests}>
 					{test => (
-						<Test key={test.path} status={test.status} path={test.path} />
+						<Test
+							key={test.path}
+							status={test.status}
+							path={test.path}
+						/>
 					)}
 				</Static>
 
 				{runningTests.length > 0 && (
 					<Box flexDirection="column" marginTop={1}>
 						{runningTests.map(test => (
-							<Test key={test.path} status={test.status} path={test.path} />
+							<Test
+								key={test.path}
+								status={test.status}
+								path={test.path}
+							/>
 						))}
 					</Box>
 				)}
 
 				<Summary
 					isFinished={runningTests.length === 0}
-					passed={completedTests.filter(test => test.status === 'pass').length}
-					failed={completedTests.filter(test => test.status === 'fail').length}
+					passed={
+						completedTests.filter(test => test.status === 'pass')
+							.length
+					}
+					failed={
+						completedTests.filter(test => test.status === 'fail')
+							.length
+					}
 					time={ms(Date.now() - startTime)}
 				/>
 			</Box>

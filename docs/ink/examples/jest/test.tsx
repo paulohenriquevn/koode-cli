@@ -29,7 +29,10 @@ type Properties = {
 function Test({status, path}: Properties) {
 	return (
 		<Box>
-			<Text color="black" backgroundColor={getBackgroundForStatus(status)}>
+			<Text
+				color="black"
+				backgroundColor={getBackgroundForStatus(status)}
+			>
 				{` ${status.toUpperCase()} `}
 			</Text>
 

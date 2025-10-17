@@ -1,59 +1,48 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "🔗 Attach to koode-cli (Port 9229)",
-      "type": "node",
-      "request": "attach",
-      "port": 9229,
-      "restart": true,
-      "localRoot": "${workspaceFolder}",
-      "remoteRoot": "${workspaceFolder}",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "console": "integratedTerminal"
-    },
-    {
-      "name": "🔗 Attach to koode-cli (Port 9230 - Breakpoint)",
-      "type": "node",
-      "request": "attach",
-      "port": 9230,
-      "restart": true,
-      "localRoot": "${workspaceFolder}",
-      "remoteRoot": "${workspaceFolder}",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "console": "integratedTerminal"
-    },
-    {
-      "name": "🚀 Launch koode-cli (Debug)",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/dist/start.js",
-      "args": ["--debug", "teste debug vscode"],
-      "console": "integratedTerminal",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
-    },
-    {
-      "name": "⚡ Launch koode-cli (TypeScript Direct)",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/source/start.tsx",
-      "args": ["--debug", "teste typescript"],
-      "console": "integratedTerminal",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "runtimeArgs": [
-        "--loader",
-        "tsx"
-      ]
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "🔗 Attach to koode-cli (Port 9229)",
+			"type": "node",
+			"request": "attach",
+			"port": 9229,
+			"restart": true,
+			"localRoot": "${workspaceFolder}",
+			"remoteRoot": "${workspaceFolder}",
+			"skipFiles": ["<node_internals>/**"],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "🔗 Attach to koode-cli (Port 9230 - Breakpoint)",
+			"type": "node",
+			"request": "attach",
+			"port": 9230,
+			"restart": true,
+			"localRoot": "${workspaceFolder}",
+			"remoteRoot": "${workspaceFolder}",
+			"skipFiles": ["<node_internals>/**"],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "🚀 Launch koode-cli (Debug)",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder}/dist/start.js",
+			"args": ["--debug", "teste debug vscode"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**"],
+			"sourceMaps": true,
+			"outFiles": ["${workspaceFolder}/dist/**/*.js"]
+		},
+		{
+			"name": "⚡ Launch koode-cli (TypeScript Direct)",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder}/source/start.tsx",
+			"args": ["--debug", "teste typescript"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**"],
+			"runtimeArgs": ["--loader", "tsx"]
+		}
+	]
 }

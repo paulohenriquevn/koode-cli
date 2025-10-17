@@ -10,7 +10,11 @@ import {
 } from 'react';
 import {Box, Text} from 'ink';
 import {ToolSelector, wN9} from './ToolSelector.js';
-import { getConfigDirectory, getCurrentWorkingDirectory, globalState } from './tools.js';
+import {
+	getConfigDirectory,
+	getCurrentWorkingDirectory,
+	globalState,
+} from './tools.js';
 import {join} from 'node:path';
 
 function AZ() {
@@ -22,109 +26,121 @@ function AZ() {
 var a00 = new Set();
 
 function getSessionId() {
-  return globalState.sessionId;
+	return globalState.sessionId;
 }
 
 var nA1 = getCurrentWorkingDirectory();
 
 function mW1() {
-  return join(getConfigDirectory(), 'projects');
+	return join(getConfigDirectory(), 'projects');
 }
 
 function rq(A) {
-  return join(mW1(), A.replace(/[^a-zA-Z0-9]/g, '-'));
+	return join(mW1(), A.replace(/[^a-zA-Z0-9]/g, '-'));
 }
 
 function RL0(A) {
-  let B = rq(nA1);
-  return join(B, `${A}.jsonl`);
+	let B = rq(nA1);
+	return join(B, `${A}.jsonl`);
 }
 
 function x$1() {
-  return RL0(getSessionId());
+	return RL0(getSessionId());
 }
 
 function FL(A) {
-  return {
-    session_id: getSessionId(),
-    transcript_path: x$1(),
-    cwd: getCurrentWorkingDirectory(),
-    permission_mode: A,
-  };
+	return {
+		session_id: getSessionId(),
+		transcript_path: x$1(),
+		cwd: getCurrentWorkingDirectory(),
+		permission_mode: A,
+	};
 }
 
 var DEFAULT_TIMEOUT_MS = 60000;
 
 async function n00(A, B, Q, Z = DEFAULT_TIMEOUT_MS) {
-  let G = A.hook_event_name,
-    Y = B ? `${G}:${B}` : G;
-  if (getCurrentSettings().disableAllHooks)
-    return (debugLog(`Skipping hooks for ${Y} due to 'disableAllHooks' setting`), []);
-  let I = FLA(G, A).filter(F => F.type === 'command');
-  if (I.length === 0) return [];
-  if (Q?.aborted) return [];
-  telemetry('tengu_run_hook', {
-    hookName: Y,
-    numCommands: I.length,
-  });
-  let W;
-  try {
-    W = JSON.stringify(A);
-  } catch (F) {
-    return (logError(F instanceof Error ? F : new Error(String(F)), QZA), []);
-  }
-  let J = I.map(async F => {
-    let V,
-      K,
-      z = F.timeout ? F.timeout * 1000 : Z;
-    if (Q) {
-      let H = p00(Q, AbortSignal.timeout(z));
-      ((V = H.signal), (K = H.cleanup));
-    } else V = AbortSignal.timeout(z);
-    try {
-      let H = await i00(F, Y, W, V);
-      if ((K?.(), H.aborted))
-        return (
-          debugLog(`${Y} [${F.command}] cancelled`),
-          {
-            command: F.command,
-            succeeded: !1,
-            output: 'Hook cancelled',
-          }
-        );
-      debugLog(`${Y} [${F.command}] completed with status ${H.status}`);
-      let { json: D, validationError: C } = JLA(H.stdout);
-      if (C)
-        throw (
-          writeToStderr(
-            `${styler.bold(Y)} [${F.command}] ${styler.yellow('Hook JSON output validation failed')}`
-          ),
-          new Error(C)
-        );
-      if (D && !$61(D)) {
-        if ((debugLog(`Parsed JSON output from hook: ${JSON.stringify(D)}`), D.systemMessage))
-          writeToStdout(D.systemMessage);
-      }
-      let q = H.status === 0 ? H.stdout || '' : H.stderr || '';
-      return {
-        command: F.command,
-        succeeded: H.status === 0,
-        output: q,
-      };
-    } catch (H) {
-      K?.();
-      let D = H instanceof Error ? H.message : String(H);
-      return (
-        errorLog(`${Y} [${F.command}] failed to run: ${D}`),
-        {
-          command: F.command,
-          succeeded: !1,
-          output: D,
-        }
-      );
-    }
-  });
-  return await Promise.all(J);
+	let G = A.hook_event_name,
+		Y = B ? `${G}:${B}` : G;
+	if (getCurrentSettings().disableAllHooks)
+		return (
+			debugLog(
+				`Skipping hooks for ${Y} due to 'disableAllHooks' setting`,
+			),
+			[]
+		);
+	let I = FLA(G, A).filter(F => F.type === 'command');
+	if (I.length === 0) return [];
+	if (Q?.aborted) return [];
+	telemetry('tengu_run_hook', {
+		hookName: Y,
+		numCommands: I.length,
+	});
+	let W;
+	try {
+		W = JSON.stringify(A);
+	} catch (F) {
+		return logError(F instanceof Error ? F : new Error(String(F)), QZA), [];
+	}
+	let J = I.map(async F => {
+		let V,
+			K,
+			z = F.timeout ? F.timeout * 1000 : Z;
+		if (Q) {
+			let H = p00(Q, AbortSignal.timeout(z));
+			(V = H.signal), (K = H.cleanup);
+		} else V = AbortSignal.timeout(z);
+		try {
+			let H = await i00(F, Y, W, V);
+			if ((K?.(), H.aborted))
+				return (
+					debugLog(`${Y} [${F.command}] cancelled`),
+					{
+						command: F.command,
+						succeeded: !1,
+						output: 'Hook cancelled',
+					}
+				);
+			debugLog(`${Y} [${F.command}] completed with status ${H.status}`);
+			let {json: D, validationError: C} = JLA(H.stdout);
+			if (C)
+				throw (
+					(writeToStderr(
+						`${styler.bold(Y)} [${F.command}] ${styler.yellow(
+							'Hook JSON output validation failed',
+						)}`,
+					),
+					new Error(C))
+				);
+			if (D && !$61(D)) {
+				if (
+					(debugLog(
+						`Parsed JSON output from hook: ${JSON.stringify(D)}`,
+					),
+					D.systemMessage)
+				)
+					writeToStdout(D.systemMessage);
+			}
+			let q = H.status === 0 ? H.stdout || '' : H.stderr || '';
+			return {
+				command: F.command,
+				succeeded: H.status === 0,
+				output: q,
+			};
+		} catch (H) {
+			K?.();
+			let D = H instanceof Error ? H.message : String(H);
+			return (
+				errorLog(`${Y} [${F.command}] failed to run: ${D}`),
+				{
+					command: F.command,
+					succeeded: !1,
+					output: D,
+				}
+			);
+		}
+	});
+	return await Promise.all(J);
 }
 
 async function _$1(A, B, Q = DEFAULT_TIMEOUT_MS) {
@@ -250,7 +266,12 @@ function nG({
 	subtitle: G,
 	footerText: Y,
 }) {
-	let {currentStepIndex: I, totalSteps: W, title: J, showStepCounter: X} = AZ();
+	let {
+		currentStepIndex: I,
+		totalSteps: W,
+		title: J,
+		showStepCounter: X,
+	} = AZ();
 	return createElement(
 		Fragment,
 		null,
@@ -344,6 +365,5 @@ function SelectTools({tools: A}) {
 		}),
 	);
 }
-
 
 export {SelectTools, DO0, nG};

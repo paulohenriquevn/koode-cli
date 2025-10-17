@@ -94,13 +94,16 @@ export default function App({name = 'User', apiKey}: Props) {
 				id: `assistant-${Date.now()}`,
 				role: 'assistant',
 				content:
-					response.choices[0]?.message?.content ?? 'No response received.',
+					response.choices[0]?.message?.content ??
+					'No response received.',
 			};
 
 			setMessages(previous => [...previous, assistantMessage]);
 		} catch (error: unknown) {
 			setError(
-				`Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+				`Error: ${
+					error instanceof Error ? error.message : 'Unknown error'
+				}`,
 			);
 		} finally {
 			setIsLoading(false);
@@ -143,11 +146,16 @@ Type /help for available commands or start asking questions!`,
 			<Text bold color="cyan">
 				Koode CLI - AI Coding Assistant
 			</Text>
-			<Text color="gray">Press ESC to exit • Type /help for commands</Text>
+			<Text color="gray">
+				Press ESC to exit • Type /help for commands
+			</Text>
 			<Box marginY={1} flexDirection="column">
 				{messages.map(message => (
 					<Box key={message.id} marginBottom={1}>
-						<Text bold color={message.role === 'user' ? 'green' : 'blue'}>
+						<Text
+							bold
+							color={message.role === 'user' ? 'green' : 'blue'}
+						>
 							{message.role === 'user' ? '> ' : '🤖 '}
 						</Text>
 						<Text>{message.content}</Text>

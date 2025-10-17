@@ -9,7 +9,12 @@ function BoxBackgrounds() {
 			<Box>
 				<Text>1. Standard red background (10x3):</Text>
 			</Box>
-			<Box backgroundColor="red" width={10} height={3} alignSelf="flex-start">
+			<Box
+				backgroundColor="red"
+				width={10}
+				height={3}
+				alignSelf="flex-start"
+			>
 				<Text>Hello</Text>
 			</Box>
 
