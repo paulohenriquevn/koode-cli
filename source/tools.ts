@@ -9,6 +9,7 @@ import { spawn } from 'spawn-rx';
 import { SIGTERM } from 'node:constants';
 import { createReadStream, createWriteStream } from 'node:fs';
 import CombinedStream from 'combined-stream';
+import { minimatch } from 'minimatch';
 
 var bashMaxOutputLengthZodReadonlylidator = {
 	name: 'BASH_MAX_OUTPUT_LENGTH',
@@ -121,7 +122,7 @@ function getFlagSettingsPath() {
   return globalState.flagSettingsPath;
 }
 
-function setFlagSettingsPath(flagSettingsPath) {
+function setFlagSettingsPath(flagSettingsPath: undefined) {
   globalState.flagSettingsPath = flagSettingsPath;
 }
 
@@ -373,6 +374,569 @@ function nh1(A, B) {
 		}
 	}
 	return Array.from(Q);
+}
+
+class FileExplorer {
+  path;
+  patterns;
+  opts;
+  seen = new Set();
+  paused = !1;
+  aborted = !1;
+  #root = [];
+  #hasMagicCache;
+  #processed;
+  signal;
+  maxDepth;
+  includeChildMatches;
+  constructor(A, B, Q) {
+    if (
+      ((this.patterns = A),
+      (this.path = B),
+      (this.opts = Q),
+      (this.#processed = !Q.posix && Q.platform === 'win32' ? '\\' : '/'),
+      (this.includeChildMatches = Q.includeChildMatches !== !1),
+      Q.ignore || !this.includeChildMatches)
+    ) {
+      if (
+        ((this.#hasMagicCache = SY9(Q.ignore ?? [], Q)),
+        !this.includeChildMatches && typeof this.#hasMagicCache.add !== 'function')
+      )
+        throw new Error('cannot ignore child matches, ignore lacks add() method.');
+    }
+    if (((this.maxDepth = Q.maxDepth || 1 / 0), Q.signal))
+      ((this.signal = Q.signal),
+        this.signal.addEventListener('abort', () => {
+          this.#root.length = 0;
+        }));
+  }
+  #children(A) {
+    return this.seen.has(A) || !!this.#hasMagicCache?.ignored?.(A);
+  }
+  #parent(A) {
+    return !!this.#hasMagicCache?.childrenIgnored?.(A);
+  }
+  pause() {
+    this.paused = !0;
+  }
+  resume() {
+    if (this.signal?.aborted) return;
+    this.paused = !1;
+    let A = void 0;
+    while (!this.paused && (A = this.#root.shift())) A();
+  }
+  onResume(A) {
+    if (this.signal?.aborted) return;
+    if (!this.paused) A();
+    else this.#root.push(A);
+  }
+  async matchCheck(A, B) {
+    if (B && this.opts.nodir) return;
+    let Q;
+    if (this.opts.realpath) {
+      if (((Q = A.realpathCached() || (await A.realpath())), !Q)) return;
+      A = Q;
+    }
+    let G = A.isUnknown() || this.opts.stat ? await A.lstat() : A;
+    if (this.opts.follow && this.opts.nodir && G?.isSymbolicLink()) {
+      let Y = await G.realpath();
+      if (Y && (Y.isUnknown() || this.opts.stat)) await Y.lstat();
+    }
+    return this.matchCheckTest(G, B);
+  }
+  matchCheckTest(A, B) {
+    return A &&
+      (this.maxDepth === 1 / 0 || A.depth() <= this.maxDepth) &&
+      (!B || A.canReaddir()) &&
+      (!this.opts.nodir || !A.isDirectory()) &&
+      (!this.opts.nodir ||
+        !this.opts.follow ||
+        !A.isSymbolicLink() ||
+        !A.realpathCached()?.isDirectory()) &&
+      !this.#children(A)
+      ? A
+      : void 0;
+  }
+  matchCheckSync(A, B) {
+    if (B && this.opts.nodir) return;
+    let Q;
+    if (this.opts.realpath) {
+      if (((Q = A.realpathCached() || A.realpathSync()), !Q)) return;
+      A = Q;
+    }
+    let G = A.isUnknown() || this.opts.stat ? A.lstatSync() : A;
+    if (this.opts.follow && this.opts.nodir && G?.isSymbolicLink()) {
+      let Y = G.realpathSync();
+      if (Y && (Y?.isUnknown() || this.opts.stat)) Y.lstatSync();
+    }
+    return this.matchCheckTest(G, B);
+  }
+  matchFinish(A, B) {
+    if (this.#children(A)) return;
+    if (!this.includeChildMatches && this.#hasMagicCache?.add) {
+      let G = `${A.relativePosix()}/**`;
+      this.#hasMagicCache.add(G);
+    }
+    let Q = this.opts.absolute === void 0 ? B : this.opts.absolute;
+    this.seen.add(A);
+    let Z = this.opts.mark && A.isDirectory() ? this.#processed : '';
+    if (this.opts.withFileTypes) this.matchEmit(A);
+    else if (Q) {
+      let G = this.opts.posix ? A.fullpathPosix() : A.fullpath();
+      this.matchEmit(G + Z);
+    } else {
+      let G = this.opts.posix ? A.relativePosix() : A.relative(),
+        Y =
+          this.opts.dotRelative && !G.startsWith('..' + this.#processed)
+            ? '.' + this.#processed
+            : '';
+      this.matchEmit(!G ? '.' + Z : Y + G + Z);
+    }
+  }
+  async match(A, B, Q) {
+    let Z = await this.matchCheck(A, Q);
+    if (Z) this.matchFinish(Z, B);
+  }
+  matchSync(A, B, Q) {
+    let Z = this.matchCheckSync(A, Q);
+    if (Z) this.matchFinish(Z, B);
+  }
+  walkCB(A, B, Q) {
+    if (this.signal?.aborted) Q();
+    this.walkCB2(A, B, new FileSystemWalker(this.opts), Q);
+  }
+  walkCB2(A, B, Q, Z) {
+    if (this.#parent(A)) return Z();
+    if (this.signal?.aborted) Z();
+    if (this.paused) {
+      this.onResume(() => this.walkCB2(A, B, Q, Z));
+      return;
+    }
+    Q.processPatterns(A, B);
+    let G = 1,
+      Y = () => {
+        if (--G === 0) Z();
+      };
+    for (let [I, W, J] of Q.matches.entries()) {
+      if (this.#children(I)) continue;
+      (G++, this.match(I, W, J).then(() => Y()));
+    }
+    for (let I of Q.subwalkTargets()) {
+      if (this.maxDepth !== 1 / 0 && I.depth() >= this.maxDepth) continue;
+      G++;
+      let W = I.readdirCached();
+      if (I.calledReaddir()) this.walkCB3(I, W, Q, Y);
+      else I.readdirCB((J, X) => this.walkCB3(I, X, Q, Y), !0);
+    }
+    Y();
+  }
+  walkCB3(A, B, Q, Z) {
+    Q = Q.filterEntries(A, B);
+    let G = 1,
+      Y = () => {
+        if (--G === 0) Z();
+      };
+    for (let [I, W, J] of Q.matches.entries()) {
+      if (this.#children(I)) continue;
+      (G++, this.match(I, W, J).then(() => Y()));
+    }
+    for (let [I, W] of Q.subwalks.entries()) (G++, this.walkCB2(I, W, Q.child(), Y));
+    Y();
+  }
+  walkCBSync(A, B, Q) {
+    if (this.signal?.aborted) Q();
+    this.walkCB2Sync(A, B, new FileSystemWalker(this.opts), Q);
+  }
+  walkCB2Sync(A, B, Q, Z) {
+    if (this.#parent(A)) return Z();
+    if (this.signal?.aborted) Z();
+    if (this.paused) {
+      this.onResume(() => this.walkCB2Sync(A, B, Q, Z));
+      return;
+    }
+    Q.processPatterns(A, B);
+    let G = 1,
+      Y = () => {
+        if (--G === 0) Z();
+      };
+    for (let [I, W, J] of Q.matches.entries()) {
+      if (this.#children(I)) continue;
+      this.matchSync(I, W, J);
+    }
+    for (let I of Q.subwalkTargets()) {
+      if (this.maxDepth !== 1 / 0 && I.depth() >= this.maxDepth) continue;
+      G++;
+      let W = I.readdirSync();
+      this.walkCB3Sync(I, W, Q, Y);
+    }
+    Y();
+  }
+  walkCB3Sync(A, B, Q, Z) {
+    Q = Q.filterEntries(A, B);
+    let G = 1,
+      Y = () => {
+        if (--G === 0) Z();
+      };
+    for (let [I, W, J] of Q.matches.entries()) {
+      if (this.#children(I)) continue;
+      this.matchSync(I, W, J);
+    }
+    for (let [I, W] of Q.subwalks.entries()) (G++, this.walkCB2Sync(I, W, Q.child(), Y));
+    Y();
+  }
+}
+
+class PathScurry {
+  root;
+  rootPath;
+  roots;
+  cwd;
+  #root;
+  #hasMagicCache;
+  #processed;
+  nocase;
+  #children;
+  constructor(
+    A = process.cwd(),
+    B,
+    Q,
+    { nocase: Z, childrenCacheSize: G = 16384, fs: Y = o91 } = {}
+  ) {
+    if (((this.#children = _IA(Y)), A instanceof URL || A.startsWith('file://'))) A = KY9(A);
+    let I = B.resolve(A);
+    ((this.roots = Object.create(null)),
+      (this.rootPath = this.parseRootPath(I)),
+      (this.#root = new $t1()),
+      (this.#hasMagicCache = new $t1()),
+      (this.#processed = new FilePathCache(G)));
+    let W = I.substring(this.rootPath.length).split(Q);
+    if (W.length === 1 && !W[0]) W.pop();
+    if (Z === void 0) throw new TypeError('must provide nocase setting to PathScurryBase ctor');
+    ((this.nocase = Z),
+      (this.root = this.newRoot(this.#children)),
+      (this.roots[this.rootPath] = this.root));
+    let J = this.root,
+      X = W.length - 1,
+      F = B.sep,
+      V = this.rootPath,
+      K = !1;
+    for (let z of W) {
+      let H = X--;
+      ((J = J.child(z, {
+        relative: new Array(H).fill('..').join(F),
+        relativePosix: new Array(H).fill('..').join('/'),
+        fullpath: (V += (K ? '' : F) + z),
+      })),
+        (K = !0));
+    }
+    this.cwd = J;
+  }
+  depth(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return A.depth();
+  }
+  childrenCache() {
+    return this.#processed;
+  }
+  resolve(...A) {
+    let B = '';
+    for (let G = A.length - 1; G >= 0; G--) {
+      let Y = A[G];
+      if (!Y || Y === '.') continue;
+      if (((B = B ? `${Y}/${B}` : Y), this.isAbsolute(Y))) break;
+    }
+    let Q = this.#root.get(B);
+    if (Q !== void 0) return Q;
+    let Z = this.cwd.resolve(B).fullpath();
+    return (this.#root.set(B, Z), Z);
+  }
+  resolvePosix(...A) {
+    let B = '';
+    for (let G = A.length - 1; G >= 0; G--) {
+      let Y = A[G];
+      if (!Y || Y === '.') continue;
+      if (((B = B ? `${Y}/${B}` : Y), this.isAbsolute(Y))) break;
+    }
+    let Q = this.#hasMagicCache.get(B);
+    if (Q !== void 0) return Q;
+    let Z = this.cwd.resolve(B).fullpathPosix();
+    return (this.#hasMagicCache.set(B, Z), Z);
+  }
+  relative(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return A.relative();
+  }
+  relativePosix(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return A.relativePosix();
+  }
+  basename(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return A.name;
+  }
+  dirname(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return (A.parent || A).fullpath();
+  }
+  async readdir(
+    A = this.cwd,
+    B = {
+      withFileTypes: !0,
+    }
+  ) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q } = B;
+    if (!A.canReaddir()) return [];
+    else {
+      let Z = await A.readdir();
+      return Q ? Z : Z.map(G => G.name);
+    }
+  }
+  readdirSync(
+    A = this.cwd,
+    B = {
+      withFileTypes: !0,
+    }
+  ) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q = !0 } = B;
+    if (!A.canReaddir()) return [];
+    else if (Q) return A.readdirSync();
+    else return A.readdirSync().map(Z => Z.name);
+  }
+  async lstat(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return A.lstat();
+  }
+  lstatSync(A = this.cwd) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    return A.lstatSync();
+  }
+  async readlink(
+    A = this.cwd,
+    { withFileTypes: B } = {
+      withFileTypes: !1,
+    }
+  ) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A.withFileTypes), (A = this.cwd));
+    let Q = await A.readlink();
+    return B ? Q : Q?.fullpath();
+  }
+  readlinkSync(
+    A = this.cwd,
+    { withFileTypes: B } = {
+      withFileTypes: !1,
+    }
+  ) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A.withFileTypes), (A = this.cwd));
+    let Q = A.readlinkSync();
+    return B ? Q : Q?.fullpath();
+  }
+  async realpath(
+    A = this.cwd,
+    { withFileTypes: B } = {
+      withFileTypes: !1,
+    }
+  ) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A.withFileTypes), (A = this.cwd));
+    let Q = await A.realpath();
+    return B ? Q : Q?.fullpath();
+  }
+  realpathSync(
+    A = this.cwd,
+    { withFileTypes: B } = {
+      withFileTypes: !1,
+    }
+  ) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A.withFileTypes), (A = this.cwd));
+    let Q = A.realpathSync();
+    return B ? Q : Q?.fullpath();
+  }
+  async walk(A = this.cwd, B = {}) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y } = B,
+      I = [];
+    if (!G || G(A)) I.push(Q ? A : A.fullpath());
+    let W = new Set(),
+      J = (F, V) => {
+        (W.add(F),
+          F.readdirCB((K, z) => {
+            if (K) return V(K);
+            let H = z.length;
+            if (!H) return V();
+            let D = () => {
+              if (--H === 0) V();
+            };
+            for (let C of z) {
+              if (!G || G(C)) I.push(Q ? C : C.fullpath());
+              if (Z && C.isSymbolicLink())
+                C.realpath()
+                  .then(q => (q?.isUnknown() ? q.lstat() : q))
+                  .then(q => (q?.shouldWalk(W, Y) ? J(q, D) : D()));
+              else if (C.shouldWalk(W, Y)) J(C, D);
+              else D();
+            }
+          }, !0));
+      },
+      X = A;
+    return new Promise((F, V) => {
+      J(X, K => {
+        if (K) return V(K);
+        F(I);
+      });
+    });
+  }
+  walkSync(A = this.cwd, B = {}) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y } = B,
+      I = [];
+    if (!G || G(A)) I.push(Q ? A : A.fullpath());
+    let W = new Set([A]);
+    for (let J of W) {
+      let X = J.readdirSync();
+      for (let F of X) {
+        if (!G || G(F)) I.push(Q ? F : F.fullpath());
+        let V = F;
+        if (F.isSymbolicLink()) {
+          if (!(Z && (V = F.realpathSync()))) continue;
+          if (V.isUnknown()) V.lstatSync();
+        }
+        if (V.shouldWalk(W, Y)) W.add(V);
+      }
+    }
+    return I;
+  }
+  [Symbol.asyncIterator]() {
+    return this.iterate();
+  }
+  iterate(A = this.cwd, B = {}) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    return this.stream(A, B)[Symbol.asyncIterator]();
+  }
+  [Symbol.iterator]() {
+    return this.iterateSync();
+  }
+  *iterateSync(A = this.cwd, B = {}) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y } = B;
+    if (!G || G(A)) yield Q ? A : A.fullpath();
+    let I = new Set([A]);
+    for (let W of I) {
+      let J = W.readdirSync();
+      for (let X of J) {
+        if (!G || G(X)) yield Q ? X : X.fullpath();
+        let F = X;
+        if (X.isSymbolicLink()) {
+          if (!(Z && (F = X.realpathSync()))) continue;
+          if (F.isUnknown()) F.lstatSync();
+        }
+        if (F.shouldWalk(I, Y)) I.add(F);
+      }
+    }
+  }
+  stream(A = this.cwd, B = {}) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y } = B,
+      I = new DuplexStream({
+        objectMode: !0,
+      });
+    if (!G || G(A)) I.write(Q ? A : A.fullpath());
+    let W = new Set(),
+      J = [A],
+      X = 0,
+      F = () => {
+        let V = !1;
+        while (!V) {
+          let K = J.shift();
+          if (!K) {
+            if (X === 0) I.end();
+            return;
+          }
+          (X++, W.add(K));
+          let z = (D, C, q = !1) => {
+              if (D) return I.emit('error', D);
+              if (Z && !q) {
+                let E = [];
+                for (let L of C)
+                  if (L.isSymbolicLink())
+                    E.push(L.realpath().then(O => (O?.isUnknown() ? O.lstat() : O)));
+                if (E.length) {
+                  Promise.all(E).then(() => z(null, C, !0));
+                  return;
+                }
+              }
+              for (let E of C)
+                if (E && (!G || G(E))) {
+                  if (!I.write(Q ? E : E.fullpath())) V = !0;
+                }
+              X--;
+              for (let E of C) {
+                let L = E.realpathCached() || E;
+                if (L.shouldWalk(W, Y)) J.push(L);
+              }
+              if (V && !I.flowing) I.once('drain', F);
+              else if (!H) F();
+            },
+            H = !0;
+          (K.readdirCB(z, !0), (H = !1));
+        }
+      };
+    return (F(), I);
+  }
+  streamSync(A = this.cwd, B = {}) {
+    if (typeof A === 'string') A = this.cwd.resolve(A);
+    else if (!(A instanceof PathEntry)) ((B = A), (A = this.cwd));
+    let { withFileTypes: Q = !0, follow: Z = !1, filter: G, walkFilter: Y } = B,
+      I = new DuplexStream({
+        objectMode: !0,
+      }),
+      W = new Set();
+    if (!G || G(A)) I.write(Q ? A : A.fullpath());
+    let J = [A],
+      X = 0,
+      F = () => {
+        let V = !1;
+        while (!V) {
+          let K = J.shift();
+          if (!K) {
+            if (X === 0) I.end();
+            return;
+          }
+          (X++, W.add(K));
+          let z = K.readdirSync();
+          for (let H of z)
+            if (!G || G(H)) {
+              if (!I.write(Q ? H : H.fullpath())) V = !0;
+            }
+          X--;
+          for (let H of z) {
+            let D = H;
+            if (H.isSymbolicLink()) {
+              if (!(Z && (D = H.realpathSync()))) continue;
+              if (D.isUnknown()) D.lstatSync();
+            }
+            if (D.shouldWalk(W, Y)) J.push(D);
+          }
+        }
+        if (V && !I.flowing) I.once('drain', F);
+      };
+    return (F(), I);
+  }
+  chdir(A = this.cwd) {
+    let B = this.cwd;
+    ((this.cwd = typeof A === 'string' ? this.cwd.resolve(A) : A), this.cwd[mIA](B));
+  }
 }
 
 class FilePathResolver extends FileExplorer {
@@ -858,6 +1422,24 @@ var minimatchFunction = (A, B, Q = {}) => {
 	return new MinimatchPattern(B, Q).match(A);
 };
 
+var KIA = {
+    win32: {
+      sep: '\\',
+    },
+    posix: {
+      sep: '/',
+    },
+};
+
+var UIA =
+    typeof process === 'object' && process
+      ? (typeof process.env === 'object' &&
+          process.env &&
+          process.env.__MINIMATCH_TESTING_PLATFORM__) ||
+        process.platform
+      : 'posix',
+
+var lG9 = UIA === 'win32' ? KIA.win32.sep : KIA.posix.sep;
 minimatchFunction.sep = lG9;
 var globstarSymbol = Symbol('globstar **');
 minimatchFunction.GLOBSTAR = globstarSymbol;

@@ -1,6 +1,15 @@
-import {createElement, Fragment, useMemo, useState} from 'react';
+import {
+	createContext,
+	createElement,
+	Fragment,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import WUA from 'node:process';
-
+import {EventEmitter as EventEmitter} from 'node:events';
+import react_reconciler from 'react-reconciler'; // PwA - React Reconcil
 import {ExitPlanMode, Tools} from './tools.js';
 
 var Task = 'Task';
@@ -316,91 +325,316 @@ var JD9 = WD9 ? YD9 : ID9;
 var e0 = JD9;
 
 function jG5(A) {
-  let B = new Map();
-  return (
-    A.forEach(Q => {
-      if (oe1(Q)) {
-        let Z = hk(Q.name);
-        if (Z?.serveZodArrayame) {
-          let G = B.get(Z.serveZodArrayame) || [];
-          (G.push(Q), B.set(Z.serveZodArrayame, G));
-        }
-      }
-    }),
-    Array.from(B.entries())
-      .map(([Q, Z]) => ({
-        serveZodArrayame: Q,
-        tools: Z,
-      }))
-      .sort((Q, Z) => Q.serveZodArrayame.localeCompare(Z.serveZodArrayame))
-  );
+	let B = new Map();
+	return (
+		A.forEach(Q => {
+			if (oe1(Q)) {
+				let Z = hk(Q.name);
+				if (Z?.serveZodArrayame) {
+					let G = B.get(Z.serveZodArrayame) || [];
+					G.push(Q), B.set(Z.serveZodArrayame, G);
+				}
+			}
+		}),
+		Array.from(B.entries())
+			.map(([Q, Z]) => ({
+				serveZodArrayame: Q,
+				tools: Z,
+			}))
+			.sort((Q, Z) => Q.serveZodArrayame.localeCompare(Z.serveZodArrayame))
+	);
 }
 
 function hk(A) {
-  let B = A.split('__'),
-    [Q, Z, ...G] = B;
-  if (Q !== 'mcp' || !Z) return null;
-  let Y = G.length > 0 ? G.join('__') : void 0;
-  return {
-    serveZodArrayame: Z,
-    tooShellErrorame: Y,
-  };
+	let B = A.split('__'),
+		[Q, Z, ...G] = B;
+	if (Q !== 'mcp' || !Z) return null;
+	let Y = G.length > 0 ? G.join('__') : void 0;
+	return {
+		serveZodArrayame: Z,
+		tooShellErrorame: Y,
+	};
 }
 
+var XNA = createContext({
+	stdin: process.stdin,
+	internal_eventEmitter: new EventEmitter(),
+	setRawMode() {},
+	isRawModeSupported: !1,
+	internal_exitOnCtrlC: !0,
+});
+
+var U$1 = XNA;
+var $N9 = () => useContext(U$1),
+	ok = $N9;
+
+var yNA = {
+	OP: 'f1',
+	OQ: 'f2',
+	OR: 'f3',
+	OS: 'f4',
+	'[11~': 'f1',
+	'[12~': 'f2',
+	'[13~': 'f3',
+	'[14~': 'f4',
+	'[[A': 'f1',
+	'[[B': 'f2',
+	'[[C': 'f3',
+	'[[D': 'f4',
+	'[[E': 'f5',
+	'[15~': 'f5',
+	'[17~': 'f6',
+	'[18~': 'f7',
+	'[19~': 'f8',
+	'[20~': 'f9',
+	'[21~': 'f10',
+	'[23~': 'f11',
+	'[24~': 'f12',
+	'[A': 'up',
+	'[B': 'down',
+	'[C': 'right',
+	'[D': 'left',
+	'[E': 'clear',
+	'[F': 'end',
+	'[H': 'home',
+	OA: 'up',
+	OB: 'down',
+	OC: 'right',
+	OD: 'left',
+	OE: 'clear',
+	OF: 'end',
+	OH: 'home',
+	'[1~': 'home',
+	'[2~': 'insert',
+	'[3~': 'delete',
+	'[4~': 'end',
+	'[5~': 'pageup',
+	'[6~': 'pagedown',
+	'[[5~': 'pageup',
+	'[[6~': 'pagedown',
+	'[7~': 'home',
+	'[8~': 'end',
+	'[a': 'up',
+	'[b': 'down',
+	'[c': 'right',
+	'[d': 'left',
+	'[e': 'clear',
+	'[2$': 'insert',
+	'[3$': 'delete',
+	'[5$': 'pageup',
+	'[6$': 'pagedown',
+	'[7$': 'home',
+	'[8$': 'end',
+	Oa: 'up',
+	Ob: 'down',
+	Oc: 'right',
+	Od: 'left',
+	Oe: 'clear',
+	'[2^': 'insert',
+	'[3^': 'delete',
+	'[5^': 'pageup',
+	'[6^': 'pagedown',
+	'[7^': 'home',
+	'[8^': 'end',
+	'[Z': 'tab',
+};
+
+var kNA = [...Object.values(yNA), 'backspace'];
+
+var ug = react_reconciler.default({
+	getRootHostContext: () => ({
+		isInsideText: !1,
+	}),
+	prepareForCommit: () => null,
+	preparePortalMount: () => null,
+	clearContainer: () => !1,
+	resetAfterCommit(A) {
+		if (typeof A.onComputeLayout === 'function') A.onComputeLayout();
+		if (A.isStaticDirty) {
+			if (((A.isStaticDirty = !1), typeof A.onImmediateRender === 'function'))
+				A.onImmediateRender();
+			return;
+		}
+		if (typeof A.onRender === 'function') A.onRender();
+	},
+	getChildHostContext(A, B) {
+		let Q = A.isInsideText,
+			Z = B === 'ink-text' || B === 'ink-virtual-text';
+		if (Q === Z) return A;
+		return {
+			isInsideText: Z,
+		};
+	},
+	shouldSetTextContent: () => !1,
+	createInstance(A, B, Q, Z) {
+		if (Z.isInsideText && A === 'ink-box')
+			throw new Error('<Box> can’t be nested inside <Text> component');
+		let G = A === 'ink-text' && Z.isInsideText ? 'ink-virtual-text' : A,
+			Y = aU1(G);
+		for (let [I, W] of Object.entries(B)) {
+			if (I === 'children') continue;
+			if (I === 'style') {
+				if ((a10(Y, W), Y.yogaNode)) s10(Y.yogaNode, W);
+				continue;
+			}
+			if (I === 'internal_transform') {
+				Y.internal_transform = W;
+				continue;
+			}
+			if (I === 'internal_static') {
+				Y.internal_static = !0;
+				continue;
+			}
+			n10(Y, I, W);
+		}
+		return Y;
+	},
+	createTextInstance(A, B, Q) {
+		if (!Q.isInsideText)
+			throw new Error(
+				`Text string "${A}" must be rendered inside <Text> component`,
+			);
+		return PqA(A);
+	},
+	resetTextContent() {},
+	hideTextInstance(A) {
+		B61(A, '');
+	},
+	unhideTextInstance(A, B) {
+		B61(A, B);
+	},
+	getPublicInstance: A => A,
+	hideInstance(A) {
+		A.yogaNode?.setDisplay(dk);
+	},
+	unhideInstance(A) {
+		A.yogaNode?.setDisplay(Ra);
+	},
+	appendInitialChild: sU1,
+	appendChild: sU1,
+	insertBefore: i10,
+	finalizeInitialChildren(A, B, Q, Z) {
+		if (A.internal_static) (Z.isStaticDirty = !0), (Z.staticNode = A);
+		return !1;
+	},
+	isPrimaryRenderer: !0,
+	supportsMutation: !0,
+	supportsPersistence: !1,
+	supportsHydration: !1,
+	scheduleTimeout: setTimeout,
+	cancelTimeout: clearTimeout,
+	noTimeout: -1,
+	getCurrentEventPriority: () => u10,
+	beforeActiveInstanceBlur() {},
+	afterActiveInstanceBlur() {},
+	detachDeletedInstance() {},
+	getInstanceFromNode: () => null,
+	prepareScopeUpdate() {},
+	getInstanceFromScope: () => null,
+	appendChildToContainer: sU1,
+	insertInContainerBefore: i10,
+	removeChildFromContainer(A, B) {
+		A61(A, B), fEA(B.yogaNode);
+	},
+	prepareUpdate(A, B, Q, Z, G) {
+		if (A.internal_static) G.isStaticDirty = !0;
+		let Y = bEA(Q, Z),
+			I = bEA(Q.style, Z.style);
+		if (!Y && !I) return null;
+		return {
+			props: Y,
+			style: I,
+		};
+	},
+	commitUpdate(A, B) {
+		let {props: Q, style: Z} = B;
+		if (Q)
+			for (let [G, Y] of Object.entries(Q)) {
+				if (G === 'style') {
+					a10(A, Y);
+					continue;
+				}
+				if (G === 'internal_transform') {
+					A.internal_transform = Y;
+					continue;
+				}
+				if (G === 'internal_static') {
+					A.internal_static = !0;
+					continue;
+				}
+				n10(A, G, Y);
+			}
+		if (Z && A.yogaNode) s10(A.yogaNode, Z);
+	},
+	commitTextUpdate(A, B, Q) {
+		B61(A, Q);
+	},
+	removeChild(A, B) {
+		A61(A, B), fEA(B.yogaNode);
+	},
+});
 
 var wN9 = (A, B = {}) => {
-    let { stdin: Q, setRawMode: Z, internal_exitOnCtrlC: G, internal_eventEmitter: Y } = ok();
-    (f00.useEffect(() => {
-      if (B.isActive === !1) return;
-      return (
-        Z(!0),
-        () => {
-          Z(!1);
-        }
-      );
-    }, [B.isActive, Z]),
-      f00.useEffect(() => {
-        if (B.isActive === !1) return;
-        let I = W => {
-          let J = {
-              upArrow: W.name === 'up',
-              downArrow: W.name === 'down',
-              leftArrow: W.name === 'left',
-              rightArrow: W.name === 'right',
-              pageDown: W.name === 'pagedown',
-              pageUp: W.name === 'pageup',
-              home: W.name === 'home',
-              end: W.name === 'end',
-              return: W.name === 'return',
-              escape: W.name === 'escape',
-              fn: W.fn,
-              ctrl: W.ctrl,
-              shift: W.shift,
-              tab: W.name === 'tab',
-              backspace: W.name === 'backspace',
-              delete: W.name === 'delete',
-              meta: W.meta || W.name === 'escape' || W.option,
-            },
-            X = W.ctrl ? W.name : W.sequence;
-          if (X === void 0) return;
-          if (W.name && kNA.includes(W.name)) X = '';
-          if (X.startsWith('\x1B')) X = X.slice(1);
-          if (X.length === 1 && typeof X[0] === 'string' && X[0].toUpperCase() === X[0])
-            J.shift = !0;
-          if (!(X === 'c' && J.ctrl) || !G)
-            ug.batchedUpdates(() => {
-              A(X, J);
-            });
-        };
-        return (
-          Y?.on('input', I),
-          () => {
-            Y?.removeListener('input', I);
-          }
-        );
-      }, [B.isActive, Q, G, A]));
-  },
-  r0 = wN9;
+	let {
+		stdin: Q,
+		setRawMode: Z,
+		internal_exitOnCtrlC: G,
+		internal_eventEmitter: Y,
+	} = ok();
+	useEffect(() => {
+		if (B.isActive === !1) return;
+		return (
+			Z(!0),
+			() => {
+				Z(!1);
+			}
+		);
+	}, [B.isActive, Z]),
+		useEffect(() => {
+			if (B.isActive === !1) return;
+			let I = W => {
+				let J = {
+						upArrow: W.name === 'up',
+						downArrow: W.name === 'down',
+						leftArrow: W.name === 'left',
+						rightArrow: W.name === 'right',
+						pageDown: W.name === 'pagedown',
+						pageUp: W.name === 'pageup',
+						home: W.name === 'home',
+						end: W.name === 'end',
+						return: W.name === 'return',
+						escape: W.name === 'escape',
+						fn: W.fn,
+						ctrl: W.ctrl,
+						shift: W.shift,
+						tab: W.name === 'tab',
+						backspace: W.name === 'backspace',
+						delete: W.name === 'delete',
+						meta: W.meta || W.name === 'escape' || W.option,
+					},
+					X = W.ctrl ? W.name : W.sequence;
+				if (X === void 0) return;
+				if (W.name && kNA.includes(W.name)) X = '';
+				if (X.startsWith('\x1B')) X = X.slice(1);
+				if (
+					X.length === 1 &&
+					typeof X[0] === 'string' &&
+					X[0].toUpperCase() === X[0]
+				)
+					J.shift = !0;
+				if (!(X === 'c' && J.ctrl) || !G)
+					ug.batchedUpdates(() => {
+						A(X, J);
+					});
+			};
+			return (
+				Y?.on('input', I),
+				() => {
+					Y?.removeListener('input', I);
+				}
+			);
+		}, [B.isActive, Q, G, A]);
+};
 
 function Zg1({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
 	let G = useMemo(() => gwB(A), [A]),
@@ -560,7 +794,7 @@ function Zg1({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
 		});
 	}
 	return (
-		r0((S, c) => {
+		wN9((S, c) => {
 			if (c.return) {
 				let u = O[J];
 				if (u && !u.isHeader) u.action();
