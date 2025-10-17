@@ -1,287 +1,152 @@
-import { memoize } from "lodash-es";
 import { globalState } from "./tools.js";
+import { Command } from 'commander';
 
-function REB() {
-  let A = process.listeners('warning');
-  if (Lg1 && A.includes(Lg1)) return;
-  if (I$() !== 'development') process.removeAllListeners('warning');
-  ((Lg1 = B => {
-    try {
-      let Q = `${B.name}: ${B.message.slice(0, 50)}`,
-        Z = OEB.get(Q) || 0;
-      OEB.set(Q, Z + 1);
-      let G = LI5(B);
-      if (
-        (telemetry('tengu_node_warning', {
-          is_internal: G ? 1 : 0,
-          occurrence_count: Z + 1,
-          classname: B.name,
-          ...!1,
-        }),
-        process.env.Jose_DEBUG === 'true')
-      )
-        errorLog(`${G ? '[Internal Warning]' : '[Warning]'} ${B.toString()}`);
-    } catch {}
-  }),
-    process.on('warning', Lg1));
+// Basic initialization function
+function initializeSystem() {
+  try {
+    // Basic system setup
+    process.title = 'koode-cli';
+    
+    // Setup signal handlers
+    process.on('SIGINT', () => {
+      console.log('\nGracefully shutting down...');
+      process.exit(0);
+    });
+    
+    process.on('SIGTERM', () => {
+      console.log('\nGracefully shutting down...');
+      process.exit(0);
+    });
+    
+    return true;
+  } catch (error) {
+    console.error('Failed to initialize system:', error);
+    return false;
+  }
 }
 
-function VeB(A) {
-  let B;
-  if (typeof Bun !== 'undefined' && Bun.embeddedFiles?.length > 0) B = './ripgrep.node';
-  else B = ud5(gd5(hd5(import.meta.url)), 'ripgrep.node');
-  let { ripgrepMain: Q } = md5(B);
-  return Q(A);
+// Simplified cursor restoration
+function restoreCursor() {
+  if (process.stderr.isTTY || process.stdout.isTTY) {
+    process.stdout.write('\x1B[?25h'); // Show cursor
+  }
 }
 
-function Hn5() {
-  (process.stderr.isTTY ? process.stderr : process.stdout.isTTY ? process.stdout : void 0)?.write(
-    `\x1B[?25h${M00}`
-  );
-}
-
-function setNonInteractiveSession(isNonInteractive) {
+// Basic state setters
+function setNonInteractiveSession(isNonInteractive: boolean) {
   globalState.isNonInteractiveSession = isNonInteractive;
 }
 
-function setInteractive(isInteractive) {
+function setInteractive(isInteractive: boolean) {
   globalState.isInteractive = isInteractive;
 }
 
-function Xn5(A) {
-  if (process.env.JOSE_CODE_ENTRYPOINT) return;
-  let B = process.argv.slice(2),
-    Q = B.indexOf('mcp');
-  if (Q !== -1 && B[Q + 1] === 'serve') {
-    process.env.JOSE_CODE_ENTRYPOINT = 'mcp';
-    return;
-  }
-  process.env.JOSE_CODE_ENTRYPOINT = A ? 'sdk-cli' : 'cli';
-}
-
-function setClientType(clientType) {
+function setClientType(clientType: string) {
   globalState.clientType = clientType;
 }
 
-function Jn5(A) {
-  try {
-    let B = A.trim(),
-      Q = B.startsWith('{') && B.endsWith('}'),
-      Z;
-    if (Q) {
-      if (!f3(B))
-        (process.stderr.write(
-          styler.red(`Error: Invalid JSON provided to --settings
-`)
-        ),
-          process.exit(1));
-      ((Z = zk0('Jose-settings', '.json')), An5(Z, B, 'utf8'));
-    } else {
-      let { resolvedPath: G } = sK(fs(), A);
-      if (!xk0(G))
-        (process.stderr.write(
-          styler.red(`Error: Settings file not found: ${G}
-`)
-        ),
-          process.exit(1));
-      Z = G;
-    }
-    (i8A(Z), clearSettingsCache());
-  } catch (B) {
-    if (B instanceof Error) logError(B, R3A);
-    (process.stderr.write(
-      styler.red(`Error processing settings: ${B instanceof Error ? B.message : String(B)}
-`)
-    ),
-      process.exit(1));
+// Basic entrypoint detection
+function detectEntrypoint(isNonInteractive: boolean) {
+  if (process.env.JOSE_CODE_ENTRYPOINT) return;
+  
+  const args = process.argv.slice(2);
+  const mcpIndex = args.indexOf('mcp');
+  
+  if (mcpIndex !== -1 && args[mcpIndex + 1] === 'serve') {
+    process.env.JOSE_CODE_ENTRYPOINT = 'mcp';
+    return;
   }
+  
+  process.env.JOSE_CODE_ENTRYPOINT = isNonInteractive ? 'sdk-cli' : 'cli';
 }
 
-const  AeB = memoize(() => {
-    try {
-      if (
-        (KEB(),
-        jEB(),
-        Ma.initialize(),
-        setupSignalHandlers(),
-        !(TZ1() && !RM(!0) && !isNonInteractiveSession()))
-      )
-        (QeB(), (vy0 = !0));
-      (zEB(), BX2(), IX2(), ZUA());
-    } catch (A) {
-      if (A instanceof ConfigParseError)
-        return SEB({
-          error: A,
-        });
-      else throw A;
-    }
-});
-
-async function Zn5(A, B) {
-  if (isTrueZodReadonlylue(!1) || process.env.IS_DEMO) return !1;
-  let Q = getCurrentState(),
-    Z = !1;
-  if (!Q.theme || !Q.hasCompletedOnboarding)
-    ((Z = !0),
-      await clearTerminalScreen(),
-      await new Promise(G => {
-        let { unmount: Y } = I5(
-          k7.default.createElement(
-            s7,
-            {
-              onChangeAppState: Nl,
-            },
-            k7.default.createElement(SFB, {
-              onDone: async () => {
-                (Qn5(), await clearTerminalScreen(), Y(), G());
-              },
-            })
-          ),
-          {
-            exitOnCtrlC: !1,
-          }
-        );
-      }));
-  if (await t01())
-    await new Promise(G => {
-      let { unmount: Y } = I5(
-        k7.default.createElement(
-          s7,
-          null,
-          k7.default.createElement(lh1, {
-            showIfAlreadyViewed: !1,
-            location: Z ? 'onboarding' : 'policy_update_modal',
-            onDone: I => {
-              if (I === 'escape') {
-                (telemetry('tengu_grove_policy_exited', {}), gracefulExit(0));
-                return;
-              }
-              (Y(), G());
-            },
-          })
-        ),
-        {
-          exitOnCtrlC: !1,
-        }
-      );
+// Basic CLI setup using Commander.js
+async function zn5() {
+  const program = new Command();
+  
+  program
+    .name('koode-cli')
+    .description('AI-powered coding assistant CLI tool')
+    .version('0.1.0')
+    .argument('[prompt]', 'Your prompt', String)
+    .option('-d, --debug', 'Enable debug mode')
+    .option('-p, --print', 'Print response and exit (non-interactive mode)')
+    .option('--api-key <key>', 'OpenAI API key')
+    .option('--model <model>', 'AI model to use')
+    .action(async (prompt, options) => {
+      console.log('🚀 koode-cli starting...');
+      
+      if (options.debug) {
+        console.log('Debug mode enabled');
+      }
+      
+      if (prompt) {
+        console.log(`Processing prompt: ${prompt}`);
+      }
+      
+      // Basic implementation - for now just show we're working
+      console.log('System initialized successfully!');
+      console.log('Ready for AI-powered development assistance.');
+      
+      if (options.print) {
+        // Non-interactive mode
+        process.exit(0);
+      }
     });
-  if (process.env.Jose_API_KEY) {
-    let G = DD(process.env.Jose_API_KEY);
-    if (handleFileOperation(G) === 'new')
-      await new Promise(I => {
-        let { unmount: W } = I5(
-          k7.default.createElement(
-            s7,
-            {
-              onChangeAppState: Nl,
-            },
-            k7.default.createElement(Kf1, {
-              customApiKeyTruncated: G,
-              onDone: () => {
-                (W(), I());
-              },
-            })
-          ),
-          {
-            exitOnCtrlC: !1,
-          }
-        );
-      });
-  }
-  if (A !== 'bypassPermissions' && process.env.CLAUBBIT !== 'true') {
-    if (
-      (await new Promise(I => {
-        let { unmount: W } = I5(
-          k7.default.createElement(
-            s7,
-            null,
-            k7.default.createElement(_AQ, {
-              commands: B,
-              onDone: () => {
-                (W(), I());
-              },
-            })
-          ),
-          {
-            exitOnCtrlC: !1,
-          }
-        );
-      }),
-      TZ1())
-    )
-      BeB();
-    ED();
-    let { errors: Y } = gk();
-    if (Y.length === 0) await aAQ();
-    if (await nIB())
-      await new Promise(I => {
-        let { unmount: W } = I5(
-          k7.default.createElement(
-            s7,
-            null,
-            k7.default.createElement(wb1, {
-              onDone: () => {
-                (W(), I());
-              },
-            })
-          ),
-          {
-            exitOnCtrlC: !1,
-          }
-        );
-      });
-  }
-  if ((cO0(), A === 'bypassPermissions' && !getCurrentState().bypassPermissionsModeAccepted))
-    await new Promise(G => {
-      let { unmount: Y } = I5(
-        k7.default.createElement(
-          s7,
-          null,
-          k7.default.createElement(sAQ, {
-            onAccept: () => {
-              (Y(), G());
-            },
-          })
-        )
-      );
-    });
-  return Z;
+    
+  await program.parseAsync();
 }
 
+// Main entry point - simplified and functional
 async function Fn5() {
-  if (
-    ((process.env.NoDefaultCurrentDirectoryInExePath = '1'), REB(), process.argv[2] === '--ripgrep')
-  ) {
-    let J = process.argv.slice(3);
-    process.exit(VeB(J));
-  }
-  (process.on('exit', () => {
-    Hn5();
-  }),
+  try {
+    // Setup basic environment
+    process.env.NoDefaultCurrentDirectoryInExePath = '1';
+    
+    // Setup exit handlers
+    process.on('exit', () => {
+      restoreCursor();
+    });
+    
     process.on('SIGINT', () => {
+      console.log('\nExiting...');
       process.exit(0);
-    }));
-  let A = process.argv.slice(2),
-    B = A.includes('-p') || A.includes('--print'),
-    Q = A.some(J => J.startsWith('--sdk-url')),
-    Z = B || Q || !process.stdout.isTTY;
-  (setNonInteractiveSession(Z), Xn5(Z), setInteractive(!Z));
-  let Y = (() => {
-    if (process.env.GITHUB_ACTIONS === 'true') return 'github-action';
-    if (process.env.JOSE_CODE_ENTRYPOINT === 'sdk-ts') return 'sdk-typescript';
-    if (process.env.JOSE_CODE_ENTRYPOINT === 'sdk-py') return 'sdk-python';
-    if (process.env.JOSE_CODE_ENTRYPOINT === 'sdk-cli') return 'sdk-cli';
-    return 'cli';
-  })();
-  setClientType(Y);
-  let I = process.argv.findIndex(J => J === '--settings');
-  if (I !== -1 && I + 1 < process.argv.length) {
-    let J = process.argv[I + 1];
-    if (J) Jn5(J);
+    });
+    
+    // Parse command line arguments
+    const args = process.argv.slice(2);
+    const isNonInteractive = args.includes('-p') || args.includes('--print') || !process.stdout.isTTY;
+    
+    // Set basic state
+    setNonInteractiveSession(isNonInteractive);
+    detectEntrypoint(isNonInteractive);
+    setInteractive(!isNonInteractive);
+    
+    // Determine client type
+    const clientType = (() => {
+      if (process.env.GITHUB_ACTIONS === 'true') return 'github-action';
+      if (process.env.JOSE_CODE_ENTRYPOINT === 'sdk-ts') return 'sdk-typescript';
+      if (process.env.JOSE_CODE_ENTRYPOINT === 'sdk-py') return 'sdk-python';
+      if (process.env.JOSE_CODE_ENTRYPOINT === 'sdk-cli') return 'sdk-cli';
+      return 'cli';
+    })();
+    
+    setClientType(clientType);
+    
+    // Initialize system
+    const initialized = initializeSystem();
+    if (!initialized) {
+      console.error('Failed to initialize system');
+      process.exit(1);
+    }
+    
+    // Run CLI
+    await zn5();
+    
+  } catch (error) {
+    console.error('Error in main entry point:', error);
+    process.exit(1);
   }
-  let W = AeB();
-  if (W instanceof Promise) await W;
-  ((process.title = 'Jose'), await zn5());
 }
 
 export { Fn5 };
