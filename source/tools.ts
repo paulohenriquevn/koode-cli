@@ -7457,4 +7457,14 @@ var Tools = () => ({
 	},
 });
 
-export {ExitPlanMode, Read, Edit, Write, Bash, Tools};
+export {
+	ExitPlanMode, 
+	Read, 
+	Edit, 
+	Write, 
+	Bash, 
+	Tools, 
+	globalState, 
+	getCurrentWorkingDirectory,
+	getConfigDirectory
+};
