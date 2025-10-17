@@ -6,10 +6,10 @@
 
 Prerequisites:
 
-* [Node.js 18 or newer](https://nodejs.org/en/download/)
-* A [Koode.ai](https://Koode.ai) (recommended) or [Koode Console](https://console.paulohenriquevn.com/) account
+- [Node.js 18 or newer](https://nodejs.org/en/download/)
+- A [Koode.ai](https://Koode.ai) (recommended) or [Koode Console](https://console.paulohenriquevn.com/) account
 
-```bash  theme={null}
+```bash theme={null}
 # Install Koode Code
 npm install -g @paulohenriquevn-ai/Koode-code
 
@@ -31,17 +31,17 @@ That's it! You're ready to start coding with Koode. [Continue with Quickstart (5
 
 ## What Koode Code does for you
 
-* **Build features from descriptions**: Tell Koode what you want to build in plain English. It will make a plan, write the code, and ensure it works.
-* **Debug and fix issues**: Describe a bug or paste an error message. Koode Code will analyze your codebase, identify the problem, and implement a fix.
-* **Navigate any codebase**: Ask anything about your team's codebase, and get a thoughtful answer back. Koode Code maintains awareness of your entire project structure, can find up-to-date information from the web, and with [MCP](/en/docs/Koode-code/mcp) can pull from external datasources like Google Drive, Figma, and Slack.
-* **Automate tedious tasks**: Fix fiddly lint issues, resolve merge conflicts, and write release notes. Do all this in a single command from your developer machines, or automatically in CI.
+- **Build features from descriptions**: Tell Koode what you want to build in plain English. It will make a plan, write the code, and ensure it works.
+- **Debug and fix issues**: Describe a bug or paste an error message. Koode Code will analyze your codebase, identify the problem, and implement a fix.
+- **Navigate any codebase**: Ask anything about your team's codebase, and get a thoughtful answer back. Koode Code maintains awareness of your entire project structure, can find up-to-date information from the web, and with [MCP](/en/docs/Koode-code/mcp) can pull from external datasources like Google Drive, Figma, and Slack.
+- **Automate tedious tasks**: Fix fiddly lint issues, resolve merge conflicts, and write release notes. Do all this in a single command from your developer machines, or automatically in CI.
 
 ## Why developers love Koode Code
 
-* **Works in your terminal**: Not another chat window. Not another IDE. Koode Code meets you where you already work, with the tools you already love.
-* **Takes action**: Koode Code can directly edit files, run commands, and create commits. Need more? [MCP](/en/docs/Koode-code/mcp) lets Koode read your design docs in Google Drive, update your tickets in Jira, or use *your* custom developer tooling.
-* **Unix philosophy**: Koode Code is composable and scriptable. `tail -f app.log | Koode -p "Slack me if you see any anomalies appear in this log stream"` *works*. Your CI can run `Koode -p "If there are new text strings, translate them into French and raise a PR for @lang-fr-team to review"`.
-* **Enterprise-ready**: Use the Koode API, or host on AWS or GCP. Enterprise-grade [security](/en/docs/Koode-code/security), [privacy](/en/docs/Koode-code/data-usage), and [compliance](https://trust.paulohenriquevn.com/) is built-in.
+- **Works in your terminal**: Not another chat window. Not another IDE. Koode Code meets you where you already work, with the tools you already love.
+- **Takes action**: Koode Code can directly edit files, run commands, and create commits. Need more? [MCP](/en/docs/Koode-code/mcp) lets Koode read your design docs in Google Drive, update your tickets in Jira, or use _your_ custom developer tooling.
+- **Unix philosophy**: Koode Code is composable and scriptable. `tail -f app.log | Koode -p "Slack me if you see any anomalies appear in this log stream"` _works_. Your CI can run `Koode -p "If there are new text strings, translate them into French and raise a PR for @lang-fr-team to review"`.
+- **Enterprise-ready**: Use the Koode API, or host on AWS or GCP. Enterprise-grade [security](/en/docs/Koode-code/security), [privacy](/en/docs/Koode-code/data-usage), and [compliance](https://trust.paulohenriquevn.com/) is built-in.
 
 # Quickstart
 
@@ -53,9 +53,9 @@ This quickstart guide will have you using AI-powered coding assistance in just a
 
 Make sure you have:
 
-* A terminal or command prompt open
-* A code project to work with
-* A [koode.ai](https://koode.ai) (recommended) or [koode Console](https://console.paulohenriquevn.com/) account
+- A terminal or command prompt open
+- A code project to work with
+- A [koode.ai](https://koode.ai) (recommended) or [koode Console](https://console.paulohenriquevn.com/) account
 
 ## Step 1: Install koode Code
 
@@ -63,7 +63,7 @@ Make sure you have:
 
 If you have [Node.js 18 or newer installed](https://nodejs.org/en/download/):
 
-```sh  theme={null}
+```sh theme={null}
 npm install -g @paulohenriquevn-ai/koode-code
 ```
 
@@ -75,25 +75,25 @@ npm install -g @paulohenriquevn-ai/koode-code
 
 **Homebrew (macOS, Linux):**
 
-```sh  theme={null}
+```sh theme={null}
 brew install --cask koode-code
 ```
 
 **macOS, Linux, WSL:**
 
-```bash  theme={null}
+```bash theme={null}
 curl -fsSL https://koode.ai/install.sh | bash
 ```
 
 **Windows PowerShell:**
 
-```powershell  theme={null}
+```powershell theme={null}
 irm https://koode.ai/install.ps1 | iex
 ```
 
 **Windows CMD:**
 
-```batch  theme={null}
+```batch theme={null}
 curl -fsSL https://koode.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 ```
 
@@ -101,20 +101,20 @@ curl -fsSL https://koode.ai/install.cmd -o install.cmd && install.cmd && del ins
 
 koode Code requires an account to use. When you start an interactive session with the `koode` command, you'll need to log in:
 
-```bash  theme={null}
+```bash theme={null}
 koode
 # You'll be prompted to log in on first use
 ```
 
-```bash  theme={null}
+```bash theme={null}
 /login
 # Follow the prompts to log in with your account
 ```
 
 You can log in using either account type:
 
-* [koode.ai](https://koode.ai) (subscription plans - recommended)
-* [koode Console](https://console.paulohenriquevn.com/) (API access with pre-paid credits)
+- [koode.ai](https://koode.ai) (subscription plans - recommended)
+- [koode Console](https://console.paulohenriquevn.com/) (API access with pre-paid credits)
 
 Once logged in, your credentials are stored and you won't need to log in again.
 
@@ -130,7 +130,7 @@ Once logged in, your credentials are stored and you won't need to log in again.
 
 Open your terminal in any project directory and start koode Code:
 
-```bash  theme={null}
+```bash theme={null}
 cd /path/to/your/project
 koode
 ```
@@ -244,10 +244,10 @@ Or fix existing issues:
 
 koode Code will:
 
-* Locate the relevant code
-* Understand the context
-* Implement a solution
-* Run tests if available
+- Locate the relevant code
+- Understand the context
+- Implement a solution
+- Run tests if available
 
 ## Step 8: Test out other common workflows
 
@@ -285,17 +285,17 @@ There are a number of ways to work with koode:
 
 Here are the most important commands for daily use:
 
-| Command             | What it does                      | Example                             |
-| ------------------- | --------------------------------- | ----------------------------------- |
+| Command            | What it does                      | Example                            |
+| ------------------ | --------------------------------- | ---------------------------------- |
 | `koode`            | Start interactive mode            | `koode`                            |
 | `koode "task"`     | Run a one-time task               | `koode "fix the build error"`      |
 | `koode -p "query"` | Run one-off query, then exit      | `koode -p "explain this function"` |
 | `koode -c`         | Continue most recent conversation | `koode -c`                         |
 | `koode -r`         | Resume a previous conversation    | `koode -r`                         |
 | `koode commit`     | Create a Git commit               | `koode commit`                     |
-| `/clear`            | Clear conversation history        | `> /clear`                          |
-| `/help`             | Show available commands           | `> /help`                           |
-| `exit` or Ctrl+C    | Exit koode Code                  | `> exit`                            |
+| `/clear`           | Clear conversation history        | `> /clear`                         |
+| `/help`            | Show available commands           | `> /help`                          |
+| `exit` or Ctrl+C   | Exit koode Code                   | `> exit`                           |
 
 See the [CLI reference](/en/docs/koode-code/cli-reference) for a complete list of commands.
 
@@ -306,6 +306,7 @@ See the [CLI reference](/en/docs/koode-code/cli-reference) for a complete list o
     Instead of: "fix the bug"
 
     Try: "fix the login bug where users see a blank screen after entering wrong credentials"
+
   </Accordion>
 
   <Accordion title="Use step-by-step instructions">
@@ -322,6 +323,7 @@ See the [CLI reference](/en/docs/koode-code/cli-reference) for a complete list o
     ```
     > 3. build a webpage that allows users to see and edit their information
     ```
+
   </Accordion>
 
   <Accordion title="Let koode explore first">
@@ -334,6 +336,7 @@ See the [CLI reference](/en/docs/koode-code/cli-reference) for a complete list o
     ```
     > build a dashboard showing products that are most frequently returned by our UK customers
     ```
+
   </Accordion>
 
   <Accordion title="Save time with shortcuts">
@@ -344,14 +347,11 @@ See the [CLI reference](/en/docs/koode-code/cli-reference) for a complete list o
   </Accordion>
 </AccordionGroup>
 
-
-
 ## Getting help
 
-* **In koode Code**: Type `/help` or ask "how do I..."
-* **Documentation**: You're here! Browse other guides
-* **Community**: Join our [Discord](https://www.paulohenriquevn.com/discord) for tips and support
-
+- **In koode Code**: Type `/help` or ask "how do I..."
+- **Documentation**: You're here! Browse other guides
+- **Community**: Join our [Discord](https://www.paulohenriquevn.com/discord) for tips and support
 
 # Subagents
 
@@ -363,10 +363,10 @@ Custom subagents in Koode Code are specialized AI assistants that can be invoked
 
 Subagents are pre-configured AI personalities that Koode Code can delegate tasks to. Each subagent:
 
-* Has a specific purpose and expertise area
-* Uses its own context window separate from the main conversation
-* Can be configured with specific tools it's allowed to use
-* Includes a custom system prompt that guides its behavior
+- Has a specific purpose and expertise area
+- Uses its own context window separate from the main conversation
+- Can be configured with specific tools it's allowed to use
+- Includes a custom system prompt that guides its behavior
 
 When Koode Code encounters a task that matches a subagent's expertise, it can delegate that task to the specialized subagent, which works independently and returns results.
 
@@ -401,6 +401,7 @@ To create your first subagent:
     ```
     /agents
     ```
+
   </Step>
 
   <Step title="Select 'Create New Agent'">
@@ -421,6 +422,7 @@ To create your first subagent:
     ```
     > Use the code-reviewer subagent to check my recent changes
     ```
+
   </Step>
 </Steps>
 
@@ -430,8 +432,8 @@ To create your first subagent:
 
 Subagents are stored as Markdown files with YAML frontmatter in two possible locations:
 
-| Type                  | Location            | Scope                         | Priority |
-| :-------------------- | :------------------ | :---------------------------- | :------- |
+| Type                  | Location           | Scope                         | Priority |
+| :-------------------- | :----------------- | :---------------------------- | :------- |
 | **Project subagents** | `.Koode/agents/`   | Available in current project  | Highest  |
 | **User subagents**    | `~/.Koode/agents/` | Available across all projects | Lower    |
 
@@ -445,10 +447,10 @@ When subagent names conflict, project-level subagents take precedence over user-
 
 **Using plugin agents**:
 
-* Plugin agents appear in `/agents` alongside your custom agents
-* Can be invoked explicitly: "Use the code-reviewer agent from the security-plugin"
-* Can be invoked automatically by Koode when appropriate
-* Can be managed (viewed, inspected) through `/agents` interface
+- Plugin agents appear in `/agents` alongside your custom agents
+- Can be invoked explicitly: "Use the code-reviewer agent from the security-plugin"
+- Can be invoked automatically by Koode when appropriate
+- Can be managed (viewed, inspected) through `/agents` interface
 
 See the [plugin components reference](/en/docs/Koode-code/plugins-reference#agents) for details on creating plugin agents.
 
@@ -456,7 +458,7 @@ See the [plugin components reference](/en/docs/Koode-code/plugins-reference#agen
 
 You can also define subagents dynamically using the `--agents` CLI flag, which accepts a JSON object:
 
-```bash  theme={null}
+```bash theme={null}
 Koode --agents '{
   "code-reviewer": {
     "description": "Expert code reviewer. Use proactively after code changes.",
@@ -471,10 +473,10 @@ Koode --agents '{
 
 **Use case**: This approach is useful for:
 
-* Quick testing of subagent configurations
-* Session-specific subagents that don't need to be saved
-* Automation scripts that need custom subagents
-* Sharing subagent definitions in documentation or scripts
+- Quick testing of subagent configurations
+- Session-specific subagents that don't need to be saved
+- Automation scripts that need custom subagents
+- Sharing subagent definitions in documentation or scripts
 
 For detailed information about the JSON format and all available options, see the [CLI reference documentation](/en/docs/Koode-code/cli-reference#agents-flag-format).
 
@@ -482,12 +484,12 @@ For detailed information about the JSON format and all available options, see th
 
 Each subagent is defined in a Markdown file with this structure:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 name: your-sub-agent-name
 description: Description of when this subagent should be invoked
-tools: tool1, tool2, tool3  # Optional - inherits all tools if omitted
-model: sonnet  # Optional - specify model alias or 'inherit'
+tools: tool1, tool2, tool3 # Optional - inherits all tools if omitted
+model: sonnet # Optional - specify model alias or 'inherit'
 ---
 
 Your subagent's system prompt goes here. This can be multiple paragraphs
@@ -500,20 +502,20 @@ the subagent should follow.
 
 #### Configuration fields
 
-| Field         | Required | Description                                                                                                                                                                                                                      |
-| :------------ | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | Yes      | Unique identifier using lowercase letters and hyphens                                                                                                                                                                            |
-| `description` | Yes      | Natural language description of the subagent's purpose                                                                                                                                                                           |
-| `tools`       | No       | Comma-separated list of specific tools. If omitted, inherits all tools from the main thread                                                                                                                                      |
+| Field         | Required | Description                                                                                                                                                                                                                     |
+| :------------ | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`        | Yes      | Unique identifier using lowercase letters and hyphens                                                                                                                                                                           |
+| `description` | Yes      | Natural language description of the subagent's purpose                                                                                                                                                                          |
+| `tools`       | No       | Comma-separated list of specific tools. If omitted, inherits all tools from the main thread                                                                                                                                     |
 | `model`       | No       | Model to use for this subagent. Can be a model alias (`sonnet`, `opus`, `haiku`) or `'inherit'` to use the main conversation's model. If omitted, defaults to the [configured subagent model](/en/docs/Koode-code/model-config) |
 
 ### Model selection
 
 The `model` field allows you to control which [AI model](/en/docs/Koode-code/model-config) the subagent uses:
 
-* **Model alias**: Use one of the available aliases: `sonnet`, `opus`, or `haiku`
-* **`'inherit'`**: Use the same model as the main conversation (useful for consistency)
-* **Omitted**: If not specified, uses the default model configured for subagents (`sonnet`)
+- **Model alias**: Use one of the available aliases: `sonnet`, `opus`, or `haiku`
+- **`'inherit'`**: Use the same model as the main conversation (useful for consistency)
+- **Omitted**: If not specified, uses the default model configured for subagents (`sonnet`)
 
 <Note>
   Using `'inherit'` is particularly useful when you want your subagents to adapt to the model choice of the main conversation, ensuring consistent capabilities and response style throughout your session.
@@ -529,8 +531,8 @@ Subagents can be granted access to any of Koode Code's internal tools. See the [
 
 You have two options for configuring tools:
 
-* **Omit the `tools` field** to inherit all tools from the main thread (default), including MCP tools
-* **Specify individual tools** as a comma-separated list for more granular control (can be edited manually or via `/agents`)
+- **Omit the `tools` field** to inherit all tools from the main thread (default), including MCP tools
+- **Specify individual tools** as a comma-separated list for more granular control (can be edited manually or via `/agents`)
 
 **MCP Tools**: Subagents can access MCP tools from configured MCP servers. When the `tools` field is omitted, subagents inherit all MCP tools available to the main thread.
 
@@ -546,18 +548,18 @@ The `/agents` command provides a comprehensive interface for subagent management
 
 This opens an interactive menu where you can:
 
-* View all available subagents (built-in, user, and project)
-* Create new subagents with guided setup
-* Edit existing custom subagents, including their tool access
-* Delete custom subagents
-* See which subagents are active when duplicates exist
-* **Easily manage tool permissions** with a complete list of available tools
+- View all available subagents (built-in, user, and project)
+- Create new subagents with guided setup
+- Edit existing custom subagents, including their tool access
+- Delete custom subagents
+- See which subagents are active when duplicates exist
+- **Easily manage tool permissions** with a complete list of available tools
 
 ### Direct file management
 
 You can also manage subagents by working directly with their files:
 
-```bash  theme={null}
+```bash theme={null}
 # Create a project subagent
 mkdir -p .Koode/agents
 echo '---
@@ -578,9 +580,9 @@ mkdir -p ~/.Koode/agents
 
 Koode Code proactively delegates tasks based on:
 
-* The task description in your request
-* The `description` field in subagent configurations
-* Current context and available tools
+- The task description in your request
+- The `description` field in subagent configurations
+- Current context and available tools
 
 <Tip>
   To encourage more proactive subagent use, include phrases like "use PROACTIVELY" or "MUST BE USED" in your `description` field.
@@ -600,7 +602,7 @@ Request a specific subagent by mentioning it in your command:
 
 ### Code reviewer
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 name: code-reviewer
 description: Expert code review specialist. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code.
@@ -611,11 +613,13 @@ model: inherit
 You are a senior code reviewer ensuring high standards of code quality and security.
 
 When invoked:
+
 1. Run git diff to see recent changes
 2. Focus on modified files
 3. Begin review immediately
 
 Review checklist:
+
 - Code is simple and readable
 - Functions and variables are well-named
 - No duplicated code
@@ -626,6 +630,7 @@ Review checklist:
 - Performance considerations addressed
 
 Provide feedback organized by priority:
+
 - Critical issues (must fix)
 - Warnings (should fix)
 - Suggestions (consider improving)
@@ -635,7 +640,7 @@ Include specific examples of how to fix issues.
 
 ### Debugger
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 name: debugger
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
@@ -645,6 +650,7 @@ tools: Read, Edit, Bash, Grep, Glob
 You are an expert debugger specializing in root cause analysis.
 
 When invoked:
+
 1. Capture error message and stack trace
 2. Identify reproduction steps
 3. Isolate the failure location
@@ -652,6 +658,7 @@ When invoked:
 5. Verify solution works
 
 Debugging process:
+
 - Analyze error messages and logs
 - Check recent code changes
 - Form and test hypotheses
@@ -659,6 +666,7 @@ Debugging process:
 - Inspect variable states
 
 For each issue, provide:
+
 - Root cause explanation
 - Evidence supporting the diagnosis
 - Specific code fix
@@ -670,7 +678,7 @@ Focus on fixing the underlying issue, not just symptoms.
 
 ### Data scientist
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 name: data-scientist
 description: Data analysis expert for SQL queries, BigQuery operations, and data insights. Use proactively for data analysis tasks and queries.
@@ -681,6 +689,7 @@ model: sonnet
 You are a data scientist specializing in SQL and BigQuery analysis.
 
 When invoked:
+
 1. Understand the data analysis requirement
 2. Write efficient SQL queries
 3. Use BigQuery command line tools (bq) when appropriate
@@ -688,6 +697,7 @@ When invoked:
 5. Present findings clearly
 
 Key practices:
+
 - Write optimized SQL queries with proper filters
 - Use appropriate aggregations and joins
 - Include comments explaining complex logic
@@ -695,6 +705,7 @@ Key practices:
 - Provide data-driven recommendations
 
 For each analysis:
+
 - Explain the query approach
 - Document any assumptions
 - Highlight key findings
@@ -705,15 +716,15 @@ Always ensure queries are efficient and cost-effective.
 
 ## Best practices
 
-* **Start with Koode-generated agents**: We highly recommend generating your initial subagent with Koode and then iterating on it to make it personally yours. This approach gives you the best results - a solid foundation that you can customize to your specific needs.
+- **Start with Koode-generated agents**: We highly recommend generating your initial subagent with Koode and then iterating on it to make it personally yours. This approach gives you the best results - a solid foundation that you can customize to your specific needs.
 
-* **Design focused subagents**: Create subagents with single, clear responsibilities rather than trying to make one subagent do everything. This improves performance and makes subagents more predictable.
+- **Design focused subagents**: Create subagents with single, clear responsibilities rather than trying to make one subagent do everything. This improves performance and makes subagents more predictable.
 
-* **Write detailed prompts**: Include specific instructions, examples, and constraints in your system prompts. The more guidance you provide, the better the subagent will perform.
+- **Write detailed prompts**: Include specific instructions, examples, and constraints in your system prompts. The more guidance you provide, the better the subagent will perform.
 
-* **Limit tool access**: Only grant tools that are necessary for the subagent's purpose. This improves security and helps the subagent focus on relevant actions.
+- **Limit tool access**: Only grant tools that are necessary for the subagent's purpose. This improves security and helps the subagent focus on relevant actions.
 
-* **Version control**: Check project subagents into version control so your team can benefit from and improve them collaboratively.
+- **Version control**: Check project subagents into version control so your team can benefit from and improve them collaboratively.
 
 ## Advanced usage
 
@@ -731,8 +742,8 @@ Koode Code intelligently selects subagents based on context. Make your `descript
 
 ## Performance considerations
 
-* **Context efficiency**: Agents help preserve main context, enabling longer overall sessions
-* **Latency**: Subagents start off with a clean slate each time they are invoked and may add latency as they gather context that they require to do their job effectively.
+- **Context efficiency**: Agents help preserve main context, enabling longer overall sessions
+- **Latency**: Subagents start off with a clean slate each time they are invoked and may add latency as they gather context that they require to do their job effectively.
 
 # Plugins
 
@@ -750,8 +761,8 @@ Let's create a simple greeting plugin to get you familiar with the plugin system
 
 ### Prerequisites
 
-* Koode Code installed on your machine
-* Basic familiarity with command-line tools
+- Koode Code installed on your machine
+- Basic familiarity with command-line tools
 
 ### Create your first plugin
 
@@ -799,6 +810,7 @@ Let's create a simple greeting plugin to get you familiar with the plugin system
     Greet the user warmly and ask how you can help them today. Make the greeting personal and encouraging.
     EOF
     ```
+
   </Step>
 
   <Step title="Create the marketplace manifest">
@@ -844,14 +856,15 @@ Let's create a simple greeting plugin to get you familiar with the plugin system
     ```
 
     You'll see Koode use your greeting command! Check `/help` to see your new command listed.
+
   </Step>
 </Steps>
 
 You've successfully created and tested a plugin with these key components:
 
-* **Plugin manifest** (`.Koode-plugin/plugin.json`) - Describes your plugin's metadata
-* **Commands directory** (`commands/`) - Contains your custom slash commands
-* **Test marketplace** - Allows you to test your plugin locally
+- **Plugin manifest** (`.Koode-plugin/plugin.json`) - Describes your plugin's metadata
+- **Commands directory** (`commands/`) - Contains your custom slash commands
+- **Test marketplace** - Allows you to test your plugin locally
 
 ### Plugin structure overview
 
@@ -871,16 +884,16 @@ my-first-plugin/
 
 **Additional components you can add:**
 
-* **Commands**: Create markdown files in `commands/` directory
-* **Agents**: Create agent definitions in `agents/` directory
-* **Hooks**: Create `hooks/hooks.json` for event handling
-* **MCP servers**: Create `.mcp.json` for external tool integration
+- **Commands**: Create markdown files in `commands/` directory
+- **Agents**: Create agent definitions in `agents/` directory
+- **Hooks**: Create `hooks/hooks.json` for event handling
+- **MCP servers**: Create `.mcp.json` for external tool integration
 
 <Note>
   **Next steps**: Ready to add more features? Jump to [Develop more complex plugins](#develop-more-complex-plugins) to add agents, hooks, and MCP servers. For complete technical specifications of all plugin components, see [Plugins reference](/en/docs/Koode-code/plugins-reference).
 </Note>
 
-***
+---
 
 ## Install and manage plugins
 
@@ -888,8 +901,8 @@ Learn how to discover, install, and manage plugins to extend your Koode Code cap
 
 ### Prerequisites
 
-* Koode Code installed and running
-* Basic familiarity with command-line interfaces
+- Koode Code installed and running
+- Basic familiarity with command-line interfaces
 
 ### Add marketplaces
 
@@ -953,7 +966,7 @@ Configure plugins at the repository level to ensure consistent tooling across yo
 
 For complete instructions including configuration examples, marketplace setup, and rollout best practices, see [Configure team marketplaces](/en/docs/Koode-code/plugin-marketplaces#how-to-configure-team-marketplaces).
 
-***
+---
 
 ## Develop more complex plugins
 
@@ -988,6 +1001,7 @@ When developing plugins, use a local marketplace to test changes iteratively. Th
         ├── agents/
         └── hooks/
     ```
+
   </Step>
 
   <Step title="Create the marketplace manifest">
@@ -1030,6 +1044,7 @@ When developing plugins, use a local marketplace to test changes iteratively. Th
     * Try your commands with `/command-name`
     * Check that agents appear in `/agents`
     * Verify hooks work as expected
+
   </Step>
 
   <Step title="Iterate on your plugin">
@@ -1044,6 +1059,7 @@ When developing plugins, use a local marketplace to test changes iteratively. Th
     ```
 
     Repeat this cycle as you develop and refine your plugin.
+
   </Step>
 </Steps>
 
@@ -1072,7 +1088,7 @@ When your plugin is ready to share:
   For complete technical specifications, debugging techniques, and distribution strategies, see [Plugins reference](/en/docs/Koode-code/plugins-reference).
 </Note>
 
-***
+---
 
 ## Next steps
 
@@ -1080,37 +1096,37 @@ Now that you understand Koode Code's plugin system, here are suggested paths for
 
 ### For plugin users
 
-* **Discover plugins**: Browse community marketplaces for useful tools
-* **Team adoption**: Set up repository-level plugins for your projects
-* **Marketplace management**: Learn to manage multiple plugin sources
-* **Advanced usage**: Explore plugin combinations and workflows
+- **Discover plugins**: Browse community marketplaces for useful tools
+- **Team adoption**: Set up repository-level plugins for your projects
+- **Marketplace management**: Learn to manage multiple plugin sources
+- **Advanced usage**: Explore plugin combinations and workflows
 
 ### For plugin developers
 
-* **Create your first marketplace**: [Plugin marketplaces guide](/en/docs/Koode-code/plugin-marketplaces)
-* **Advanced components**: Dive deeper into specific plugin components:
-  * [Slash commands](/en/docs/Koode-code/slash-commands) - Command development details
-  * [Subagents](/en/docs/Koode-code/sub-agents) - Agent configuration and capabilities
-  * [Hooks](/en/docs/Koode-code/hooks) - Event handling and automation
-  * [MCP](/en/docs/Koode-code/mcp) - External tool integration
-* **Distribution strategies**: Package and share your plugins effectively
-* **Community contribution**: Consider contributing to community plugin collections
+- **Create your first marketplace**: [Plugin marketplaces guide](/en/docs/Koode-code/plugin-marketplaces)
+- **Advanced components**: Dive deeper into specific plugin components:
+  - [Slash commands](/en/docs/Koode-code/slash-commands) - Command development details
+  - [Subagents](/en/docs/Koode-code/sub-agents) - Agent configuration and capabilities
+  - [Hooks](/en/docs/Koode-code/hooks) - Event handling and automation
+  - [MCP](/en/docs/Koode-code/mcp) - External tool integration
+- **Distribution strategies**: Package and share your plugins effectively
+- **Community contribution**: Consider contributing to community plugin collections
 
 ### For team leads and administrators
 
-* **Repository configuration**: Set up automatic plugin installation for team projects
-* **Plugin governance**: Establish guidelines for plugin approval and security review
-* **Marketplace maintenance**: Create and maintain organization-specific plugin catalogs
-* **Training and documentation**: Help team members adopt plugin workflows effectively
+- **Repository configuration**: Set up automatic plugin installation for team projects
+- **Plugin governance**: Establish guidelines for plugin approval and security review
+- **Marketplace maintenance**: Create and maintain organization-specific plugin catalogs
+- **Training and documentation**: Help team members adopt plugin workflows effectively
 
 ## See also
 
-* [Plugin marketplaces](/en/docs/Koode-code/plugin-marketplaces) - Creating and managing plugin catalogs
-* [Slash commands](/en/docs/Koode-code/slash-commands) - Understanding custom commands
-* [Subagents](/en/docs/Koode-code/sub-agents) - Creating and using specialized agents
-* [Hooks](/en/docs/Koode-code/hooks) - Automating workflows with event handlers
-* [MCP](/en/docs/Koode-code/mcp) - Connecting to external tools and services
-* [Settings](/en/docs/Koode-code/settings) - Configuration options for plugins
+- [Plugin marketplaces](/en/docs/Koode-code/plugin-marketplaces) - Creating and managing plugin catalogs
+- [Slash commands](/en/docs/Koode-code/slash-commands) - Understanding custom commands
+- [Subagents](/en/docs/Koode-code/sub-agents) - Creating and using specialized agents
+- [Hooks](/en/docs/Koode-code/hooks) - Automating workflows with event handlers
+- [MCP](/en/docs/Koode-code/mcp) - Connecting to external tools and services
+- [Settings](/en/docs/Koode-code/settings) - Configuration options for plugins
 
 # Output styles
 
@@ -1128,11 +1144,11 @@ to help you complete software engineering tasks efficiently.
 There are two additional built-in output styles focused on teaching you the
 codebase and how Koode operates:
 
-* **Explanatory**: Provides educational "Insights" in between helping you
+- **Explanatory**: Provides educational "Insights" in between helping you
   complete software engineering tasks. Helps you understand implementation
   choices and codebase patterns.
 
-* **Learning**: Collaborative, learn-by-doing mode where Koode will not only
+- **Learning**: Collaborative, learn-by-doing mode where Koode will not only
   share "Insights" while coding, but also ask you to contribute small, strategic
   pieces of code yourself. Koode Code will add `TODO(human)` markers in your
   code for you to implement.
@@ -1141,20 +1157,20 @@ codebase and how Koode operates:
 
 Output styles directly modify Koode Code's system prompt.
 
-* Non-default output styles exclude instructions specific to code generation and
+- Non-default output styles exclude instructions specific to code generation and
   efficient output normally built into Koode Code (such as responding concisely
   and verifying code with tests).
-* Instead, these output styles have their own custom instructions added to the
+- Instead, these output styles have their own custom instructions added to the
   system prompt.
 
 ## Change your output style
 
 You can either:
 
-* Run `/output-style` to access the menu and select your output style (this can
+- Run `/output-style` to access the menu and select your output style (this can
   also be accessed from the `/config` menu)
 
-* Run `/output-style [style]`, such as `/output-style explanatory`, to directly
+- Run `/output-style [style]`, such as `/output-style explanatory`, to directly
   switch to a style
 
 These changes apply to the [local project level](/en/docs/Koode-code/settings)
@@ -1169,11 +1185,10 @@ By default, output styles created through `/output-style:new` are saved as
 markdown files at the user level in `~/.Koode/output-styles` and can be used
 across projects. They have the following structure:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 name: My Custom Style
-description:
-  A brief description of what this style does, to be displayed to the user
+description: A brief description of what this style does, to be displayed to the user
 ---
 
 # Custom Style Instructions
@@ -1197,7 +1212,7 @@ the user level (`~/.Koode/output-styles`) or the project level
 Output styles completely “turn off” the parts of Koode Code’s default system
 prompt specific to software engineering. Neither Koode.md nor
 `--append-system-prompt` edit Koode Code’s default system prompt. Koode.md
-adds the contents as a user message *following* Koode Code’s default system
+adds the contents as a user message _following_ Koode Code’s default system
 prompt. `--append-system-prompt` appends the content to the system prompt.
 
 ### Output Styles vs. [Agents](/en/docs/Koode-code/sub-agents)
@@ -1228,11 +1243,11 @@ to help you complete software engineering tasks efficiently.
 There are two additional built-in output styles focused on teaching you the
 codebase and how Koode operates:
 
-* **Explanatory**: Provides educational "Insights" in between helping you
+- **Explanatory**: Provides educational "Insights" in between helping you
   complete software engineering tasks. Helps you understand implementation
   choices and codebase patterns.
 
-* **Learning**: Collaborative, learn-by-doing mode where Koode will not only
+- **Learning**: Collaborative, learn-by-doing mode where Koode will not only
   share "Insights" while coding, but also ask you to contribute small, strategic
   pieces of code yourself. Koode Code will add `TODO(human)` markers in your
   code for you to implement.
@@ -1241,20 +1256,20 @@ codebase and how Koode operates:
 
 Output styles directly modify Koode Code's system prompt.
 
-* Non-default output styles exclude instructions specific to code generation and
+- Non-default output styles exclude instructions specific to code generation and
   efficient output normally built into Koode Code (such as responding concisely
   and verifying code with tests).
-* Instead, these output styles have their own custom instructions added to the
+- Instead, these output styles have their own custom instructions added to the
   system prompt.
 
 ## Change your output style
 
 You can either:
 
-* Run `/output-style` to access the menu and select your output style (this can
+- Run `/output-style` to access the menu and select your output style (this can
   also be accessed from the `/config` menu)
 
-* Run `/output-style [style]`, such as `/output-style explanatory`, to directly
+- Run `/output-style [style]`, such as `/output-style explanatory`, to directly
   switch to a style
 
 These changes apply to the [local project level](/en/docs/Koode-code/settings)
@@ -1269,11 +1284,10 @@ By default, output styles created through `/output-style:new` are saved as
 markdown files at the user level in `~/.Koode/output-styles` and can be used
 across projects. They have the following structure:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 name: My Custom Style
-description:
-  A brief description of what this style does, to be displayed to the user
+description: A brief description of what this style does, to be displayed to the user
 ---
 
 # Custom Style Instructions
@@ -1297,7 +1311,7 @@ the user level (`~/.Koode/output-styles`) or the project level
 Output styles completely “turn off” the parts of Koode Code’s default system
 prompt specific to software engineering. Neither Koode.md nor
 `--append-system-prompt` edit Koode Code’s default system prompt. Koode.md
-adds the contents as a user message *following* Koode Code’s default system
+adds the contents as a user message _following_ Koode Code’s default system
 prompt. `--append-system-prompt` appends the content to the system prompt.
 
 ### Output Styles vs. [Agents](/en/docs/Koode-code/sub-agents)
@@ -1324,7 +1338,7 @@ The headless mode allows you to run Koode Code programmatically from command lin
 
 The primary command-line interface to Koode Code is the `Koode` command. Use the `--print` (or `-p`) flag to run in non-interactive mode and print the final result:
 
-```bash  theme={null}
+```bash theme={null}
 Koode -p "Stage my changes and write a set of commits for them" \
   --allowedTools "Bash,Read" \
   --permission-mode acceptEdits
@@ -1334,18 +1348,18 @@ Koode -p "Stage my changes and write a set of commits for them" \
 
 Headless mode leverages all the CLI options available in Koode Code. Here are the key ones for automation and scripting:
 
-| Flag                       | Description                                                                                            | Example                                                                                                                   |
-| :------------------------- | :----------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
-| `--print`, `-p`            | Run in non-interactive mode                                                                            | `Koode -p "query"`                                                                                                       |
-| `--output-format`          | Specify output format (`text`, `json`, `stream-json`)                                                  | `Koode -p --output-format json`                                                                                          |
-| `--resume`, `-r`           | Resume a conversation by session ID                                                                    | `Koode --resume abc123`                                                                                                  |
-| `--continue`, `-c`         | Continue the most recent conversation                                                                  | `Koode --continue`                                                                                                       |
-| `--verbose`                | Enable verbose logging                                                                                 | `Koode --verbose`                                                                                                        |
-| `--append-system-prompt`   | Append to system prompt (only with `--print`)                                                          | `Koode --append-system-prompt "Custom instruction"`                                                                      |
+| Flag                       | Description                                                                                            | Example                                                                                                                 |
+| :------------------------- | :----------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------- |
+| `--print`, `-p`            | Run in non-interactive mode                                                                            | `Koode -p "query"`                                                                                                      |
+| `--output-format`          | Specify output format (`text`, `json`, `stream-json`)                                                  | `Koode -p --output-format json`                                                                                         |
+| `--resume`, `-r`           | Resume a conversation by session ID                                                                    | `Koode --resume abc123`                                                                                                 |
+| `--continue`, `-c`         | Continue the most recent conversation                                                                  | `Koode --continue`                                                                                                      |
+| `--verbose`                | Enable verbose logging                                                                                 | `Koode --verbose`                                                                                                       |
+| `--append-system-prompt`   | Append to system prompt (only with `--print`)                                                          | `Koode --append-system-prompt "Custom instruction"`                                                                     |
 | `--allowedTools`           | Space-separated list of allowed tools, or <br /><br /> string of comma-separated list of allowed tools | `Koode --allowedTools mcp__slack mcp__filesystem`<br /><br />`Koode --allowedTools "Bash(npm install),mcp__filesystem"` |
 | `--disallowedTools`        | Space-separated list of denied tools, or <br /><br /> string of comma-separated list of denied tools   | `Koode --disallowedTools mcp__splunk mcp__github`<br /><br />`Koode --disallowedTools "Bash(git commit),mcp__github"`   |
-| `--mcp-config`             | Load MCP servers from a JSON file                                                                      | `Koode --mcp-config servers.json`                                                                                        |
-| `--permission-prompt-tool` | MCP tool for handling permission prompts (only with `--print`)                                         | `Koode --permission-prompt-tool mcp__auth__prompt`                                                                       |
+| `--mcp-config`             | Load MCP servers from a JSON file                                                                      | `Koode --mcp-config servers.json`                                                                                       |
+| `--permission-prompt-tool` | MCP tool for handling permission prompts (only with `--print`)                                         | `Koode --permission-prompt-tool mcp__auth__prompt`                                                                      |
 
 For a complete list of CLI options and features, see the [CLI reference](/en/docs/Koode-code/cli-reference) documentation.
 
@@ -1353,7 +1367,7 @@ For a complete list of CLI options and features, see the [CLI reference](/en/doc
 
 For multi-turn conversations, you can resume conversations or continue from the most recent session:
 
-```bash  theme={null}
+```bash theme={null}
 # Continue the most recent conversation
 Koode --continue "Now refactor this for better performance"
 
@@ -1368,7 +1382,7 @@ Koode --resume 550e8400-e29b-41d4-a716-446655440000 "Fix all linting issues" --n
 
 ### Text Output (Default)
 
-```bash  theme={null}
+```bash theme={null}
 Koode -p "Explain file src/components/Header.tsx"
 # Output: This is a React component showing...
 ```
@@ -1377,23 +1391,23 @@ Koode -p "Explain file src/components/Header.tsx"
 
 Returns structured data including metadata:
 
-```bash  theme={null}
+```bash theme={null}
 Koode -p "How does the data layer work?" --output-format json
 ```
 
 Response format:
 
-```json  theme={null}
+```json theme={null}
 {
-  "type": "result",
-  "subtype": "success",
-  "total_cost_usd": 0.003,
-  "is_error": false,
-  "duration_ms": 1234,
-  "duration_api_ms": 800,
-  "num_turns": 6,
-  "result": "The response text here...",
-  "session_id": "abc123"
+	"type": "result",
+	"subtype": "success",
+	"total_cost_usd": 0.003,
+	"is_error": false,
+	"duration_ms": 1234,
+	"duration_api_ms": 800,
+	"num_turns": 6,
+	"result": "The response text here...",
+	"session_id": "abc123"
 }
 ```
 
@@ -1401,7 +1415,7 @@ Response format:
 
 Streams each message as it is received:
 
-```bash  theme={null}
+```bash theme={null}
 Koode -p "Build an application" --output-format stream-json
 ```
 
@@ -1411,7 +1425,7 @@ Each conversation begins with an initial `init` system message, followed by a li
 
 ### Text Input (Default)
 
-```bash  theme={null}
+```bash theme={null}
 # Direct argument
 Koode -p "Explain this code"
 
@@ -1425,7 +1439,7 @@ A stream of messages provided via `stdin` where each message represents a user t
 
 Each message is a JSON 'User message' object, following the same format as the output message schema. Messages are formatted using the [jsonl](https://jsonlines.org/) format where each line of input is a complete JSON object. Streaming JSON input requires `-p` and `--output-format stream-json`.
 
-```bash  theme={null}
+```bash theme={null}
 echo '{"type":"user","message":{"role":"user","content":[{"type":"text","text":"Explain this code"}]}}' | Koode -p --output-format=stream-json --input-format=stream-json --verbose
 ```
 
@@ -1433,7 +1447,7 @@ echo '{"type":"user","message":{"role":"user","content":[{"type":"text","text":"
 
 ### SRE Incident Response Bot
 
-```bash  theme={null}
+```bash theme={null}
 #!/bin/bash
 
 # Automated incident response agent
@@ -1454,7 +1468,7 @@ investigate_incident "Payment API returning 500 errors" "high"
 
 ### Automated Security Review
 
-```bash  theme={null}
+```bash theme={null}
 # Security audit agent for pull requests
 audit_pr() {
     local pr_number="$1"
@@ -1471,7 +1485,7 @@ audit_pr 123 > security-report.json
 
 ### Multi-turn Legal Assistant
 
-```bash  theme={null}
+```bash theme={null}
 # Legal document review with session persistence
 session_id=$(Koode -p "Start legal review session" --output-format json | jq -r '.session_id')
 
@@ -1483,18 +1497,18 @@ Koode -p --resume "$session_id" "Generate executive summary of risks"
 
 ## Best Practices
 
-* **Use JSON output format** for programmatic parsing of responses:
+- **Use JSON output format** for programmatic parsing of responses:
 
-  ```bash  theme={null}
+  ```bash theme={null}
   # Parse JSON response with jq
   result=$(Koode -p "Generate code" --output-format json)
   code=$(echo "$result" | jq -r '.result')
   cost=$(echo "$result" | jq -r '.cost_usd')
   ```
 
-* **Handle errors gracefully** - check exit codes and stderr:
+- **Handle errors gracefully** - check exit codes and stderr:
 
-  ```bash  theme={null}
+  ```bash theme={null}
   if ! Koode -p "$prompt" 2>error.log; then
       echo "Error occurred:" >&2
       cat error.log >&2
@@ -1502,538 +1516,538 @@ Koode -p --resume "$session_id" "Generate executive summary of risks"
   fi
   ```
 
-* **Use session management** for maintaining context in multi-turn conversations
+- **Use session management** for maintaining context in multi-turn conversations
 
-* **Consider timeouts** for long-running operations:
+- **Consider timeouts** for long-running operations:
 
-  ```bash  theme={null}
+  ```bash theme={null}
   timeout 300 Koode -p "$complex_prompt" || echo "Timed out after 5 minutes"
   ```
 
-* **Respect rate limits** when making multiple requests by adding delays between calls
+- **Respect rate limits** when making multiple requests by adding delays between calls
 
 ## Related Resources
 
-* [CLI usage and controls](/en/docs/Koode-code/cli-reference) - Complete CLI documentation
-* [Common workflows](/en/docs/Koode-code/common-workflows) - Step-by-step guides for common use cases
+- [CLI usage and controls](/en/docs/Koode-code/cli-reference) - Complete CLI documentation
+- [Common workflows](/en/docs/Koode-code/common-workflows) - Step-by-step guides for common use cases
 
 # Connect Koode Code to tools via MCP
 
 > Learn how to connect Koode Code to your tools with the Model Context Protocol.
 
 export const MCPServersTable = ({platform = "all"}) => {
-  const generateKoodeCodeCommand = server => {
-    if (server.customCommands && server.customCommands.KoodeCode) {
-      return server.customCommands.KoodeCode;
-    }
-    if (server.urls.http) {
-      return `Koode mcp add --transport http ${server.name.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${server.urls.http}`;
-    }
-    if (server.urls.sse) {
-      return `Koode mcp add --transport sse ${server.name.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${server.urls.sse}`;
-    }
-    if (server.urls.stdio) {
-      const envFlags = server.authentication && server.authentication.envVars ? server.authentication.envVars.map(v => `--env ${v}=YOUR_${v.split('_').pop()}`).join(' ') : '';
-      const baseCommand = `Koode mcp add --transport stdio ${server.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-      return envFlags ? `${baseCommand} ${envFlags} -- ${server.urls.stdio}` : `${baseCommand} -- ${server.urls.stdio}`;
-    }
-    return null;
-  };
-  const servers = [{
-    name: "Airtable",
-    category: "Databases & Data Management",
-    description: "Read/write records, manage bases and tables",
-    documentation: "https://github.com/domdomegg/airtable-mcp-server",
-    urls: {
-      stdio: "npx -y airtable-mcp-server"
-    },
-    authentication: {
-      type: "api_key",
-      envVars: ["AIRTABLE_API_KEY"]
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: false,
-      KoodeDesktop: true
-    }
-  }, {
-    name: "Figma",
-    category: "Design & Media",
-    description: "Generate better code by bringing in full Figma context",
-    documentation: "https://developers.figma.com",
-    urls: {
-      http: "https://mcp.figma.com/mcp"
-    },
-    customCommands: {
-      KoodeCode: "Koode mcp add --transport http figma-remote-mcp https://mcp.figma.com/mcp"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: false,
-      KoodeDesktop: false
-    },
-    notes: "Visit developers.figma.com for local server setup."
-  }, {
-    name: "Asana",
-    category: "Project Management & Documentation",
-    description: "Interact with your Asana workspace to keep projects on track",
-    documentation: "https://developers.asana.com/docs/using-asanas-model-control-protocol-mcp-server",
-    urls: {
-      sse: "https://mcp.asana.com/sse"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Atlassian",
-    category: "Project Management & Documentation",
-    description: "Manage your Jira tickets and Confluence docs",
-    documentation: "https://www.atlassian.com/platform/remote-mcp-server",
-    urls: {
-      sse: "https://mcp.atlassian.com/v1/sse"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "ClickUp",
-    category: "Project Management & Documentation",
-    description: "Task management, project tracking",
-    documentation: "https://github.com/hauptsacheNet/clickup-mcp",
-    urls: {
-      stdio: "npx -y @hauptsache.net/clickup-mcp"
-    },
-    authentication: {
-      type: "api_key",
-      envVars: ["CLICKUP_API_KEY", "CLICKUP_TEAM_ID"]
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: false,
-      KoodeDesktop: true
-    }
-  }, {
-    name: "Cloudflare",
-    category: "Infrastructure & DevOps",
-    description: "Build applications, analyze traffic, monitor performance, and manage security settings through Cloudflare",
-    documentation: "https://developers.cloudflare.com/agents/model-context-protocol/mcp-servers-for-cloudflare/",
-    urls: {},
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    },
-    notes: "Multiple services available. See documentation for specific server URLs. Koode Code can use the Cloudflare CLI if installed."
-  }, {
-    name: "Cloudinary",
-    category: "Design & Media",
-    description: "Upload, manage, transform, and analyze your media assets",
-    documentation: "https://cloudinary.com/documentation/cloudinary_llm_mcp#mcp_servers",
-    urls: {},
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    },
-    notes: "Multiple services available. See documentation for specific server URLs."
-  }, {
-    name: "Intercom",
-    category: "Project Management & Documentation",
-    description: "Access real-time customer conversations, tickets, and user data",
-    documentation: "https://developers.intercom.com/docs/guides/mcp",
-    urls: {
-      http: "https://mcp.intercom.com/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "invideo",
-    category: "Design & Media",
-    description: "Build video creation capabilities into your applications",
-    documentation: "https://invideo.io/ai/mcp",
-    urls: {
-      sse: "https://mcp.invideo.io/sse"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Linear",
-    category: "Project Management & Documentation",
-    description: "Integrate with Linear's issue tracking and project management",
-    documentation: "https://linear.app/docs/mcp",
-    urls: {
-      http: "https://mcp.linear.app/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Notion",
-    category: "Project Management & Documentation",
-    description: "Read docs, update pages, manage tasks",
-    documentation: "https://developers.notion.com/docs/mcp",
-    urls: {
-      http: "https://mcp.notion.com/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: false,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "PayPal",
-    category: "Payments & Commerce",
-    description: "Integrate PayPal commerce capabilities, payment processing, transaction management",
-    documentation: "https://www.paypal.ai/",
-    urls: {
-      http: "https://mcp.paypal.com/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Plaid",
-    category: "Payments & Commerce",
-    description: "Analyze, troubleshoot, and optimize Plaid integrations. Banking data, financial account linking",
-    documentation: "https://plaid.com/blog/plaid-mcp-ai-assistant-Koode/",
-    urls: {
-      sse: "https://api.dashboard.plaid.com/mcp/sse"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Sentry",
-    category: "Development & Testing Tools",
-    description: "Monitor errors, debug production issues",
-    documentation: "https://docs.sentry.io/product/sentry-mcp/",
-    urls: {
-      http: "https://mcp.sentry.dev/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: false,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Square",
-    category: "Payments & Commerce",
-    description: "Use an agent to build on Square APIs. Payments, inventory, orders, and more",
-    documentation: "https://developer.squareup.com/docs/mcp",
-    urls: {
-      sse: "https://mcp.squareup.com/sse"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Socket",
-    category: "Development & Testing Tools",
-    description: "Security analysis for dependencies",
-    documentation: "https://github.com/SocketDev/socket-mcp",
-    urls: {
-      http: "https://mcp.socket.dev/"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: false,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Stripe",
-    category: "Payments & Commerce",
-    description: "Payment processing, subscription management, and financial transactions",
-    documentation: "https://docs.stripe.com/mcp",
-    urls: {
-      http: "https://mcp.stripe.com"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Workato",
-    category: "Automation & Integration",
-    description: "Access any application, workflows or data via Workato, made accessible for AI",
-    documentation: "https://docs.workato.com/mcp.html",
-    urls: {},
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    },
-    notes: "MCP servers are programmatically generated"
-  }, {
-    name: "Zapier",
-    category: "Automation & Integration",
-    description: "Connect to nearly 8,000 apps through Zapier's automation platform",
-    documentation: "https://help.zapier.com/hc/en-us/articles/36265392843917",
-    urls: {},
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    },
-    notes: "Generate a user-specific URL at mcp.zapier.com"
-  }, {
-    name: "Box",
-    category: "Project Management & Documentation",
-    description: "Ask questions about your enterprise content, get insights from unstructured data, automate content workflows",
-    documentation: "https://box.dev/guides/box-mcp/remote/",
-    urls: {
-      http: "https://mcp.box.com/"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Canva",
-    category: "Design & Media",
-    description: "Browse, summarize, autofill, and even generate new Canva designs directly from Koode",
-    documentation: "https://www.canva.dev/docs/connect/canva-mcp-server-setup/",
-    urls: {
-      http: "https://mcp.canva.com/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Daloopa",
-    category: "Databases & Data Management",
-    description: "Supplies high quality fundamental financial data sourced from SEC Filings, investor presentations",
-    documentation: "https://docs.daloopa.com/docs/daloopa-mcp",
-    urls: {
-      http: "https://mcp.daloopa.com/server/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Fireflies",
-    category: "Project Management & Documentation",
-    description: "Extract valuable insights from meeting transcripts and summaries",
-    documentation: "https://guide.fireflies.ai/articles/8272956938-learn-about-the-fireflies-mcp-server-model-context-protocol",
-    urls: {
-      http: "https://api.fireflies.ai/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "HubSpot",
-    category: "Databases & Data Management",
-    description: "Access and manage HubSpot CRM data by fetching contacts, companies, and deals, and creating and updating records",
-    documentation: "https://developers.hubspot.com/mcp",
-    urls: {
-      http: "https://mcp.hubspot.com/paulohenriquevn"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Hugging Face",
-    category: "Development & Testing Tools",
-    description: "Provides access to Hugging Face Hub information and Gradio AI Applications",
-    documentation: "https://huggingface.co/settings/mcp",
-    urls: {
-      http: "https://huggingface.co/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Jam",
-    category: "Development & Testing Tools",
-    description: "Debug faster with AI agents that can access Jam recordings like video, console logs, network requests, and errors",
-    documentation: "https://jam.dev/docs/debug-a-jam/mcp",
-    urls: {
-      http: "https://mcp.jam.dev/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Monday",
-    category: "Project Management & Documentation",
-    description: "Manage monday.com boards by creating items, updating columns, assigning owners, setting timelines, adding CRM activities, and writing summaries",
-    documentation: "https://developer.monday.com/apps/docs/mondaycom-mcp-integration",
-    urls: {
-      sse: "https://mcp.monday.com/sse"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Netlify",
-    category: "Infrastructure & DevOps",
-    description: "Create, deploy, and manage websites on Netlify. Control all aspects of your site from creating secrets to enforcing access controls to aggregating form submissions",
-    documentation: "https://docs.netlify.com/build/build-with-ai/netlify-mcp-server/",
-    urls: {
-      http: "https://netlify-mcp.netlify.app/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Stytch",
-    category: "Infrastructure & DevOps",
-    description: "Configure and manage Stytch authentication services, redirect URLs, email templates, and workspace settings",
-    documentation: "https://stytch.com/docs/workspace-management/stytch-mcp",
-    urls: {
-      http: "http://mcp.stytch.dev/mcp"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }, {
-    name: "Vercel",
-    category: "Infrastructure & DevOps",
-    description: "Vercel's official MCP server, allowing you to search and navigate documentation, manage projects and deployments, and analyze deployment logs—all in one place",
-    documentation: "https://vercel.com/docs/mcp/vercel-mcp",
-    urls: {
-      http: "https://mcp.vercel.com/"
-    },
-    authentication: {
-      type: "oauth"
-    },
-    availability: {
-      KoodeCode: true,
-      mcpConnector: true,
-      KoodeDesktop: false
-    }
-  }];
-  const filteredServers = servers.filter(server => {
-    if (platform === "KoodeCode") {
-      return server.availability.KoodeCode;
-    } else if (platform === "mcpConnector") {
-      return server.availability.mcpConnector;
-    } else if (platform === "KoodeDesktop") {
-      return server.availability.KoodeDesktop;
-    } else if (platform === "all") {
-      return true;
-    } else {
-      throw new Error(`Unknown platform: ${platform}`);
-    }
-  });
-  const serversByCategory = filteredServers.reduce((acc, server) => {
-    if (!acc[server.category]) {
-      acc[server.category] = [];
-    }
-    acc[server.category].push(server);
-    return acc;
-  }, {});
-  const categoryOrder = ["Development & Testing Tools", "Project Management & Documentation", "Databases & Data Management", "Payments & Commerce", "Design & Media", "Infrastructure & DevOps", "Automation & Integration"];
-  return <>
-      <style jsx>{`
-        .cards-container {
+const generateKoodeCodeCommand = server => {
+if (server.customCommands && server.customCommands.KoodeCode) {
+return server.customCommands.KoodeCode;
+}
+if (server.urls.http) {
+return `Koode mcp add --transport http ${server.name.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${server.urls.http}`;
+}
+if (server.urls.sse) {
+return `Koode mcp add --transport sse ${server.name.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${server.urls.sse}`;
+}
+if (server.urls.stdio) {
+const envFlags = server.authentication && server.authentication.envVars ? server.authentication.envVars.map(v => `--env ${v}=YOUR_${v.split('_').pop()}`).join(' ') : '';
+const baseCommand = `Koode mcp add --transport stdio ${server.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+return envFlags ? `${baseCommand} ${envFlags} -- ${server.urls.stdio}` : `${baseCommand} -- ${server.urls.stdio}`;
+}
+return null;
+};
+const servers = [{
+name: "Airtable",
+category: "Databases & Data Management",
+description: "Read/write records, manage bases and tables",
+documentation: "https://github.com/domdomegg/airtable-mcp-server",
+urls: {
+stdio: "npx -y airtable-mcp-server"
+},
+authentication: {
+type: "api_key",
+envVars: ["AIRTABLE_API_KEY"]
+},
+availability: {
+KoodeCode: true,
+mcpConnector: false,
+KoodeDesktop: true
+}
+}, {
+name: "Figma",
+category: "Design & Media",
+description: "Generate better code by bringing in full Figma context",
+documentation: "https://developers.figma.com",
+urls: {
+http: "https://mcp.figma.com/mcp"
+},
+customCommands: {
+KoodeCode: "Koode mcp add --transport http figma-remote-mcp https://mcp.figma.com/mcp"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: false,
+KoodeDesktop: false
+},
+notes: "Visit developers.figma.com for local server setup."
+}, {
+name: "Asana",
+category: "Project Management & Documentation",
+description: "Interact with your Asana workspace to keep projects on track",
+documentation: "https://developers.asana.com/docs/using-asanas-model-control-protocol-mcp-server",
+urls: {
+sse: "https://mcp.asana.com/sse"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Atlassian",
+category: "Project Management & Documentation",
+description: "Manage your Jira tickets and Confluence docs",
+documentation: "https://www.atlassian.com/platform/remote-mcp-server",
+urls: {
+sse: "https://mcp.atlassian.com/v1/sse"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "ClickUp",
+category: "Project Management & Documentation",
+description: "Task management, project tracking",
+documentation: "https://github.com/hauptsacheNet/clickup-mcp",
+urls: {
+stdio: "npx -y @hauptsache.net/clickup-mcp"
+},
+authentication: {
+type: "api_key",
+envVars: ["CLICKUP_API_KEY", "CLICKUP_TEAM_ID"]
+},
+availability: {
+KoodeCode: true,
+mcpConnector: false,
+KoodeDesktop: true
+}
+}, {
+name: "Cloudflare",
+category: "Infrastructure & DevOps",
+description: "Build applications, analyze traffic, monitor performance, and manage security settings through Cloudflare",
+documentation: "https://developers.cloudflare.com/agents/model-context-protocol/mcp-servers-for-cloudflare/",
+urls: {},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+},
+notes: "Multiple services available. See documentation for specific server URLs. Koode Code can use the Cloudflare CLI if installed."
+}, {
+name: "Cloudinary",
+category: "Design & Media",
+description: "Upload, manage, transform, and analyze your media assets",
+documentation: "https://cloudinary.com/documentation/cloudinary_llm_mcp#mcp_servers",
+urls: {},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+},
+notes: "Multiple services available. See documentation for specific server URLs."
+}, {
+name: "Intercom",
+category: "Project Management & Documentation",
+description: "Access real-time customer conversations, tickets, and user data",
+documentation: "https://developers.intercom.com/docs/guides/mcp",
+urls: {
+http: "https://mcp.intercom.com/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "invideo",
+category: "Design & Media",
+description: "Build video creation capabilities into your applications",
+documentation: "https://invideo.io/ai/mcp",
+urls: {
+sse: "https://mcp.invideo.io/sse"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Linear",
+category: "Project Management & Documentation",
+description: "Integrate with Linear's issue tracking and project management",
+documentation: "https://linear.app/docs/mcp",
+urls: {
+http: "https://mcp.linear.app/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Notion",
+category: "Project Management & Documentation",
+description: "Read docs, update pages, manage tasks",
+documentation: "https://developers.notion.com/docs/mcp",
+urls: {
+http: "https://mcp.notion.com/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: false,
+KoodeDesktop: false
+}
+}, {
+name: "PayPal",
+category: "Payments & Commerce",
+description: "Integrate PayPal commerce capabilities, payment processing, transaction management",
+documentation: "https://www.paypal.ai/",
+urls: {
+http: "https://mcp.paypal.com/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Plaid",
+category: "Payments & Commerce",
+description: "Analyze, troubleshoot, and optimize Plaid integrations. Banking data, financial account linking",
+documentation: "https://plaid.com/blog/plaid-mcp-ai-assistant-Koode/",
+urls: {
+sse: "https://api.dashboard.plaid.com/mcp/sse"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Sentry",
+category: "Development & Testing Tools",
+description: "Monitor errors, debug production issues",
+documentation: "https://docs.sentry.io/product/sentry-mcp/",
+urls: {
+http: "https://mcp.sentry.dev/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: false,
+KoodeDesktop: false
+}
+}, {
+name: "Square",
+category: "Payments & Commerce",
+description: "Use an agent to build on Square APIs. Payments, inventory, orders, and more",
+documentation: "https://developer.squareup.com/docs/mcp",
+urls: {
+sse: "https://mcp.squareup.com/sse"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Socket",
+category: "Development & Testing Tools",
+description: "Security analysis for dependencies",
+documentation: "https://github.com/SocketDev/socket-mcp",
+urls: {
+http: "https://mcp.socket.dev/"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: false,
+KoodeDesktop: false
+}
+}, {
+name: "Stripe",
+category: "Payments & Commerce",
+description: "Payment processing, subscription management, and financial transactions",
+documentation: "https://docs.stripe.com/mcp",
+urls: {
+http: "https://mcp.stripe.com"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Workato",
+category: "Automation & Integration",
+description: "Access any application, workflows or data via Workato, made accessible for AI",
+documentation: "https://docs.workato.com/mcp.html",
+urls: {},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+},
+notes: "MCP servers are programmatically generated"
+}, {
+name: "Zapier",
+category: "Automation & Integration",
+description: "Connect to nearly 8,000 apps through Zapier's automation platform",
+documentation: "https://help.zapier.com/hc/en-us/articles/36265392843917",
+urls: {},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+},
+notes: "Generate a user-specific URL at mcp.zapier.com"
+}, {
+name: "Box",
+category: "Project Management & Documentation",
+description: "Ask questions about your enterprise content, get insights from unstructured data, automate content workflows",
+documentation: "https://box.dev/guides/box-mcp/remote/",
+urls: {
+http: "https://mcp.box.com/"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Canva",
+category: "Design & Media",
+description: "Browse, summarize, autofill, and even generate new Canva designs directly from Koode",
+documentation: "https://www.canva.dev/docs/connect/canva-mcp-server-setup/",
+urls: {
+http: "https://mcp.canva.com/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Daloopa",
+category: "Databases & Data Management",
+description: "Supplies high quality fundamental financial data sourced from SEC Filings, investor presentations",
+documentation: "https://docs.daloopa.com/docs/daloopa-mcp",
+urls: {
+http: "https://mcp.daloopa.com/server/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Fireflies",
+category: "Project Management & Documentation",
+description: "Extract valuable insights from meeting transcripts and summaries",
+documentation: "https://guide.fireflies.ai/articles/8272956938-learn-about-the-fireflies-mcp-server-model-context-protocol",
+urls: {
+http: "https://api.fireflies.ai/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "HubSpot",
+category: "Databases & Data Management",
+description: "Access and manage HubSpot CRM data by fetching contacts, companies, and deals, and creating and updating records",
+documentation: "https://developers.hubspot.com/mcp",
+urls: {
+http: "https://mcp.hubspot.com/paulohenriquevn"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Hugging Face",
+category: "Development & Testing Tools",
+description: "Provides access to Hugging Face Hub information and Gradio AI Applications",
+documentation: "https://huggingface.co/settings/mcp",
+urls: {
+http: "https://huggingface.co/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Jam",
+category: "Development & Testing Tools",
+description: "Debug faster with AI agents that can access Jam recordings like video, console logs, network requests, and errors",
+documentation: "https://jam.dev/docs/debug-a-jam/mcp",
+urls: {
+http: "https://mcp.jam.dev/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Monday",
+category: "Project Management & Documentation",
+description: "Manage monday.com boards by creating items, updating columns, assigning owners, setting timelines, adding CRM activities, and writing summaries",
+documentation: "https://developer.monday.com/apps/docs/mondaycom-mcp-integration",
+urls: {
+sse: "https://mcp.monday.com/sse"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Netlify",
+category: "Infrastructure & DevOps",
+description: "Create, deploy, and manage websites on Netlify. Control all aspects of your site from creating secrets to enforcing access controls to aggregating form submissions",
+documentation: "https://docs.netlify.com/build/build-with-ai/netlify-mcp-server/",
+urls: {
+http: "https://netlify-mcp.netlify.app/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Stytch",
+category: "Infrastructure & DevOps",
+description: "Configure and manage Stytch authentication services, redirect URLs, email templates, and workspace settings",
+documentation: "https://stytch.com/docs/workspace-management/stytch-mcp",
+urls: {
+http: "http://mcp.stytch.dev/mcp"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}, {
+name: "Vercel",
+category: "Infrastructure & DevOps",
+description: "Vercel's official MCP server, allowing you to search and navigate documentation, manage projects and deployments, and analyze deployment logs—all in one place",
+documentation: "https://vercel.com/docs/mcp/vercel-mcp",
+urls: {
+http: "https://mcp.vercel.com/"
+},
+authentication: {
+type: "oauth"
+},
+availability: {
+KoodeCode: true,
+mcpConnector: true,
+KoodeDesktop: false
+}
+}];
+const filteredServers = servers.filter(server => {
+if (platform === "KoodeCode") {
+return server.availability.KoodeCode;
+} else if (platform === "mcpConnector") {
+return server.availability.mcpConnector;
+} else if (platform === "KoodeDesktop") {
+return server.availability.KoodeDesktop;
+} else if (platform === "all") {
+return true;
+} else {
+throw new Error(`Unknown platform: ${platform}`);
+}
+});
+const serversByCategory = filteredServers.reduce((acc, server) => {
+if (!acc[server.category]) {
+acc[server.category] = [];
+}
+acc[server.category].push(server);
+return acc;
+}, {});
+const categoryOrder = ["Development & Testing Tools", "Project Management & Documentation", "Databases & Data Management", "Payments & Commerce", "Design & Media", "Infrastructure & DevOps", "Automation & Integration"];
+return <>
+
+<style jsx>{`        .cards-container {
           display: grid;
           gap: 1rem;
           margin-bottom: 2rem;
@@ -2052,8 +2066,8 @@ export const MCPServersTable = ({platform = "all"}) => {
           font-size: 0.75rem;
           overflow-x: auto;
         }
-      `}</style>
-      
+     `}</style>
+
       {categoryOrder.map(category => {
     if (!serversByCategory[category]) return null;
     return <div key={category}>
@@ -2069,7 +2083,7 @@ export const MCPServersTable = ({platform = "all"}) => {
                           <strong>{server.name}</strong>
                         </a> : <strong>{server.name}</strong>}
                     </div>
-                    
+
                     <p style={{
         margin: '0.5rem 0',
         fontSize: '0.9rem'
@@ -2085,7 +2099,7 @@ export const MCPServersTable = ({platform = "all"}) => {
                           {server.notes}
                         </span>}
                     </p>
-                    
+
                     {commandToShow && <>
                       <p style={{
         display: 'block',
@@ -2107,8 +2121,9 @@ export const MCPServersTable = ({platform = "all"}) => {
     })}
             </div>
           </div>;
-  })}
-    </>;
+
+})}
+</>;
 };
 
 Koode Code can connect to hundreds of external tools and data sources through the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction), an open-source standard for AI-tool integrations. MCP servers give Koode Code access to your tools, databases, and APIs.
@@ -2117,11 +2132,11 @@ Koode Code can connect to hundreds of external tools and data sources through th
 
 With MCP servers connected, you can ask Koode Code to:
 
-* **Implement features from issue trackers**: "Add the feature described in JIRA issue ENG-4521 and create a PR on GitHub."
-* **Analyze monitoring data**: "Check Sentry and Statsig to check the usage of the feature described in ENG-4521."
-* **Query databases**: "Find emails of 10 random users who used feature ENG-4521, based on our Postgres database."
-* **Integrate designs**: "Update our standard email template based on the new Figma designs that were posted in Slack"
-* **Automate workflows**: "Create Gmail drafts inviting these 10 users to a feedback session about the new feature."
+- **Implement features from issue trackers**: "Add the feature described in JIRA issue ENG-4521 and create a PR on GitHub."
+- **Analyze monitoring data**: "Check Sentry and Statsig to check the usage of the feature described in ENG-4521."
+- **Query databases**: "Find emails of 10 random users who used feature ENG-4521, based on our Postgres database."
+- **Integrate designs**: "Update our standard email template based on the new Figma designs that were posted in Slack"
+- **Automate workflows**: "Create Gmail drafts inviting these 10 users to a feedback session about the new feature."
 
 ## Popular MCP servers
 
@@ -2149,7 +2164,7 @@ MCP servers can be configured in three different ways depending on your needs:
 
 HTTP servers are the recommended option for connecting to remote MCP servers. This is the most widely supported transport for cloud-based services.
 
-```bash  theme={null}
+```bash theme={null}
 # Basic syntax
 Koode mcp add --transport http <name> <url>
 
@@ -2167,7 +2182,7 @@ Koode mcp add --transport http secure-api https://api.example.com/mcp \
   The SSE (Server-Sent Events) transport is deprecated. Use HTTP servers instead, where available.
 </Warning>
 
-```bash  theme={null}
+```bash theme={null}
 # Basic syntax
 Koode mcp add --transport sse <name> <url>
 
@@ -2183,7 +2198,7 @@ Koode mcp add --transport sse private-api https://api.company.com/sse \
 
 Stdio servers run as local processes on your machine. They're ideal for tools that need direct system access or custom scripts.
 
-```bash  theme={null}
+```bash theme={null}
 # Basic syntax
 Koode mcp add --transport stdio <name> <command> [args...]
 
@@ -2196,19 +2211,19 @@ Koode mcp add --transport stdio airtable --env AIRTABLE_API_KEY=YOUR_KEY \
   **Understanding the "--" parameter:**
   The `--` (double dash) separates Koode's own CLI flags from the command and arguments that get passed to the MCP server. Everything before `--` are options for Koode (like `--env`, `--scope`), and everything after `--` is the actual command to run the MCP server.
 
-  For example:
+For example:
 
-  * `Koode mcp add --transport stdio myserver -- npx server` → runs `npx server`
-  * `Koode mcp add --transport stdio myserver --env KEY=value -- python server.py --port 8080` → runs `python server.py --port 8080` with `KEY=value` in environment
+- `Koode mcp add --transport stdio myserver -- npx server` → runs `npx server`
+- `Koode mcp add --transport stdio myserver --env KEY=value -- python server.py --port 8080` → runs `python server.py --port 8080` with `KEY=value` in environment
 
-  This prevents conflicts between Koode's flags and the server's flags.
+This prevents conflicts between Koode's flags and the server's flags.
 </Note>
 
 ### Managing your servers
 
 Once configured, you can manage your MCP servers with these commands:
 
-```bash  theme={null}
+```bash theme={null}
 # List all configured servers
 Koode mcp list
 
@@ -2225,25 +2240,25 @@ Koode mcp remove github
 <Tip>
   Tips:
 
-  * Use the `--scope` flag to specify where the configuration is stored:
-    * `local` (default): Available only to you in the current project (was called `project` in older versions)
-    * `project`: Shared with everyone in the project via `.mcp.json` file
-    * `user`: Available to you across all projects (was called `global` in older versions)
-  * Set environment variables with `--env` flags (e.g., `--env KEY=value`)
-  * Configure MCP server startup timeout using the MCP\_TIMEOUT environment variable (e.g., `MCP_TIMEOUT=10000 Koode` sets a 10-second timeout)
-  * Koode Code will display a warning when MCP tool output exceeds 10,000 tokens. To increase this limit, set the `MAX_MCP_OUTPUT_TOKENS` environment variable (e.g., `MAX_MCP_OUTPUT_TOKENS=50000`)
-  * Use `/mcp` to authenticate with remote servers that require OAuth 2.0 authentication
-</Tip>
+- Use the `--scope` flag to specify where the configuration is stored:
+  - `local` (default): Available only to you in the current project (was called `project` in older versions)
+  - `project`: Shared with everyone in the project via `.mcp.json` file
+  - `user`: Available to you across all projects (was called `global` in older versions)
+- Set environment variables with `--env` flags (e.g., `--env KEY=value`)
+- Configure MCP server startup timeout using the MCP_TIMEOUT environment variable (e.g., `MCP_TIMEOUT=10000 Koode` sets a 10-second timeout)
+- Koode Code will display a warning when MCP tool output exceeds 10,000 tokens. To increase this limit, set the `MAX_MCP_OUTPUT_TOKENS` environment variable (e.g., `MAX_MCP_OUTPUT_TOKENS=50000`)
+- Use `/mcp` to authenticate with remote servers that require OAuth 2.0 authentication
+  </Tip>
 
 <Warning>
   **Windows Users**: On native Windows (not WSL), local MCP servers that use `npx` require the `cmd /c` wrapper to ensure proper execution.
 
-  ```bash  theme={null}
-  # This creates command="cmd" which Windows can execute
-  Koode mcp add --transport stdio my-server -- cmd /c npx -y @some/package
-  ```
+```bash theme={null}
+# This creates command="cmd" which Windows can execute
+Koode mcp add --transport stdio my-server -- cmd /c npx -y @some/package
+```
 
-  Without the `cmd /c` wrapper, you'll encounter "Connection closed" errors because Windows cannot directly execute `npx`. (See the note above for an explanation of the `--` parameter.)
+Without the `cmd /c` wrapper, you'll encounter "Connection closed" errors because Windows cannot directly execute `npx`. (See the note above for an explanation of the `--` parameter.)
 </Warning>
 
 ### Plugin-provided MCP servers
@@ -2252,51 +2267,51 @@ Koode mcp remove github
 
 **How plugin MCP servers work**:
 
-* Plugins define MCP servers in `.mcp.json` at the plugin root or inline in `plugin.json`
-* When a plugin is enabled, its MCP servers start automatically
-* Plugin MCP tools appear alongside manually configured MCP tools
-* Plugin servers are managed through plugin installation (not `/mcp` commands)
+- Plugins define MCP servers in `.mcp.json` at the plugin root or inline in `plugin.json`
+- When a plugin is enabled, its MCP servers start automatically
+- Plugin MCP tools appear alongside manually configured MCP tools
+- Plugin servers are managed through plugin installation (not `/mcp` commands)
 
 **Example plugin MCP configuration**:
 
 In `.mcp.json` at plugin root:
 
-```json  theme={null}
+```json theme={null}
 {
-  "database-tools": {
-    "command": "${KOODE_PLUGIN_ROOT}/servers/db-server",
-    "args": ["--config", "${KOODE_PLUGIN_ROOT}/config.json"],
-    "env": {
-      "DB_URL": "${DB_URL}"
-    }
-  }
+	"database-tools": {
+		"command": "${KOODE_PLUGIN_ROOT}/servers/db-server",
+		"args": ["--config", "${KOODE_PLUGIN_ROOT}/config.json"],
+		"env": {
+			"DB_URL": "${DB_URL}"
+		}
+	}
 }
 ```
 
 Or inline in `plugin.json`:
 
-```json  theme={null}
+```json theme={null}
 {
-  "name": "my-plugin",
-  "mcpServers": {
-    "plugin-api": {
-      "command": "${KOODE_PLUGIN_ROOT}/servers/api-server",
-      "args": ["--port", "8080"]
-    }
-  }
+	"name": "my-plugin",
+	"mcpServers": {
+		"plugin-api": {
+			"command": "${KOODE_PLUGIN_ROOT}/servers/api-server",
+			"args": ["--port", "8080"]
+		}
+	}
 }
 ```
 
 **Plugin MCP features**:
 
-* **Automatic lifecycle**: Servers start when plugin enables, but you must restart Koode Code to apply MCP server changes (enabling or disabling)
-* **Environment variables**: Use `${KOODE_PLUGIN_ROOT}` for plugin-relative paths
-* **User environment access**: Access to same environment variables as manually configured servers
-* **Multiple transport types**: Support stdio, SSE, and HTTP transports (transport support may vary by server)
+- **Automatic lifecycle**: Servers start when plugin enables, but you must restart Koode Code to apply MCP server changes (enabling or disabling)
+- **Environment variables**: Use `${KOODE_PLUGIN_ROOT}` for plugin-relative paths
+- **User environment access**: Access to same environment variables as manually configured servers
+- **Multiple transport types**: Support stdio, SSE, and HTTP transports (transport support may vary by server)
 
 **Viewing plugin MCP servers**:
 
-```bash  theme={null}
+```bash theme={null}
 # Within Koode Code, see all MCP servers including plugin ones
 /mcp
 ```
@@ -2305,9 +2320,9 @@ Plugin servers appear in the list with indicators showing they come from plugins
 
 **Benefits of plugin MCP servers**:
 
-* **Bundled distribution**: Tools and servers packaged together
-* **Automatic setup**: No manual MCP configuration needed
-* **Team consistency**: Everyone gets the same tools when plugin is installed
+- **Bundled distribution**: Tools and servers packaged together
+- **Automatic setup**: No manual MCP configuration needed
+- **Team consistency**: Everyone gets the same tools when plugin is installed
 
 See the [plugin components reference](/en/docs/Koode-code/plugins-reference#mcp-servers) for details on bundling MCP servers with plugins.
 
@@ -2319,7 +2334,7 @@ MCP servers can be configured at three different scope levels, each serving dist
 
 Local-scoped servers represent the default configuration level and are stored in your project-specific user settings. These servers remain private to you and are only accessible when working within the current project directory. This scope is ideal for personal development servers, experimental configurations, or servers containing sensitive credentials that shouldn't be shared.
 
-```bash  theme={null}
+```bash theme={null}
 # Add a local-scoped server (default)
 Koode mcp add --transport http stripe https://mcp.stripe.com
 
@@ -2331,22 +2346,22 @@ Koode mcp add --transport http stripe --scope local https://mcp.stripe.com
 
 Project-scoped servers enable team collaboration by storing configurations in a `.mcp.json` file at your project's root directory. This file is designed to be checked into version control, ensuring all team members have access to the same MCP tools and services. When you add a project-scoped server, Koode Code automatically creates or updates this file with the appropriate configuration structure.
 
-```bash  theme={null}
+```bash theme={null}
 # Add a project-scoped server
 Koode mcp add --transport http paypal --scope project https://mcp.paypal.com/mcp
 ```
 
 The resulting `.mcp.json` file follows a standardized format:
 
-```json  theme={null}
+```json theme={null}
 {
-  "mcpServers": {
-    "shared-server": {
-      "command": "/path/to/server",
-      "args": [],
-      "env": {}
-    }
-  }
+	"mcpServers": {
+		"shared-server": {
+			"command": "/path/to/server",
+			"args": [],
+			"env": {}
+		}
+	}
 }
 ```
 
@@ -2356,7 +2371,7 @@ For security reasons, Koode Code prompts for approval before using project-scope
 
 User-scoped servers provide cross-project accessibility, making them available across all projects on your machine while remaining private to your user account. This scope works well for personal utility servers, development tools, or services you frequently use across different projects.
 
-```bash  theme={null}
+```bash theme={null}
 # Add a user server
 Koode mcp add --transport http hubspot --scope user https://mcp.hubspot.com/paulohenriquevn
 ```
@@ -2365,9 +2380,9 @@ Koode mcp add --transport http hubspot --scope user https://mcp.hubspot.com/paul
 
 Select your scope based on:
 
-* **Local scope**: Personal servers, experimental configurations, or sensitive credentials specific to one project
-* **Project scope**: Team-shared servers, project-specific tools, or services required for collaboration
-* **User scope**: Personal utilities needed across multiple projects, development tools, or frequently-used services
+- **Local scope**: Personal servers, experimental configurations, or sensitive credentials specific to one project
+- **Project scope**: Team-shared servers, project-specific tools, or services required for collaboration
+- **User scope**: Personal utilities needed across multiple projects, development tools, or frequently-used services
 
 ### Scope hierarchy and precedence
 
@@ -2379,31 +2394,31 @@ Koode Code supports environment variable expansion in `.mcp.json` files, allowin
 
 **Supported syntax:**
 
-* `${VAR}` - Expands to the value of environment variable `VAR`
-* `${VAR:-default}` - Expands to `VAR` if set, otherwise uses `default`
+- `${VAR}` - Expands to the value of environment variable `VAR`
+- `${VAR:-default}` - Expands to `VAR` if set, otherwise uses `default`
 
 **Expansion locations:**
 Environment variables can be expanded in:
 
-* `command` - The server executable path
-* `args` - Command-line arguments
-* `env` - Environment variables passed to the server
-* `url` - For HTTP server types
-* `headers` - For HTTP server authentication
+- `command` - The server executable path
+- `args` - Command-line arguments
+- `env` - Environment variables passed to the server
+- `url` - For HTTP server types
+- `headers` - For HTTP server authentication
 
 **Example with variable expansion:**
 
-```json  theme={null}
+```json theme={null}
 {
-  "mcpServers": {
-    "api-server": {
-      "type": "http",
-      "url": "${API_BASE_URL:-https://api.example.com}/mcp",
-      "headers": {
-        "Authorization": "Bearer ${API_KEY}"
-      }
-    }
-  }
+	"mcpServers": {
+		"api-server": {
+			"type": "http",
+			"url": "${API_BASE_URL:-https://api.example.com}/mcp",
+			"headers": {
+				"Authorization": "Bearer ${API_KEY}"
+			}
+		}
+	}
 }
 ```
 
@@ -2411,17 +2426,17 @@ If a required environment variable is not set and has no default value, Koode Co
 
 ## Practical examples
 
-{/* ### Example: Automate browser testing with Playwright
+{/\* ### Example: Automate browser testing with Playwright
 
-  ```bash
-  # 1. Add the Playwright MCP server
-  Koode mcp add --transport stdio playwright -- npx -y @playwright/mcp@latest
+````bash
+# 1. Add the Playwright MCP server
+Koode mcp add --transport stdio playwright -- npx -y @playwright/mcp@latest
 
-  # 2. Write and run browser tests
-  > "Test if the login flow works with test@example.com"
-  > "Take a screenshot of the checkout page on mobile"
-  > "Verify that the search feature returns results"
-  ``` */}
+# 2. Write and run browser tests
+> "Test if the login flow works with test@example.com"
+> "Take a screenshot of the checkout page on mobile"
+> "Verify that the search feature returns results"
+``` */}
 
 ### Example: Monitor errors with Sentry
 
@@ -2436,11 +2451,11 @@ Koode mcp add --transport http sentry https://mcp.sentry.dev/mcp
 > "What are the most common errors in the last 24 hours?"
 > "Show me the stack trace for error ID abc123"
 > "Which deployment introduced these new errors?"
-```
+````
 
 ### Example: Connect to GitHub for code reviews
 
-```bash  theme={null}
+```bash theme={null}
 # 1. Add the GitHub MCP server
 Koode mcp add --transport http github https://api.githubcopilot.com/mcp/
 
@@ -2456,7 +2471,7 @@ Koode mcp add --transport http github https://api.githubcopilot.com/mcp/
 
 ### Example: Query your PostgreSQL database
 
-```bash  theme={null}
+```bash theme={null}
 # 1. Add the database server with your connection string
 Koode mcp add --transport stdio db -- npx -y @bytebase/dbhub \
   --dsn "postgresql://readonly:pass@prod.db.com:5432/analytics"
@@ -2478,6 +2493,7 @@ Many cloud-based MCP servers require authentication. Koode Code supports OAuth 2
     ```bash  theme={null}
     Koode mcp add --transport http sentry https://mcp.sentry.dev/mcp
     ```
+
   </Step>
 
   <Step title="Use the /mcp command within Koode Code">
@@ -2488,17 +2504,18 @@ Many cloud-based MCP servers require authentication. Koode Code supports OAuth 2
     ```
 
     Then follow the steps in your browser to login.
+
   </Step>
 </Steps>
 
 <Tip>
   Tips:
 
-  * Authentication tokens are stored securely and refreshed automatically
-  * Use "Clear authentication" in the `/mcp` menu to revoke access
-  * If your browser doesn't open automatically, copy the provided URL
-  * OAuth authentication works with HTTP servers
-</Tip>
+- Authentication tokens are stored securely and refreshed automatically
+- Use "Clear authentication" in the `/mcp` menu to revoke access
+- If your browser doesn't open automatically, copy the provided URL
+- OAuth authentication works with HTTP servers
+  </Tip>
 
 ## Add MCP servers from JSON configuration
 
@@ -2516,6 +2533,7 @@ If you have a JSON configuration for an MCP server, you can add it directly:
     # Example: Adding a stdio server with JSON configuration
     Koode mcp add-json local-weather '{"type":"stdio","command":"/path/to/weather-cli","args":["--api-key","abc123"],"env":{"CACHE_DIR":"/tmp"}}'
     ```
+
   </Step>
 
   <Step title="Verify the server was added">
@@ -2528,10 +2546,10 @@ If you have a JSON configuration for an MCP server, you can add it directly:
 <Tip>
   Tips:
 
-  * Make sure the JSON is properly escaped in your shell
-  * The JSON must conform to the MCP server configuration schema
-  * You can use `--scope user` to add the server to your user configuration instead of the project-specific one
-</Tip>
+- Make sure the JSON is properly escaped in your shell
+- The JSON must conform to the MCP server configuration schema
+- You can use `--scope user` to add the server to your user configuration instead of the project-specific one
+  </Tip>
 
 ## Import MCP servers from Koode Desktop
 
@@ -2559,56 +2577,56 @@ If you've already configured MCP servers in Koode Desktop, you can import them:
 <Tip>
   Tips:
 
-  * This feature only works on macOS and Windows Subsystem for Linux (WSL)
-  * It reads the Koode Desktop configuration file from its standard location on those platforms
-  * Use the `--scope user` flag to add servers to your user configuration
-  * Imported servers will have the same names as in Koode Desktop
-  * If servers with the same names already exist, they will get a numerical suffix (e.g., `server_1`)
-</Tip>
+- This feature only works on macOS and Windows Subsystem for Linux (WSL)
+- It reads the Koode Desktop configuration file from its standard location on those platforms
+- Use the `--scope user` flag to add servers to your user configuration
+- Imported servers will have the same names as in Koode Desktop
+- If servers with the same names already exist, they will get a numerical suffix (e.g., `server_1`)
+  </Tip>
 
 ## Use Koode Code as an MCP server
 
 You can use Koode Code itself as an MCP server that other applications can connect to:
 
-```bash  theme={null}
+```bash theme={null}
 # Start Koode as a stdio MCP server
 Koode mcp serve
 ```
 
-You can use this in Koode Desktop by adding this configuration to Koode\_desktop\_config.json:
+You can use this in Koode Desktop by adding this configuration to Koode_desktop_config.json:
 
-```json  theme={null}
+```json theme={null}
 {
-  "mcpServers": {
-    "Koode-code": {
-      "type": "stdio",
-      "command": "Koode",
-      "args": ["mcp", "serve"],
-      "env": {}
-    }
-  }
+	"mcpServers": {
+		"Koode-code": {
+			"type": "stdio",
+			"command": "Koode",
+			"args": ["mcp", "serve"],
+			"env": {}
+		}
+	}
 }
 ```
 
 <Tip>
   Tips:
 
-  * The server provides access to Koode's tools like View, Edit, LS, etc.
-  * In Koode Desktop, try asking Koode to read files in a directory, make edits, and more.
-  * Note that this MCP server is simply exposing Koode Code's tools to your MCP client, so your own client is responsible for implementing user confirmation for individual tool calls.
-</Tip>
+- The server provides access to Koode's tools like View, Edit, LS, etc.
+- In Koode Desktop, try asking Koode to read files in a directory, make edits, and more.
+- Note that this MCP server is simply exposing Koode Code's tools to your MCP client, so your own client is responsible for implementing user confirmation for individual tool calls.
+  </Tip>
 
 ## MCP output limits and warnings
 
 When MCP tools produce large outputs, Koode Code helps manage the token usage to prevent overwhelming your conversation context:
 
-* **Output warning threshold**: Koode Code displays a warning when any MCP tool output exceeds 10,000 tokens
-* **Configurable limit**: You can adjust the maximum allowed MCP output tokens using the `MAX_MCP_OUTPUT_TOKENS` environment variable
-* **Default limit**: The default maximum is 25,000 tokens
+- **Output warning threshold**: Koode Code displays a warning when any MCP tool output exceeds 10,000 tokens
+- **Configurable limit**: You can adjust the maximum allowed MCP output tokens using the `MAX_MCP_OUTPUT_TOKENS` environment variable
+- **Default limit**: The default maximum is 25,000 tokens
 
 To increase the limit for tools that produce large outputs:
 
-```bash  theme={null}
+```bash theme={null}
 # Set a higher limit for MCP tool outputs
 export MAX_MCP_OUTPUT_TOKENS=50000
 Koode
@@ -2616,9 +2634,9 @@ Koode
 
 This is particularly useful when working with MCP servers that:
 
-* Query large datasets or databases
-* Generate detailed reports or documentation
-* Process extensive log files or debugging information
+- Query large datasets or databases
+- Generate detailed reports or documentation
+- Process extensive log files or debugging information
 
 <Warning>
   If you frequently encounter output warnings with specific MCP servers, consider increasing the limit or configuring the server to paginate or filter its responses.
@@ -2645,6 +2663,7 @@ MCP servers can expose resources that you can reference using @ mentions, simila
     ```
     > Please review the API documentation at @docs:file://api/authentication
     ```
+
   </Step>
 
   <Step title="Multiple resource references">
@@ -2653,17 +2672,18 @@ MCP servers can expose resources that you can reference using @ mentions, simila
     ```
     > Compare @postgres:schema://users with @docs:file://database/user-model
     ```
+
   </Step>
 </Steps>
 
 <Tip>
   Tips:
 
-  * Resources are automatically fetched and included as attachments when referenced
-  * Resource paths are fuzzy-searchable in the @ mention autocomplete
-  * Koode Code automatically provides tools to list and read MCP resources when servers support them
-  * Resources can contain any type of content that the MCP server provides (text, JSON, structured data, etc.)
-</Tip>
+- Resources are automatically fetched and included as attachments when referenced
+- Resource paths are fuzzy-searchable in the @ mention autocomplete
+- Koode Code automatically provides tools to list and read MCP resources when servers support them
+- Resources can contain any type of content that the MCP server provides (text, JSON, structured data, etc.)
+  </Tip>
 
 ## Use MCP prompts as slash commands
 
@@ -2692,56 +2712,57 @@ MCP servers can expose prompts that become available as slash commands in Koode 
     ```
     > /mcp__jira__create_issue "Bug in login flow" high
     ```
+
   </Step>
 </Steps>
 
 <Tip>
   Tips:
 
-  * MCP prompts are dynamically discovered from connected servers
-  * Arguments are parsed based on the prompt's defined parameters
-  * Prompt results are injected directly into the conversation
-  * Server and prompt names are normalized (spaces become underscores)
-</Tip>
+- MCP prompts are dynamically discovered from connected servers
+- Arguments are parsed based on the prompt's defined parameters
+- Prompt results are injected directly into the conversation
+- Server and prompt names are normalized (spaces become underscores)
+  </Tip>
 
 ## Enterprise MCP configuration
 
 For organizations that need centralized control over MCP servers, Koode Code supports enterprise-managed MCP configurations. This allows IT administrators to:
 
-* **Control which MCP servers employees can access**: Deploy a standardized set of approved MCP servers across the organization
-* **Prevent unauthorized MCP servers**: Optionally restrict users from adding their own MCP servers
-* **Disable MCP entirely**: Remove MCP functionality completely if needed
+- **Control which MCP servers employees can access**: Deploy a standardized set of approved MCP servers across the organization
+- **Prevent unauthorized MCP servers**: Optionally restrict users from adding their own MCP servers
+- **Disable MCP entirely**: Remove MCP functionality completely if needed
 
 ### Setting up enterprise MCP configuration
 
 System administrators can deploy an enterprise MCP configuration file alongside the managed settings file:
 
-* **macOS**: `/Library/Application Support/KoodeCode/managed-mcp.json`
-* **Windows**: `C:\ProgramData\KoodeCode\managed-mcp.json`
-* **Linux**: `/etc/Koode-code/managed-mcp.json`
+- **macOS**: `/Library/Application Support/KoodeCode/managed-mcp.json`
+- **Windows**: `C:\ProgramData\KoodeCode\managed-mcp.json`
+- **Linux**: `/etc/Koode-code/managed-mcp.json`
 
 The `managed-mcp.json` file uses the same format as a standard `.mcp.json` file:
 
-```json  theme={null}
+```json theme={null}
 {
-  "mcpServers": {
-    "github": {
-      "type": "http",
-      "url": "https://api.githubcopilot.com/mcp/"
-    },
-    "sentry": {
-      "type": "http",
-      "url": "https://mcp.sentry.dev/mcp"
-    },
-    "company-internal": {
-      "type": "stdio",
-      "command": "/usr/local/bin/company-mcp-server",
-      "args": ["--config", "/etc/company/mcp-config.json"],
-      "env": {
-        "COMPANY_API_URL": "https://internal.company.com"
-      }
-    }
-  }
+	"mcpServers": {
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/"
+		},
+		"sentry": {
+			"type": "http",
+			"url": "https://mcp.sentry.dev/mcp"
+		},
+		"company-internal": {
+			"type": "stdio",
+			"command": "/usr/local/bin/company-mcp-server",
+			"args": ["--config", "/etc/company/mcp-config.json"],
+			"env": {
+				"COMPANY_API_URL": "https://internal.company.com"
+			}
+		}
+	}
 }
 ```
 
@@ -2749,48 +2770,47 @@ The `managed-mcp.json` file uses the same format as a standard `.mcp.json` file:
   **Enterprise configuration precedence**: The enterprise MCP configuration has the highest precedence and cannot be overridden by user, local, or project configurations when `useEnterpriseMcpConfigOnly` is enabled.
 </Note>
 
-
 # CLI reference
 
 > Complete reference for Koode Code command-line interface, including commands and flags.
 
 ## CLI commands
 
-| Command                            | Description                                    | Example                                                            |
-| :--------------------------------- | :--------------------------------------------- | :----------------------------------------------------------------- |
-| `Koode`                           | Start interactive REPL                         | `Koode`                                                           |
-| `Koode "query"`                   | Start REPL with initial prompt                 | `Koode "explain this project"`                                    |
-| `Koode -p "query"`                | Query via SDK, then exit                       | `Koode -p "explain this function"`                                |
-| `cat file \| Koode -p "query"`    | Process piped content                          | `cat logs.txt \| Koode -p "explain"`                              |
-| `Koode -c`                        | Continue most recent conversation              | `Koode -c`                                                        |
-| `Koode -c -p "query"`             | Continue via SDK                               | `Koode -c -p "Check for type errors"`                             |
-| `Koode -r "<session-id>" "query"` | Resume session by ID                           | `Koode -r "abc123" "Finish this PR"`                              |
-| `Koode update`                    | Update to latest version                       | `Koode update`                                                    |
+| Command                           | Description                                    | Example                                                          |
+| :-------------------------------- | :--------------------------------------------- | :--------------------------------------------------------------- |
+| `Koode`                           | Start interactive REPL                         | `Koode`                                                          |
+| `Koode "query"`                   | Start REPL with initial prompt                 | `Koode "explain this project"`                                   |
+| `Koode -p "query"`                | Query via SDK, then exit                       | `Koode -p "explain this function"`                               |
+| `cat file \| Koode -p "query"`    | Process piped content                          | `cat logs.txt \| Koode -p "explain"`                             |
+| `Koode -c`                        | Continue most recent conversation              | `Koode -c`                                                       |
+| `Koode -c -p "query"`             | Continue via SDK                               | `Koode -c -p "Check for type errors"`                            |
+| `Koode -r "<session-id>" "query"` | Resume session by ID                           | `Koode -r "abc123" "Finish this PR"`                             |
+| `Koode update`                    | Update to latest version                       | `Koode update`                                                   |
 | `Koode mcp`                       | Configure Model Context Protocol (MCP) servers | See the [Koode Code MCP documentation](/en/docs/Koode-code/mcp). |
 
 ## CLI flags
 
 Customize Koode Code's behavior with these command-line flags:
 
-| Flag                             | Description                                                                                                                                              | Example                                                                                            |
-| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------- |
+| Flag                             | Description                                                                                                                                             | Example                                                                                           |
+| :------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------ |
 | `--add-dir`                      | Add additional working directories for Koode to access (validates each path exists as a directory)                                                      | `Koode --add-dir ../apps ../lib`                                                                  |
 | `--agents`                       | Define custom [subagents](/en/docs/Koode-code/sub-agents) dynamically via JSON (see below for format)                                                   | `Koode --agents '{"reviewer":{"description":"Reviews code","prompt":"You are a code reviewer"}}'` |
-| `--allowedTools`                 | A list of tools that should be allowed without prompting the user for permission, in addition to [settings.json files](/en/docs/Koode-code/settings)    | `"Bash(git log:*)" "Bash(git diff:*)" "Read"`                                                      |
-| `--disallowedTools`              | A list of tools that should be disallowed without prompting the user for permission, in addition to [settings.json files](/en/docs/Koode-code/settings) | `"Bash(git log:*)" "Bash(git diff:*)" "Edit"`                                                      |
+| `--allowedTools`                 | A list of tools that should be allowed without prompting the user for permission, in addition to [settings.json files](/en/docs/Koode-code/settings)    | `"Bash(git log:*)" "Bash(git diff:*)" "Read"`                                                     |
+| `--disallowedTools`              | A list of tools that should be disallowed without prompting the user for permission, in addition to [settings.json files](/en/docs/Koode-code/settings) | `"Bash(git log:*)" "Bash(git diff:*)" "Edit"`                                                     |
 | `--print`, `-p`                  | Print response without interactive mode (see [SDK documentation](/en/docs/Koode-code/sdk) for programmatic usage details)                               | `Koode -p "query"`                                                                                |
-| `--append-system-prompt`         | Append to system prompt (only with `--print`)                                                                                                            | `Koode --append-system-prompt "Custom instruction"`                                               |
-| `--output-format`                | Specify output format for print mode (options: `text`, `json`, `stream-json`)                                                                            | `Koode -p "query" --output-format json`                                                           |
-| `--input-format`                 | Specify input format for print mode (options: `text`, `stream-json`)                                                                                     | `Koode -p --output-format json --input-format stream-json`                                        |
-| `--include-partial-messages`     | Include partial streaming events in output (requires `--print` and `--output-format=stream-json`)                                                        | `Koode -p --output-format stream-json --include-partial-messages "query"`                         |
-| `--verbose`                      | Enable verbose logging, shows full turn-by-turn output (helpful for debugging in both print and interactive modes)                                       | `Koode --verbose`                                                                                 |
-| `--max-turns`                    | Limit the number of agentic turns in non-interactive mode                                                                                                | `Koode -p --max-turns 3 "query"`                                                                  |
-| `--model`                        | Sets the model for the current session with an alias for the latest model (`sonnet` or `opus`) or a model's full name                                    | `Koode --model Koode-sonnet-4-5-20250929`                                                        |
-| `--permission-mode`              | Begin in a specified [permission mode](iam#permission-modes)                                                                                             | `Koode --permission-mode plan`                                                                    |
-| `--permission-prompt-tool`       | Specify an MCP tool to handle permission prompts in non-interactive mode                                                                                 | `Koode -p --permission-prompt-tool mcp_auth_tool "query"`                                         |
-| `--resume`                       | Resume a specific session by ID, or by choosing in interactive mode                                                                                      | `Koode --resume abc123 "query"`                                                                   |
-| `--continue`                     | Load the most recent conversation in the current directory                                                                                               | `Koode --continue`                                                                                |
-| `--dangerously-skip-permissions` | Skip permission prompts (use with caution)                                                                                                               | `Koode --dangerously-skip-permissions`                                                            |
+| `--append-system-prompt`         | Append to system prompt (only with `--print`)                                                                                                           | `Koode --append-system-prompt "Custom instruction"`                                               |
+| `--output-format`                | Specify output format for print mode (options: `text`, `json`, `stream-json`)                                                                           | `Koode -p "query" --output-format json`                                                           |
+| `--input-format`                 | Specify input format for print mode (options: `text`, `stream-json`)                                                                                    | `Koode -p --output-format json --input-format stream-json`                                        |
+| `--include-partial-messages`     | Include partial streaming events in output (requires `--print` and `--output-format=stream-json`)                                                       | `Koode -p --output-format stream-json --include-partial-messages "query"`                         |
+| `--verbose`                      | Enable verbose logging, shows full turn-by-turn output (helpful for debugging in both print and interactive modes)                                      | `Koode --verbose`                                                                                 |
+| `--max-turns`                    | Limit the number of agentic turns in non-interactive mode                                                                                               | `Koode -p --max-turns 3 "query"`                                                                  |
+| `--model`                        | Sets the model for the current session with an alias for the latest model (`sonnet` or `opus`) or a model's full name                                   | `Koode --model Koode-sonnet-4-5-20250929`                                                         |
+| `--permission-mode`              | Begin in a specified [permission mode](iam#permission-modes)                                                                                            | `Koode --permission-mode plan`                                                                    |
+| `--permission-prompt-tool`       | Specify an MCP tool to handle permission prompts in non-interactive mode                                                                                | `Koode -p --permission-prompt-tool mcp_auth_tool "query"`                                         |
+| `--resume`                       | Resume a specific session by ID, or by choosing in interactive mode                                                                                     | `Koode --resume abc123 "query"`                                                                   |
+| `--continue`                     | Load the most recent conversation in the current directory                                                                                              | `Koode --continue`                                                                                |
+| `--dangerously-skip-permissions` | Skip permission prompts (use with caution)                                                                                                              | `Koode --dangerously-skip-permissions`                                                            |
 
 <Tip>
   The `--output-format json` flag is particularly useful for scripting and
@@ -2810,7 +2830,7 @@ The `--agents` flag accepts a JSON object that defines one or more custom subage
 
 Example:
 
-```bash  theme={null}
+```bash theme={null}
 Koode --agents '{
   "code-reviewer": {
     "description": "Expert code reviewer. Use proactively after code changes.",
@@ -2833,12 +2853,12 @@ streaming, verbose logging, and programmatic usage, see the
 
 ## See also
 
-* [Interactive mode](/en/docs/Koode-code/interactive-mode) - Shortcuts, input modes, and interactive features
-* [Slash commands](/en/docs/Koode-code/slash-commands) - Interactive session commands
-* [Quickstart guide](/en/docs/Koode-code/quickstart) - Getting started with Koode Code
-* [Common workflows](/en/docs/Koode-code/common-workflows) - Advanced workflows and patterns
-* [Settings](/en/docs/Koode-code/settings) - Configuration options
-* [SDK documentation](/en/docs/Koode-code/sdk) - Programmatic usage and integrations
+- [Interactive mode](/en/docs/Koode-code/interactive-mode) - Shortcuts, input modes, and interactive features
+- [Slash commands](/en/docs/Koode-code/slash-commands) - Interactive session commands
+- [Quickstart guide](/en/docs/Koode-code/quickstart) - Getting started with Koode Code
+- [Common workflows](/en/docs/Koode-code/common-workflows) - Advanced workflows and patterns
+- [Settings](/en/docs/Koode-code/settings) - Configuration options
+- [SDK documentation](/en/docs/Koode-code/sdk) - Programmatic usage and integrations
 
 # Interactive mode
 
@@ -2852,18 +2872,18 @@ streaming, verbose logging, and programmatic usage, see the
 
 ### General controls
 
-| Shortcut                                     | Description                                                              | Context                                                     |
-| :------------------------------------------- | :----------------------------------------------------------------------- | :---------------------------------------------------------- |
-| `Ctrl+C`                                     | Cancel current input or generation                                       | Standard interrupt                                          |
+| Shortcut                                     | Description                                                             | Context                                                     |
+| :------------------------------------------- | :---------------------------------------------------------------------- | :---------------------------------------------------------- |
+| `Ctrl+C`                                     | Cancel current input or generation                                      | Standard interrupt                                          |
 | `Ctrl+D`                                     | Exit Koode Code session                                                 | EOF signal                                                  |
-| `Ctrl+L`                                     | Clear terminal screen                                                    | Keeps conversation history                                  |
-| `Ctrl+O`                                     | Toggle verbose output                                                    | Shows detailed tool usage and execution                     |
-| `Ctrl+R`                                     | Reverse search command history                                           | Search through previous commands interactively              |
-| `Ctrl+V` (macOS/Linux) or `Alt+V` (Windows)  | Paste image from clipboard                                               | Pastes an image or path to an image file                    |
-| `Up/Down arrows`                             | Navigate command history                                                 | Recall previous inputs                                      |
-| `Esc` + `Esc`                                | Rewind the code/conversation                                             | Restore the code and/or conversation to a previous point    |
+| `Ctrl+L`                                     | Clear terminal screen                                                   | Keeps conversation history                                  |
+| `Ctrl+O`                                     | Toggle verbose output                                                   | Shows detailed tool usage and execution                     |
+| `Ctrl+R`                                     | Reverse search command history                                          | Search through previous commands interactively              |
+| `Ctrl+V` (macOS/Linux) or `Alt+V` (Windows)  | Paste image from clipboard                                              | Pastes an image or path to an image file                    |
+| `Up/Down arrows`                             | Navigate command history                                                | Recall previous inputs                                      |
+| `Esc` + `Esc`                                | Rewind the code/conversation                                            | Restore the code and/or conversation to a previous point    |
 | `Tab`                                        | Toggle [extended thinking](/en/docs/build-with-Koode/extended-thinking) | Switch between Thinking on and Thinking off                 |
-| `Shift+Tab` or `Alt+M` (some configurations) | Toggle permission modes                                                  | Switch between Auto-Accept Mode, Plan Mode, and normal mode |
+| `Shift+Tab` or `Alt+M` (some configurations) | Toggle permission modes                                                 | Switch between Auto-Accept Mode, Plan Mode, and normal mode |
 
 ### Multiline input
 
@@ -2881,12 +2901,12 @@ streaming, verbose logging, and programmatic usage, see the
 
 ### Quick commands
 
-| Shortcut     | Description                        | Notes                                                         |
-| :----------- | :--------------------------------- | :------------------------------------------------------------ |
+| Shortcut     | Description                       | Notes                                                         |
+| :----------- | :-------------------------------- | :------------------------------------------------------------ |
 | `#` at start | Memory shortcut - add to Koode.md | Prompts for file selection                                    |
-| `/` at start | Slash command                      | See [slash commands](/en/docs/Koode-code/slash-commands)     |
-| `!` at start | Bash mode                          | Run commands directly and add execution output to the session |
-| `@`          | File path mention                  | Trigger file path autocomplete                                |
+| `/` at start | Slash command                     | See [slash commands](/en/docs/Koode-code/slash-commands)      |
+| `!` at start | Bash mode                         | Run commands directly and add execution output to the session |
+| `@`          | File path mention                 | Trigger file path autocomplete                                |
 
 ## Vim editor mode
 
@@ -2935,10 +2955,10 @@ Enable vim-style editing with `/vim` command or configure permanently via `/conf
 
 Koode Code maintains command history for the current session:
 
-* History is stored per working directory
-* Cleared with `/clear` command
-* Use Up/Down arrows to navigate (see keyboard shortcuts above)
-* **Note**: History expansion (`!`) is disabled by default
+- History is stored per working directory
+- Cleared with `/clear` command
+- Use Up/Down arrows to navigate (see keyboard shortcuts above)
+- **Note**: History expansion (`!`) is disabled by default
 
 ### Reverse search with Ctrl+R
 
@@ -2948,11 +2968,11 @@ Press `Ctrl+R` to interactively search through your command history:
 2. **Type query**: Enter text to search for in previous commands - the search term will be highlighted in matching results
 3. **Navigate matches**: Press `Ctrl+R` again to cycle through older matches
 4. **Accept match**:
-   * Press `Tab` or `Esc` to accept the current match and continue editing
-   * Press `Enter` to accept and execute the command immediately
+   - Press `Tab` or `Esc` to accept the current match and continue editing
+   - Press `Enter` to accept and execute the command immediately
 5. **Cancel search**:
-   * Press `Ctrl+C` to cancel and restore your original input
-   * Press `Backspace` on empty search to cancel
+   - Press `Ctrl+C` to cancel and restore your original input
+   - Press `Backspace` on empty search to cancel
 
 The search displays matching commands with the search term highlighted, making it easy to find and reuse previous inputs.
 
@@ -2966,28 +2986,28 @@ When Koode Code runs a command in the background, it runs the command asynchrono
 
 To run commands in the background, you can either:
 
-* Prompt Koode Code to run a command in the background
-* Press Ctrl+B to move a regular Bash tool invocation to the background. (Tmux users must press Ctrl+B twice due to tmux's prefix key.)
+- Prompt Koode Code to run a command in the background
+- Press Ctrl+B to move a regular Bash tool invocation to the background. (Tmux users must press Ctrl+B twice due to tmux's prefix key.)
 
 **Key features:**
 
-* Output is buffered and Koode can retrieve it using the BashOutput tool
-* Background tasks have unique IDs for tracking and output retrieval
-* Background tasks are automatically cleaned up when Koode Code exits
+- Output is buffered and Koode can retrieve it using the BashOutput tool
+- Background tasks have unique IDs for tracking and output retrieval
+- Background tasks are automatically cleaned up when Koode Code exits
 
 **Common backgrounded commands:**
 
-* Build tools (webpack, vite, make)
-* Package managers (npm, yarn, pnpm)
-* Test runners (jest, pytest)
-* Development servers
-* Long-running processes (docker, terraform)
+- Build tools (webpack, vite, make)
+- Package managers (npm, yarn, pnpm)
+- Test runners (jest, pytest)
+- Development servers
+- Long-running processes (docker, terraform)
 
 ### Bash mode with `!` prefix
 
 Run bash commands directly without going through Koode by prefixing your input with `!`:
 
-```bash  theme={null}
+```bash theme={null}
 ! npm test
 ! git status
 ! ls -la
@@ -2995,20 +3015,20 @@ Run bash commands directly without going through Koode by prefixing your input w
 
 Bash mode:
 
-* Adds the command and its output to the conversation context
-* Shows real-time progress and output
-* Supports the same `Ctrl+B` backgrounding for long-running commands
-* Does not require Koode to interpret or approve the command
+- Adds the command and its output to the conversation context
+- Shows real-time progress and output
+- Supports the same `Ctrl+B` backgrounding for long-running commands
+- Does not require Koode to interpret or approve the command
 
 This is useful for quick shell operations while maintaining conversation context.
 
 ## See also
 
-* [Slash commands](/en/docs/Koode-code/slash-commands) - Interactive session commands
-* [Checkpointing](/en/docs/Koode-code/checkpointing) - Rewind Koode's edits and restore previous states
-* [CLI reference](/en/docs/Koode-code/cli-reference) - Command-line flags and options
-* [Settings](/en/docs/Koode-code/settings) - Configuration options
-* [Memory management](/en/docs/Koode-code/memory) - Managing Koode.md files
+- [Slash commands](/en/docs/Koode-code/slash-commands) - Interactive session commands
+- [Checkpointing](/en/docs/Koode-code/checkpointing) - Rewind Koode's edits and restore previous states
+- [CLI reference](/en/docs/Koode-code/cli-reference) - Command-line flags and options
+- [Settings](/en/docs/Koode-code/settings) - Configuration options
+- [Memory management](/en/docs/Koode-code/memory) - Managing Koode.md files
 
 # Slash commands
 
@@ -3016,31 +3036,31 @@ This is useful for quick shell operations while maintaining conversation context
 
 ## Built-in slash commands
 
-| Command                   | Purpose                                                                                                                                      |
-| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/add-dir`                | Add additional working directories                                                                                                           |
-| `/agents`                 | Manage custom AI subagents for specialized tasks                                                                                             |
-| `/bug`                    | Report bugs (sends conversation to paulohenriquevn)                                                                                                |
-| `/clear`                  | Clear conversation history                                                                                                                   |
-| `/compact [instructions]` | Compact conversation with optional focus instructions                                                                                        |
-| `/config`                 | Open the Settings interface (Config tab)                                                                                                     |
+| Command                   | Purpose                                                                                                                                     |
+| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/add-dir`                | Add additional working directories                                                                                                          |
+| `/agents`                 | Manage custom AI subagents for specialized tasks                                                                                            |
+| `/bug`                    | Report bugs (sends conversation to paulohenriquevn)                                                                                         |
+| `/clear`                  | Clear conversation history                                                                                                                  |
+| `/compact [instructions]` | Compact conversation with optional focus instructions                                                                                       |
+| `/config`                 | Open the Settings interface (Config tab)                                                                                                    |
 | `/cost`                   | Show token usage statistics (see [cost tracking guide](/en/docs/Koode-code/costs#using-the-cost-command) for subscription-specific details) |
 | `/doctor`                 | Checks the health of your Koode Code installation                                                                                           |
-| `/help`                   | Get usage help                                                                                                                               |
+| `/help`                   | Get usage help                                                                                                                              |
 | `/init`                   | Initialize project with Koode.md guide                                                                                                      |
-| `/login`                  | Switch paulohenriquevn accounts                                                                                                                    |
-| `/logout`                 | Sign out from your paulohenriquevn account                                                                                                         |
-| `/mcp`                    | Manage MCP server connections and OAuth authentication                                                                                       |
+| `/login`                  | Switch paulohenriquevn accounts                                                                                                             |
+| `/logout`                 | Sign out from your paulohenriquevn account                                                                                                  |
+| `/mcp`                    | Manage MCP server connections and OAuth authentication                                                                                      |
 | `/memory`                 | Edit Koode.md memory files                                                                                                                  |
-| `/model`                  | Select or change the AI model                                                                                                                |
+| `/model`                  | Select or change the AI model                                                                                                               |
 | `/permissions`            | View or update [permissions](/en/docs/Koode-code/iam#configuring-permissions)                                                               |
-| `/pr_comments`            | View pull request comments                                                                                                                   |
-| `/review`                 | Request code review                                                                                                                          |
-| `/rewind`                 | Rewind the conversation and/or code                                                                                                          |
-| `/status`                 | Open the Settings interface (Status tab) showing version, model, account, and connectivity                                                   |
-| `/terminal-setup`         | Install Shift+Enter key binding for newlines (iTerm2 and VSCode only)                                                                        |
-| `/usage`                  | Show plan usage limits and rate limit status (subscription plans only)                                                                       |
-| `/vim`                    | Enter vim mode for alternating insert and command modes                                                                                      |
+| `/pr_comments`            | View pull request comments                                                                                                                  |
+| `/review`                 | Request code review                                                                                                                         |
+| `/rewind`                 | Rewind the conversation and/or code                                                                                                         |
+| `/status`                 | Open the Settings interface (Status tab) showing version, model, account, and connectivity                                                  |
+| `/terminal-setup`         | Install Shift+Enter key binding for newlines (iTerm2 and VSCode only)                                                                       |
+| `/usage`                  | Show plan usage limits and rate limit status (subscription plans only)                                                                      |
+| `/vim`                    | Enter vim mode for alternating insert and command modes                                                                                     |
 
 ## Custom slash commands
 
@@ -3069,7 +3089,7 @@ Commands stored in your repository and shared with your team. When listed in `/h
 
 In the following example, we create the `/optimize` command:
 
-```bash  theme={null}
+```bash theme={null}
 # Create a project command
 mkdir -p .Koode/commands
 echo "Analyze this code for performance issues and suggest optimizations:" > .Koode/commands/optimize.md
@@ -3083,7 +3103,7 @@ Commands available across all your projects. When listed in `/help`, these comma
 
 In the following example, we create the `/security-review` command:
 
-```bash  theme={null}
+```bash theme={null}
 # Create a personal command
 mkdir -p ~/.Koode/commands
 echo "Review this code for security vulnerabilities:" > ~/.Koode/commands/security-review.md
@@ -3108,7 +3128,7 @@ Pass dynamic values to commands using argument placeholders:
 
 The `$ARGUMENTS` placeholder captures all arguments passed to the command:
 
-```bash  theme={null}
+```bash theme={null}
 # Command definition
 echo 'Fix issue #$ARGUMENTS following our coding standards' > .Koode/commands/fix-issue.md
 
@@ -3121,8 +3141,8 @@ echo 'Fix issue #$ARGUMENTS following our coding standards' > .Koode/commands/fi
 
 Access specific arguments individually using positional parameters (similar to shell scripts):
 
-```bash  theme={null}
-# Command definition  
+```bash theme={null}
+# Command definition
 echo 'Review PR #$1 with priority $2 and assign to $3' > .Koode/commands/review-pr.md
 
 # Usage
@@ -3132,17 +3152,17 @@ echo 'Review PR #$1 with priority $2 and assign to $3' > .Koode/commands/review-
 
 Use positional arguments when you need to:
 
-* Access arguments individually in different parts of your command
-* Provide defaults for missing arguments
-* Build more structured commands with specific parameter roles
+- Access arguments individually in different parts of your command
+- Provide defaults for missing arguments
+- Build more structured commands with specific parameter roles
 
 #### Bash command execution
 
-Execute bash commands before the slash command runs using the `!` prefix. The output is included in the command context. You *must* include `allowed-tools` with the `Bash` tool, but you can choose the specific bash commands to allow.
+Execute bash commands before the slash command runs using the `!` prefix. The output is included in the command context. You _must_ include `allowed-tools` with the `Bash` tool, but you can choose the specific bash commands to allow.
 
 For example:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
 description: Create a git commit
@@ -3166,7 +3186,7 @@ Include file contents in commands using the `@` prefix to [reference files](/en/
 
 For example:
 
-```markdown  theme={null}
+```markdown theme={null}
 # Reference a specific file
 
 Review the implementation in @src/utils/helpers.js
@@ -3189,12 +3209,12 @@ Command files support frontmatter, useful for specifying metadata about the comm
 | `allowed-tools`            | List of tools the command can use                                                                                                                                                     | Inherits from the conversation      |
 | `argument-hint`            | The arguments expected for the slash command. Example: `argument-hint: add [tagId] \| remove [tagId] \| list`. This hint is shown to the user when auto-completing the slash command. | None                                |
 | `description`              | Brief description of the command                                                                                                                                                      | Uses the first line from the prompt |
-| `model`                    | Specific model string (see [Models overview](/en/docs/about-Koode/models/overview))                                                                                                  | Inherits from the conversation      |
+| `model`                    | Specific model string (see [Models overview](/en/docs/about-Koode/models/overview))                                                                                                   | Inherits from the conversation      |
 | `disable-model-invocation` | Whether to prevent `SlashCommand` tool from calling this command                                                                                                                      | false                               |
 
 For example:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
 argument-hint: [message]
@@ -3207,7 +3227,7 @@ Create a git commit with message: $ARGUMENTS
 
 Example using positional arguments:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 argument-hint: [pr-number] [priority] [assignee]
 description: Review pull request
@@ -3225,9 +3245,9 @@ Focus on security, performance, and code style.
 
 Plugin commands are:
 
-* **Namespaced**: Commands can use the format `/plugin-name:command-name` to avoid conflicts (plugin prefix is optional unless there are name collisions)
-* **Automatically available**: Once a plugin is installed and enabled, its commands appear in `/help`
-* **Fully integrated**: Support all command features (arguments, frontmatter, bash execution, file references)
+- **Namespaced**: Commands can use the format `/plugin-name:command-name` to avoid conflicts (plugin prefix is optional unless there are name collisions)
+- **Automatically available**: Once a plugin is installed and enabled, its commands appear in `/help`
+- **Fully integrated**: Support all command features (arguments, frontmatter, bash execution, file references)
 
 ### Plugin command structure
 
@@ -3237,7 +3257,7 @@ Plugin commands are:
 
 **Basic command structure**:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 description: Brief description of what the command does
 ---
@@ -3250,10 +3270,10 @@ Include specific guidance on parameters, expected outcomes, and any special cons
 
 **Advanced command features**:
 
-* **Arguments**: Use placeholders like `{arg1}` in command descriptions
-* **Subdirectories**: Organize commands in subdirectories for namespacing
-* **Bash integration**: Commands can execute shell scripts and programs
-* **File references**: Commands can reference and modify project files
+- **Arguments**: Use placeholders like `{arg1}` in command descriptions
+- **Subdirectories**: Organize commands in subdirectories for namespacing
+- **Bash integration**: Commands can execute shell scripts and programs
+- **File references**: Commands can reference and modify project files
 
 ### Invocation patterns
 
@@ -3287,9 +3307,9 @@ MCP commands follow the pattern:
 
 MCP commands are automatically available when:
 
-* An MCP server is connected and active
-* The server exposes prompts through the MCP protocol
-* The prompts are successfully retrieved during connection
+- An MCP server is connected and active
+- The server exposes prompts through the MCP protocol
+- The prompts are successfully retrieved during connection
 
 #### Arguments
 
@@ -3306,27 +3326,27 @@ MCP prompts can accept arguments defined by the server:
 
 #### Naming conventions
 
-* Server and prompt names are normalized
-* Spaces and special characters become underscores
-* Names are lowercased for consistency
+- Server and prompt names are normalized
+- Spaces and special characters become underscores
+- Names are lowercased for consistency
 
 ### Managing MCP connections
 
 Use the `/mcp` command to:
 
-* View all configured MCP servers
-* Check connection status
-* Authenticate with OAuth-enabled servers
-* Clear authentication tokens
-* View available tools and prompts from each server
+- View all configured MCP servers
+- Check connection status
+- Authenticate with OAuth-enabled servers
+- Clear authentication tokens
+- View available tools and prompts from each server
 
 ### MCP permissions and wildcards
 
 When configuring [permissions for MCP tools](/en/docs/Koode-code/iam#tool-specific-permission-rules), note that **wildcards are not supported**:
 
-* ✅ **Correct**: `mcp__github` (approves ALL tools from the github server)
-* ✅ **Correct**: `mcp__github__get_issue` (approves specific tool)
-* ❌ **Incorrect**: `mcp__github__*` (wildcards not supported)
+- ✅ **Correct**: `mcp__github` (approves ALL tools from the github server)
+- ✅ **Correct**: `mcp__github__get_issue` (approves specific tool)
+- ❌ **Incorrect**: `mcp__github__*` (wildcards not supported)
 
 To approve all tools from an MCP server, use just the server name: `mcp__servername`. To approve specific tools only, list each tool individually.
 
@@ -3353,8 +3373,8 @@ the operations below to manage context.
 
 `SlashCommand` tool only supports custom slash commands that:
 
-* Are user-defined. Built-in commands like `/compact` and `/init` are *not* supported.
-* Have the `description` frontmatter field populated. We use the `description` in the context.
+- Are user-defined. Built-in commands like `/compact` and `/init` are _not_ supported.
+- Have the `description` frontmatter field populated. We use the `description` in the context.
 
 For Koode Code versions >= 1.0.124, you can see which custom slash commands
 `SlashCommand` tool can invoke by running `Koode --debug` and triggering a query.
@@ -3363,7 +3383,7 @@ For Koode Code versions >= 1.0.124, you can see which custom slash commands
 
 To prevent Koode from executing any slash commands via the tool:
 
-```bash  theme={null}
+```bash theme={null}
 /permissions
 # Add to deny rules: SlashCommand
 ```
@@ -3381,8 +3401,8 @@ This will also remove the command's metadata from context.
 
 The permission rules support:
 
-* **Exact match**: `SlashCommand:/commit` (allows only `/commit` with no arguments)
-* **Prefix match**: `SlashCommand:/review-pr:*` (allows `/review-pr` with any arguments)
+- **Exact match**: `SlashCommand:/commit` (allows only `/commit` with no arguments)
+- **Prefix match**: `SlashCommand:/review-pr:*` (allows `/review-pr` with any arguments)
 
 ### Character budget limit
 
@@ -3392,20 +3412,20 @@ are available.
 
 The budget includes each custom slash command's name, args, and description.
 
-* **Default limit**: 15,000 characters
-* **Custom limit**: Set via `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable
+- **Default limit**: 15,000 characters
+- **Custom limit**: Set via `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable
 
 When the character budget is exceeded, Koode will see only a subset of the
 available commands. In `/context`, a warning will show with "M of N commands".
 
 ## See also
 
-* [Plugins](/en/docs/Koode-code/plugins) - Extend Koode Code with custom commands through plugins
-* [Identity and Access Management](/en/docs/Koode-code/iam) - Complete guide to permissions, including MCP tool permissions
-* [Interactive mode](/en/docs/Koode-code/interactive-mode) - Shortcuts, input modes, and interactive features
-* [CLI reference](/en/docs/Koode-code/cli-reference) - Command-line flags and options
-* [Settings](/en/docs/Koode-code/settings) - Configuration options
-* [Memory management](/en/docs/Koode-code/memory) - Managing Koode's memory across sessions
+- [Plugins](/en/docs/Koode-code/plugins) - Extend Koode Code with custom commands through plugins
+- [Identity and Access Management](/en/docs/Koode-code/iam) - Complete guide to permissions, including MCP tool permissions
+- [Interactive mode](/en/docs/Koode-code/interactive-mode) - Shortcuts, input modes, and interactive features
+- [CLI reference](/en/docs/Koode-code/cli-reference) - Command-line flags and options
+- [Settings](/en/docs/Koode-code/settings) - Configuration options
+- [Memory management](/en/docs/Koode-code/memory) - Managing Koode's memory across sessions
 
 # Slash commands
 
@@ -3413,31 +3433,31 @@ available commands. In `/context`, a warning will show with "M of N commands".
 
 ## Built-in slash commands
 
-| Command                   | Purpose                                                                                                                                      |
-| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/add-dir`                | Add additional working directories                                                                                                           |
-| `/agents`                 | Manage custom AI subagents for specialized tasks                                                                                             |
-| `/bug`                    | Report bugs (sends conversation to paulohenriquevn)                                                                                                |
-| `/clear`                  | Clear conversation history                                                                                                                   |
-| `/compact [instructions]` | Compact conversation with optional focus instructions                                                                                        |
-| `/config`                 | Open the Settings interface (Config tab)                                                                                                     |
+| Command                   | Purpose                                                                                                                                     |
+| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/add-dir`                | Add additional working directories                                                                                                          |
+| `/agents`                 | Manage custom AI subagents for specialized tasks                                                                                            |
+| `/bug`                    | Report bugs (sends conversation to paulohenriquevn)                                                                                         |
+| `/clear`                  | Clear conversation history                                                                                                                  |
+| `/compact [instructions]` | Compact conversation with optional focus instructions                                                                                       |
+| `/config`                 | Open the Settings interface (Config tab)                                                                                                    |
 | `/cost`                   | Show token usage statistics (see [cost tracking guide](/en/docs/Koode-code/costs#using-the-cost-command) for subscription-specific details) |
 | `/doctor`                 | Checks the health of your Koode Code installation                                                                                           |
-| `/help`                   | Get usage help                                                                                                                               |
+| `/help`                   | Get usage help                                                                                                                              |
 | `/init`                   | Initialize project with Koode.md guide                                                                                                      |
-| `/login`                  | Switch paulohenriquevn accounts                                                                                                                    |
-| `/logout`                 | Sign out from your paulohenriquevn account                                                                                                         |
-| `/mcp`                    | Manage MCP server connections and OAuth authentication                                                                                       |
+| `/login`                  | Switch paulohenriquevn accounts                                                                                                             |
+| `/logout`                 | Sign out from your paulohenriquevn account                                                                                                  |
+| `/mcp`                    | Manage MCP server connections and OAuth authentication                                                                                      |
 | `/memory`                 | Edit Koode.md memory files                                                                                                                  |
-| `/model`                  | Select or change the AI model                                                                                                                |
+| `/model`                  | Select or change the AI model                                                                                                               |
 | `/permissions`            | View or update [permissions](/en/docs/Koode-code/iam#configuring-permissions)                                                               |
-| `/pr_comments`            | View pull request comments                                                                                                                   |
-| `/review`                 | Request code review                                                                                                                          |
-| `/rewind`                 | Rewind the conversation and/or code                                                                                                          |
-| `/status`                 | Open the Settings interface (Status tab) showing version, model, account, and connectivity                                                   |
-| `/terminal-setup`         | Install Shift+Enter key binding for newlines (iTerm2 and VSCode only)                                                                        |
-| `/usage`                  | Show plan usage limits and rate limit status (subscription plans only)                                                                       |
-| `/vim`                    | Enter vim mode for alternating insert and command modes                                                                                      |
+| `/pr_comments`            | View pull request comments                                                                                                                  |
+| `/review`                 | Request code review                                                                                                                         |
+| `/rewind`                 | Rewind the conversation and/or code                                                                                                         |
+| `/status`                 | Open the Settings interface (Status tab) showing version, model, account, and connectivity                                                  |
+| `/terminal-setup`         | Install Shift+Enter key binding for newlines (iTerm2 and VSCode only)                                                                       |
+| `/usage`                  | Show plan usage limits and rate limit status (subscription plans only)                                                                      |
+| `/vim`                    | Enter vim mode for alternating insert and command modes                                                                                     |
 
 ## Custom slash commands
 
@@ -3466,7 +3486,7 @@ Commands stored in your repository and shared with your team. When listed in `/h
 
 In the following example, we create the `/optimize` command:
 
-```bash  theme={null}
+```bash theme={null}
 # Create a project command
 mkdir -p .Koode/commands
 echo "Analyze this code for performance issues and suggest optimizations:" > .Koode/commands/optimize.md
@@ -3480,7 +3500,7 @@ Commands available across all your projects. When listed in `/help`, these comma
 
 In the following example, we create the `/security-review` command:
 
-```bash  theme={null}
+```bash theme={null}
 # Create a personal command
 mkdir -p ~/.Koode/commands
 echo "Review this code for security vulnerabilities:" > ~/.Koode/commands/security-review.md
@@ -3505,7 +3525,7 @@ Pass dynamic values to commands using argument placeholders:
 
 The `$ARGUMENTS` placeholder captures all arguments passed to the command:
 
-```bash  theme={null}
+```bash theme={null}
 # Command definition
 echo 'Fix issue #$ARGUMENTS following our coding standards' > .Koode/commands/fix-issue.md
 
@@ -3518,8 +3538,8 @@ echo 'Fix issue #$ARGUMENTS following our coding standards' > .Koode/commands/fi
 
 Access specific arguments individually using positional parameters (similar to shell scripts):
 
-```bash  theme={null}
-# Command definition  
+```bash theme={null}
+# Command definition
 echo 'Review PR #$1 with priority $2 and assign to $3' > .Koode/commands/review-pr.md
 
 # Usage
@@ -3529,17 +3549,17 @@ echo 'Review PR #$1 with priority $2 and assign to $3' > .Koode/commands/review-
 
 Use positional arguments when you need to:
 
-* Access arguments individually in different parts of your command
-* Provide defaults for missing arguments
-* Build more structured commands with specific parameter roles
+- Access arguments individually in different parts of your command
+- Provide defaults for missing arguments
+- Build more structured commands with specific parameter roles
 
 #### Bash command execution
 
-Execute bash commands before the slash command runs using the `!` prefix. The output is included in the command context. You *must* include `allowed-tools` with the `Bash` tool, but you can choose the specific bash commands to allow.
+Execute bash commands before the slash command runs using the `!` prefix. The output is included in the command context. You _must_ include `allowed-tools` with the `Bash` tool, but you can choose the specific bash commands to allow.
 
 For example:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
 description: Create a git commit
@@ -3563,7 +3583,7 @@ Include file contents in commands using the `@` prefix to [reference files](/en/
 
 For example:
 
-```markdown  theme={null}
+```markdown theme={null}
 # Reference a specific file
 
 Review the implementation in @src/utils/helpers.js
@@ -3586,12 +3606,12 @@ Command files support frontmatter, useful for specifying metadata about the comm
 | `allowed-tools`            | List of tools the command can use                                                                                                                                                     | Inherits from the conversation      |
 | `argument-hint`            | The arguments expected for the slash command. Example: `argument-hint: add [tagId] \| remove [tagId] \| list`. This hint is shown to the user when auto-completing the slash command. | None                                |
 | `description`              | Brief description of the command                                                                                                                                                      | Uses the first line from the prompt |
-| `model`                    | Specific model string (see [Models overview](/en/docs/about-Koode/models/overview))                                                                                                  | Inherits from the conversation      |
+| `model`                    | Specific model string (see [Models overview](/en/docs/about-Koode/models/overview))                                                                                                   | Inherits from the conversation      |
 | `disable-model-invocation` | Whether to prevent `SlashCommand` tool from calling this command                                                                                                                      | false                               |
 
 For example:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
 argument-hint: [message]
@@ -3604,7 +3624,7 @@ Create a git commit with message: $ARGUMENTS
 
 Example using positional arguments:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 argument-hint: [pr-number] [priority] [assignee]
 description: Review pull request
@@ -3622,9 +3642,9 @@ Focus on security, performance, and code style.
 
 Plugin commands are:
 
-* **Namespaced**: Commands can use the format `/plugin-name:command-name` to avoid conflicts (plugin prefix is optional unless there are name collisions)
-* **Automatically available**: Once a plugin is installed and enabled, its commands appear in `/help`
-* **Fully integrated**: Support all command features (arguments, frontmatter, bash execution, file references)
+- **Namespaced**: Commands can use the format `/plugin-name:command-name` to avoid conflicts (plugin prefix is optional unless there are name collisions)
+- **Automatically available**: Once a plugin is installed and enabled, its commands appear in `/help`
+- **Fully integrated**: Support all command features (arguments, frontmatter, bash execution, file references)
 
 ### Plugin command structure
 
@@ -3634,7 +3654,7 @@ Plugin commands are:
 
 **Basic command structure**:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 description: Brief description of what the command does
 ---
@@ -3647,10 +3667,10 @@ Include specific guidance on parameters, expected outcomes, and any special cons
 
 **Advanced command features**:
 
-* **Arguments**: Use placeholders like `{arg1}` in command descriptions
-* **Subdirectories**: Organize commands in subdirectories for namespacing
-* **Bash integration**: Commands can execute shell scripts and programs
-* **File references**: Commands can reference and modify project files
+- **Arguments**: Use placeholders like `{arg1}` in command descriptions
+- **Subdirectories**: Organize commands in subdirectories for namespacing
+- **Bash integration**: Commands can execute shell scripts and programs
+- **File references**: Commands can reference and modify project files
 
 ### Invocation patterns
 
@@ -3684,9 +3704,9 @@ MCP commands follow the pattern:
 
 MCP commands are automatically available when:
 
-* An MCP server is connected and active
-* The server exposes prompts through the MCP protocol
-* The prompts are successfully retrieved during connection
+- An MCP server is connected and active
+- The server exposes prompts through the MCP protocol
+- The prompts are successfully retrieved during connection
 
 #### Arguments
 
@@ -3703,27 +3723,27 @@ MCP prompts can accept arguments defined by the server:
 
 #### Naming conventions
 
-* Server and prompt names are normalized
-* Spaces and special characters become underscores
-* Names are lowercased for consistency
+- Server and prompt names are normalized
+- Spaces and special characters become underscores
+- Names are lowercased for consistency
 
 ### Managing MCP connections
 
 Use the `/mcp` command to:
 
-* View all configured MCP servers
-* Check connection status
-* Authenticate with OAuth-enabled servers
-* Clear authentication tokens
-* View available tools and prompts from each server
+- View all configured MCP servers
+- Check connection status
+- Authenticate with OAuth-enabled servers
+- Clear authentication tokens
+- View available tools and prompts from each server
 
 ### MCP permissions and wildcards
 
 When configuring [permissions for MCP tools](/en/docs/Koode-code/iam#tool-specific-permission-rules), note that **wildcards are not supported**:
 
-* ✅ **Correct**: `mcp__github` (approves ALL tools from the github server)
-* ✅ **Correct**: `mcp__github__get_issue` (approves specific tool)
-* ❌ **Incorrect**: `mcp__github__*` (wildcards not supported)
+- ✅ **Correct**: `mcp__github` (approves ALL tools from the github server)
+- ✅ **Correct**: `mcp__github__get_issue` (approves specific tool)
+- ❌ **Incorrect**: `mcp__github__*` (wildcards not supported)
 
 To approve all tools from an MCP server, use just the server name: `mcp__servername`. To approve specific tools only, list each tool individually.
 
@@ -3750,8 +3770,8 @@ the operations below to manage context.
 
 `SlashCommand` tool only supports custom slash commands that:
 
-* Are user-defined. Built-in commands like `/compact` and `/init` are *not* supported.
-* Have the `description` frontmatter field populated. We use the `description` in the context.
+- Are user-defined. Built-in commands like `/compact` and `/init` are _not_ supported.
+- Have the `description` frontmatter field populated. We use the `description` in the context.
 
 For Koode Code versions >= 1.0.124, you can see which custom slash commands
 `SlashCommand` tool can invoke by running `Koode --debug` and triggering a query.
@@ -3760,7 +3780,7 @@ For Koode Code versions >= 1.0.124, you can see which custom slash commands
 
 To prevent Koode from executing any slash commands via the tool:
 
-```bash  theme={null}
+```bash theme={null}
 /permissions
 # Add to deny rules: SlashCommand
 ```
@@ -3778,8 +3798,8 @@ This will also remove the command's metadata from context.
 
 The permission rules support:
 
-* **Exact match**: `SlashCommand:/commit` (allows only `/commit` with no arguments)
-* **Prefix match**: `SlashCommand:/review-pr:*` (allows `/review-pr` with any arguments)
+- **Exact match**: `SlashCommand:/commit` (allows only `/commit` with no arguments)
+- **Prefix match**: `SlashCommand:/review-pr:*` (allows `/review-pr` with any arguments)
 
 ### Character budget limit
 
@@ -3789,21 +3809,20 @@ are available.
 
 The budget includes each custom slash command's name, args, and description.
 
-* **Default limit**: 15,000 characters
-* **Custom limit**: Set via `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable
+- **Default limit**: 15,000 characters
+- **Custom limit**: Set via `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable
 
 When the character budget is exceeded, Koode will see only a subset of the
 available commands. In `/context`, a warning will show with "M of N commands".
 
 ## See also
 
-* [Plugins](/en/docs/Koode-code/plugins) - Extend Koode Code with custom commands through plugins
-* [Identity and Access Management](/en/docs/Koode-code/iam) - Complete guide to permissions, including MCP tool permissions
-* [Interactive mode](/en/docs/Koode-code/interactive-mode) - Shortcuts, input modes, and interactive features
-* [CLI reference](/en/docs/Koode-code/cli-reference) - Command-line flags and options
-* [Settings](/en/docs/Koode-code/settings) - Configuration options
-* [Memory management](/en/docs/Koode-code/memory) - Managing Koode's memory across sessions
-
+- [Plugins](/en/docs/Koode-code/plugins) - Extend Koode Code with custom commands through plugins
+- [Identity and Access Management](/en/docs/Koode-code/iam) - Complete guide to permissions, including MCP tool permissions
+- [Interactive mode](/en/docs/Koode-code/interactive-mode) - Shortcuts, input modes, and interactive features
+- [CLI reference](/en/docs/Koode-code/cli-reference) - Command-line flags and options
+- [Settings](/en/docs/Koode-code/settings) - Configuration options
+- [Memory management](/en/docs/Koode-code/memory) - Managing Koode's memory across sessions
 
 # Hooks reference
 
@@ -3817,63 +3836,63 @@ available commands. In `/context`, a warning will show with "M of N commands".
 
 Koode Code hooks are configured in your [settings files](/en/docs/Koode-code/settings):
 
-* `~/.Koode/settings.json` - User settings
-* `.Koode/settings.json` - Project settings
-* `.Koode/settings.local.json` - Local project settings (not committed)
-* Enterprise managed policy settings
+- `~/.Koode/settings.json` - User settings
+- `.Koode/settings.json` - Project settings
+- `.Koode/settings.local.json` - Local project settings (not committed)
+- Enterprise managed policy settings
 
 ### Structure
 
 Hooks are organized by matchers, where each matcher can have multiple hooks:
 
-```json  theme={null}
+```json theme={null}
 {
-  "hooks": {
-    "EventName": [
-      {
-        "matcher": "ToolPattern",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "your-command-here"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"EventName": [
+			{
+				"matcher": "ToolPattern",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "your-command-here"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
-* **matcher**: Pattern to match tool names, case-sensitive (only applicable for
+- **matcher**: Pattern to match tool names, case-sensitive (only applicable for
   `PreToolUse` and `PostToolUse`)
-  * Simple strings match exactly: `Write` matches only the Write tool
-  * Supports regex: `Edit|Write` or `Notebook.*`
-  * Use `*` to match all tools. You can also use empty string (`""`) or leave
+  - Simple strings match exactly: `Write` matches only the Write tool
+  - Supports regex: `Edit|Write` or `Notebook.*`
+  - Use `*` to match all tools. You can also use empty string (`""`) or leave
     `matcher` blank.
-* **hooks**: Array of commands to execute when the pattern matches
-  * `type`: Currently only `"command"` is supported
-  * `command`: The bash command to execute (can use `$KOODE_PROJECT_DIR`
+- **hooks**: Array of commands to execute when the pattern matches
+  - `type`: Currently only `"command"` is supported
+  - `command`: The bash command to execute (can use `$KOODE_PROJECT_DIR`
     environment variable)
-  * `timeout`: (Optional) How long a command should run, in seconds, before
+  - `timeout`: (Optional) How long a command should run, in seconds, before
     canceling that specific command.
 
 For events like `UserPromptSubmit`, `Notification`, `Stop`, and `SubagentStop`
 that don't use matchers, you can omit the matcher field:
 
-```json  theme={null}
+```json theme={null}
 {
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/path/to/prompt-validator.py"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"UserPromptSubmit": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/path/to/prompt-validator.py"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
@@ -3883,21 +3902,21 @@ You can use the environment variable `KOODE_PROJECT_DIR` (only available when
 Koode Code spawns the hook command) to reference scripts stored in your project,
 ensuring they work regardless of Koode's current directory:
 
-```json  theme={null}
+```json theme={null}
 {
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$KOODE_PROJECT_DIR\"/.Koode/hooks/check-style.sh"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "Write|Edit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "\"$KOODE_PROJECT_DIR\"/.Koode/hooks/check-style.sh"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
@@ -3907,30 +3926,30 @@ ensuring they work regardless of Koode's current directory:
 
 **How plugin hooks work**:
 
-* Plugin hooks are defined in the plugin's `hooks/hooks.json` file or in a file given by a custom path to the `hooks` field.
-* When a plugin is enabled, its hooks are merged with user and project hooks
-* Multiple hooks from different sources can respond to the same event
-* Plugin hooks use the `${KOODE_PLUGIN_ROOT}` environment variable to reference plugin files
+- Plugin hooks are defined in the plugin's `hooks/hooks.json` file or in a file given by a custom path to the `hooks` field.
+- When a plugin is enabled, its hooks are merged with user and project hooks
+- Multiple hooks from different sources can respond to the same event
+- Plugin hooks use the `${KOODE_PLUGIN_ROOT}` environment variable to reference plugin files
 
 **Example plugin hook configuration**:
 
-```json  theme={null}
+```json theme={null}
 {
-  "description": "Automatic code formatting",
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${KOODE_PLUGIN_ROOT}/scripts/format.sh",
-            "timeout": 30
-          }
-        ]
-      }
-    ]
-  }
+	"description": "Automatic code formatting",
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "Write|Edit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "${KOODE_PLUGIN_ROOT}/scripts/format.sh",
+						"timeout": 30
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
@@ -3944,9 +3963,9 @@ ensuring they work regardless of Koode's current directory:
 
 **Environment variables for plugins**:
 
-* `${KOODE_PLUGIN_ROOT}`: Absolute path to the plugin directory
-* `${KOODE_PROJECT_DIR}`: Project root directory (same as for project hooks)
-* All standard environment variables are available
+- `${KOODE_PLUGIN_ROOT}`: Absolute path to the plugin directory
+- `${KOODE_PROJECT_DIR}`: Project root directory (same as for project hooks)
+- All standard environment variables are available
 
 See the [plugin components reference](/en/docs/Koode-code/plugins-reference#hooks) for details on creating plugin hooks.
 
@@ -3958,14 +3977,14 @@ Runs after Koode creates tool parameters and before processing the tool call.
 
 **Common matchers:**
 
-* `Task` - Subagent tasks (see [subagents documentation](/en/docs/Koode-code/sub-agents))
-* `Bash` - Shell commands
-* `Glob` - File pattern matching
-* `Grep` - Content search
-* `Read` - File reading
-* `Edit` - File editing
-* `Write` - File writing
-* `WebFetch`, `WebSearch` - Web operations
+- `Task` - Subagent tasks (see [subagents documentation](/en/docs/Koode-code/sub-agents))
+- `Bash` - Shell commands
+- `Glob` - File pattern matching
+- `Grep` - Content search
+- `Read` - File reading
+- `Edit` - File editing
+- `Write` - File writing
+- `WebFetch`, `WebSearch` - Web operations
 
 ### PostToolUse
 
@@ -4003,8 +4022,8 @@ Runs before Koode Code is about to run a compact operation.
 
 **Matchers:**
 
-* `manual` - Invoked from `/compact`
-* `auto` - Invoked from auto-compact (due to full context window)
+- `manual` - Invoked from `/compact`
+- `auto` - Invoked from auto-compact (due to full context window)
 
 ### SessionStart
 
@@ -4014,10 +4033,10 @@ development context like existing issues or recent changes to your codebase.
 
 **Matchers:**
 
-* `startup` - Invoked from startup
-* `resume` - Invoked from `--resume`, `--continue`, or `/resume`
-* `clear` - Invoked from `/clear`
-* `compact` - Invoked from auto or manual compact.
+- `startup` - Invoked from startup
+- `resume` - Invoked from `--resume`, `--continue`, or `/resume`
+- `clear` - Invoked from `/clear`
+- `compact` - Invoked from auto or manual compact.
 
 ### SessionEnd
 
@@ -4026,17 +4045,17 @@ statistics, or saving session state.
 
 The `reason` field in the hook input will be one of:
 
-* `clear` - Session cleared with /clear command
-* `logout` - User logged out
-* `prompt_input_exit` - User exited while prompt input was visible
-* `other` - Other exit reasons
+- `clear` - Session cleared with /clear command
+- `logout` - User logged out
+- `prompt_input_exit` - User exited while prompt input was visible
+- `other` - Other exit reasons
 
 ## Hook Input
 
 Hooks receive JSON data via stdin containing session information and
 event-specific data:
 
-```typescript  theme={null}
+```typescript theme={null}
 {
   // Common fields
   session_id: string
@@ -4053,17 +4072,17 @@ event-specific data:
 
 The exact schema for `tool_input` depends on the tool.
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "cwd": "/Users/...",
-  "hook_event_name": "PreToolUse",
-  "tool_name": "Write",
-  "tool_input": {
-    "file_path": "/path/to/file.txt",
-    "content": "file content"
-  }
+	"session_id": "abc123",
+	"transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"cwd": "/Users/...",
+	"hook_event_name": "PreToolUse",
+	"tool_name": "Write",
+	"tool_input": {
+		"file_path": "/path/to/file.txt",
+		"content": "file content"
+	}
 }
 ```
 
@@ -4071,45 +4090,45 @@ The exact schema for `tool_input` depends on the tool.
 
 The exact schema for `tool_input` and `tool_response` depends on the tool.
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "cwd": "/Users/...",
-  "hook_event_name": "PostToolUse",
-  "tool_name": "Write",
-  "tool_input": {
-    "file_path": "/path/to/file.txt",
-    "content": "file content"
-  },
-  "tool_response": {
-    "filePath": "/path/to/file.txt",
-    "success": true
-  }
+	"session_id": "abc123",
+	"transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"cwd": "/Users/...",
+	"hook_event_name": "PostToolUse",
+	"tool_name": "Write",
+	"tool_input": {
+		"file_path": "/path/to/file.txt",
+		"content": "file content"
+	},
+	"tool_response": {
+		"filePath": "/path/to/file.txt",
+		"success": true
+	}
 }
 ```
 
 ### Notification Input
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "cwd": "/Users/...",
-  "hook_event_name": "Notification",
-  "message": "Task completed successfully"
+	"session_id": "abc123",
+	"transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"cwd": "/Users/...",
+	"hook_event_name": "Notification",
+	"message": "Task completed successfully"
 }
 ```
 
 ### UserPromptSubmit Input
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "cwd": "/Users/...",
-  "hook_event_name": "UserPromptSubmit",
-  "prompt": "Write a function to calculate the factorial of a number"
+	"session_id": "abc123",
+	"transcript_path": "/Users/.../.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"cwd": "/Users/...",
+	"hook_event_name": "UserPromptSubmit",
+	"prompt": "Write a function to calculate the factorial of a number"
 }
 ```
 
@@ -4119,12 +4138,12 @@ The exact schema for `tool_input` and `tool_response` depends on the tool.
 a stop hook. Check this value or process the transcript to prevent Koode Code
 from running indefinitely.
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "hook_event_name": "Stop",
-  "stop_hook_active": true
+	"session_id": "abc123",
+	"transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"hook_event_name": "Stop",
+	"stop_hook_active": true
 }
 ```
 
@@ -4133,36 +4152,36 @@ from running indefinitely.
 For `manual`, `custom_instructions` comes from what the user passes into
 `/compact`. For `auto`, `custom_instructions` is empty.
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "hook_event_name": "PreCompact",
-  "trigger": "manual",
-  "custom_instructions": ""
+	"session_id": "abc123",
+	"transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"hook_event_name": "PreCompact",
+	"trigger": "manual",
+	"custom_instructions": ""
 }
 ```
 
 ### SessionStart Input
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "hook_event_name": "SessionStart",
-  "source": "startup"
+	"session_id": "abc123",
+	"transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"hook_event_name": "SessionStart",
+	"source": "startup"
 }
 ```
 
 ### SessionEnd Input
 
-```json  theme={null}
+```json theme={null}
 {
-  "session_id": "abc123",
-  "transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
-  "cwd": "/Users/...",
-  "hook_event_name": "SessionEnd",
-  "reason": "exit"
+	"session_id": "abc123",
+	"transcript_path": "~/.Koode/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl",
+	"cwd": "/Users/...",
+	"hook_event_name": "SessionEnd",
+	"reason": "exit"
 }
 ```
 
@@ -4176,12 +4195,12 @@ and the user.
 
 Hooks communicate status through exit codes, stdout, and stderr:
 
-* **Exit code 0**: Success. `stdout` is shown to the user in transcript mode
+- **Exit code 0**: Success. `stdout` is shown to the user in transcript mode
   (CTRL-R), except for `UserPromptSubmit` and `SessionStart`, where stdout is
   added to the context.
-* **Exit code 2**: Blocking error. `stderr` is fed back to Koode to process
+- **Exit code 2**: Blocking error. `stderr` is fed back to Koode to process
   automatically. See per-hook-event behavior below.
-* **Other exit codes**: Non-blocking error. `stderr` is shown to the user and
+- **Other exit codes**: Non-blocking error. `stderr` is shown to the user and
   execution continues.
 
 <Warning>
@@ -4193,12 +4212,12 @@ Hooks communicate status through exit codes, stdout, and stderr:
 
 | Hook Event         | Behavior                                                           |
 | ------------------ | ------------------------------------------------------------------ |
-| `PreToolUse`       | Blocks the tool call, shows stderr to Koode                       |
-| `PostToolUse`      | Shows stderr to Koode (tool already ran)                          |
+| `PreToolUse`       | Blocks the tool call, shows stderr to Koode                        |
+| `PostToolUse`      | Shows stderr to Koode (tool already ran)                           |
 | `Notification`     | N/A, shows stderr to user only                                     |
 | `UserPromptSubmit` | Blocks prompt processing, erases prompt, shows stderr to user only |
-| `Stop`             | Blocks stoppage, shows stderr to Koode                            |
-| `SubagentStop`     | Blocks stoppage, shows stderr to Koode subagent                   |
+| `Stop`             | Blocks stoppage, shows stderr to Koode                             |
+| `SubagentStop`     | Blocks stoppage, shows stderr to Koode subagent                    |
 | `PreCompact`       | N/A, shows stderr to user only                                     |
 | `SessionStart`     | N/A, shows stderr to user only                                     |
 | `SessionEnd`       | N/A, shows stderr to user only                                     |
@@ -4211,26 +4230,26 @@ Hooks can return structured JSON in `stdout` for more sophisticated control:
 
 All hook types can include these optional fields:
 
-```json  theme={null}
+```json theme={null}
 {
-  "continue": true, // Whether Koode should continue after hook execution (default: true)
-  "stopReason": "string", // Message shown when continue is false
+	"continue": true, // Whether Koode should continue after hook execution (default: true)
+	"stopReason": "string", // Message shown when continue is false
 
-  "suppressOutput": true, // Hide stdout from transcript mode (default: false)
-  "systemMessage": "string" // Optional warning message shown to the user
+	"suppressOutput": true, // Hide stdout from transcript mode (default: false)
+	"systemMessage": "string" // Optional warning message shown to the user
 }
 ```
 
 If `continue` is false, Koode stops processing after the hooks run.
 
-* For `PreToolUse`, this is different from `"permissionDecision": "deny"`, which
+- For `PreToolUse`, this is different from `"permissionDecision": "deny"`, which
   only blocks a specific tool call and provides automatic feedback to Koode.
-* For `PostToolUse`, this is different from `"decision": "block"`, which
+- For `PostToolUse`, this is different from `"decision": "block"`, which
   provides automated feedback to Koode.
-* For `UserPromptSubmit`, this prevents the prompt from being processed.
-* For `Stop` and `SubagentStop`, this takes precedence over any
+- For `UserPromptSubmit`, this prevents the prompt from being processed.
+- For `Stop` and `SubagentStop`, this takes precedence over any
   `"decision": "block"` output.
-* In all cases, `"continue" = false` takes precedence over any
+- In all cases, `"continue" = false` takes precedence over any
   `"decision": "block"` output.
 
 `stopReason` accompanies `continue` with a reason shown to the user, not shown
@@ -4240,14 +4259,14 @@ to Koode.
 
 `PreToolUse` hooks can control whether a tool call proceeds.
 
-* `"allow"` bypasses the permission system. `permissionDecisionReason` is shown
+- `"allow"` bypasses the permission system. `permissionDecisionReason` is shown
   to the user but not to Koode.
-* `"deny"` prevents the tool call from executing. `permissionDecisionReason` is
+- `"deny"` prevents the tool call from executing. `permissionDecisionReason` is
   shown to Koode.
-* `"ask"` asks the user to confirm the tool call in the UI.
+- `"ask"` asks the user to confirm the tool call in the UI.
   `permissionDecisionReason` is shown to the user but not to Koode.
 
-```json  theme={null}
+```json theme={null}
 {
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
@@ -4268,11 +4287,11 @@ to Koode.
 
 `PostToolUse` hooks can provide feedback to Koode after tool execution.
 
-* `"block"` automatically prompts Koode with `reason`.
-* `undefined` does nothing. `reason` is ignored.
-* `"hookSpecificOutput.additionalContext"` adds context for Koode to consider.
+- `"block"` automatically prompts Koode with `reason`.
+- `undefined` does nothing. `reason` is ignored.
+- `"hookSpecificOutput.additionalContext"` adds context for Koode to consider.
 
-```json  theme={null}
+```json theme={null}
 {
   "decision": "block" | undefined,
   "reason": "Explanation for decision",
@@ -4287,13 +4306,13 @@ to Koode.
 
 `UserPromptSubmit` hooks can control whether a user prompt is processed.
 
-* `"block"` prevents the prompt from being processed. The submitted prompt is
+- `"block"` prevents the prompt from being processed. The submitted prompt is
   erased from context. `"reason"` is shown to the user but not added to context.
-* `undefined` allows the prompt to proceed normally. `"reason"` is ignored.
-* `"hookSpecificOutput.additionalContext"` adds the string to the context if not
+- `undefined` allows the prompt to proceed normally. `"reason"` is ignored.
+- `"hookSpecificOutput.additionalContext"` adds the string to the context if not
   blocked.
 
-```json  theme={null}
+```json theme={null}
 {
   "decision": "block" | undefined,
   "reason": "Explanation for decision",
@@ -4308,11 +4327,11 @@ to Koode.
 
 `Stop` and `SubagentStop` hooks can control whether Koode must continue.
 
-* `"block"` prevents Koode from stopping. You must populate `reason` for Koode
+- `"block"` prevents Koode from stopping. You must populate `reason` for Koode
   to know how to proceed.
-* `undefined` allows Koode to stop. `reason` is ignored.
+- `undefined` allows Koode to stop. `reason` is ignored.
 
-```json  theme={null}
+```json theme={null}
 {
   "decision": "block" | undefined,
   "reason": "Must be provided when Koode is blocked from stopping"
@@ -4323,15 +4342,15 @@ to Koode.
 
 `SessionStart` hooks allow you to load in context at the start of a session.
 
-* `"hookSpecificOutput.additionalContext"` adds the string to the context.
-* Multiple hooks' `additionalContext` values are concatenated.
+- `"hookSpecificOutput.additionalContext"` adds the string to the context.
+- Multiple hooks' `additionalContext` values are concatenated.
 
-```json  theme={null}
+```json theme={null}
 {
-  "hookSpecificOutput": {
-    "hookEventName": "SessionStart",
-    "additionalContext": "My additional context here"
-  }
+	"hookSpecificOutput": {
+		"hookEventName": "SessionStart",
+		"additionalContext": "My additional context here"
+	}
 }
 ```
 
@@ -4342,7 +4361,7 @@ but can perform cleanup tasks.
 
 #### Exit Code Example: Bash Command Validation
 
-```python  theme={null}
+```python theme={null}
 #!/usr/bin/env python3
 import json
 import re
@@ -4397,11 +4416,11 @@ if issues:
 <Note>
   For `UserPromptSubmit` hooks, you can inject context using either method:
 
-  * Exit code 0 with stdout: Koode sees the context (special case for `UserPromptSubmit`)
-  * JSON output: Provides more control over the behavior
-</Note>
+- Exit code 0 with stdout: Koode sees the context (special case for `UserPromptSubmit`)
+- JSON output: Provides more control over the behavior
+  </Note>
 
-```python  theme={null}
+```python theme={null}
 #!/usr/bin/env python3
 import json
 import sys
@@ -4452,7 +4471,7 @@ sys.exit(0)
 
 #### JSON Output Example: PreToolUse with Approval
 
-```python  theme={null}
+```python theme={null}
 #!/usr/bin/env python3
 import json
 import sys
@@ -4495,38 +4514,38 @@ your hooks.
 
 MCP tools follow the pattern `mcp__<server>__<tool>`, for example:
 
-* `mcp__memory__create_entities` - Memory server's create entities tool
-* `mcp__filesystem__read_file` - Filesystem server's read file tool
-* `mcp__github__search_repositories` - GitHub server's search tool
+- `mcp__memory__create_entities` - Memory server's create entities tool
+- `mcp__filesystem__read_file` - Filesystem server's read file tool
+- `mcp__github__search_repositories` - GitHub server's search tool
 
 ### Configuring Hooks for MCP Tools
 
 You can target specific MCP tools or entire MCP servers:
 
-```json  theme={null}
+```json theme={null}
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "mcp__memory__.*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo 'Memory operation initiated' >> ~/mcp-operations.log"
-          }
-        ]
-      },
-      {
-        "matcher": "mcp__.*__write.*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/home/user/scripts/validate-mcp-write.py"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"PreToolUse": [
+			{
+				"matcher": "mcp__memory__.*",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "echo 'Memory operation initiated' >> ~/mcp-operations.log"
+					}
+				]
+			},
+			{
+				"matcher": "mcp__.*__write.*",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/home/user/scripts/validate-mcp-write.py"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
@@ -4543,12 +4562,12 @@ You can target specific MCP tools or entire MCP servers:
 **USE AT YOUR OWN RISK**: Koode Code hooks execute arbitrary shell commands on
 your system automatically. By using hooks, you acknowledge that:
 
-* You are solely responsible for the commands you configure
-* Hooks can modify, delete, or access any files your user account can access
-* Malicious or poorly written hooks can cause data loss or system damage
-* paulohenriquevn provides no warranty and assumes no liability for any damages
+- You are solely responsible for the commands you configure
+- Hooks can modify, delete, or access any files your user account can access
+- Malicious or poorly written hooks can cause data loss or system damage
+- paulohenriquevn provides no warranty and assumes no liability for any damages
   resulting from hook usage
-* You should thoroughly test hooks in a safe environment before production use
+- You should thoroughly test hooks in a safe environment before production use
 
 Always review and understand any hook commands before adding them to your
 configuration.
@@ -4561,7 +4580,7 @@ Here are some key practices for writing more secure hooks:
 2. **Always quote shell variables** - Use `"$VAR"` not `$VAR`
 3. **Block path traversal** - Check for `..` in file paths
 4. **Use absolute paths** - Specify full paths for scripts (use
-   "\$Koode\_PROJECT\_DIR" for the project path)
+   "\$Koode_PROJECT_DIR" for the project path)
 5. **Skip sensitive files** - Avoid `.env`, `.git/`, keys, etc.
 
 ### Configuration Safety
@@ -4578,18 +4597,18 @@ This prevents malicious hook modifications from affecting your current session.
 
 ## Hook Execution Details
 
-* **Timeout**: 60-second execution limit by default, configurable per command.
-  * A timeout for an individual command does not affect the other commands.
-* **Parallelization**: All matching hooks run in parallel
-* **Deduplication**: Multiple identical hook commands are deduplicated automatically
-* **Environment**: Runs in current directory with Koode Code's environment
-  * The `KOODE_PROJECT_DIR` environment variable is available and contains the
+- **Timeout**: 60-second execution limit by default, configurable per command.
+  - A timeout for an individual command does not affect the other commands.
+- **Parallelization**: All matching hooks run in parallel
+- **Deduplication**: Multiple identical hook commands are deduplicated automatically
+- **Environment**: Runs in current directory with Koode Code's environment
+  - The `KOODE_PROJECT_DIR` environment variable is available and contains the
     absolute path to the project root directory (where Koode Code was started)
-* **Input**: JSON via stdin
-* **Output**:
-  * PreToolUse/PostToolUse/Stop/SubagentStop: Progress shown in transcript (Ctrl-R)
-  * Notification/SessionEnd: Logged to debug only (`--debug`)
-  * UserPromptSubmit/SessionStart: stdout added as context for Koode
+- **Input**: JSON via stdin
+- **Output**:
+  - PreToolUse/PostToolUse/Stop/SubagentStop: Progress shown in transcript (Ctrl-R)
+  - Notification/SessionEnd: Logged to debug only (`--debug`)
+  - UserPromptSubmit/SessionStart: stdout added as context for Koode
 
 ## Debugging
 
@@ -4605,9 +4624,9 @@ If your hooks aren't working:
 
 Common issues:
 
-* **Quotes not escaped** - Use `\"` inside JSON strings
-* **Wrong matcher** - Check tool names match exactly (case-sensitive)
-* **Command not found** - Use full paths for scripts
+- **Quotes not escaped** - Use `\"` inside JSON strings
+- **Wrong matcher** - Check tool names match exactly (case-sensitive)
+- **Command not found** - Use full paths for scripts
 
 ### Advanced Debugging
 
@@ -4638,11 +4657,10 @@ Use `Koode --debug` to see hook execution details:
 
 Progress messages appear in transcript mode (Ctrl-R) showing:
 
-* Which hook is running
-* Command being executed
-* Success/failure status
-* Output or error messages
-
+- Which hook is running
+- Command being executed
+- Success/failure status
+- Output or error messages
 
 # Plugins reference
 
@@ -4678,10 +4696,10 @@ Plugins can provide specialized subagents for specific tasks that Koode can invo
 
 **Agent structure**:
 
-```markdown  theme={null}
+```markdown theme={null}
 ---
 description: What this agent specializes in
-capabilities: ["task1", "task2", "task3"]
+capabilities: ['task1', 'task2', 'task3']
 ---
 
 # Agent Name
@@ -4689,20 +4707,22 @@ capabilities: ["task1", "task2", "task3"]
 Detailed description of the agent's role, expertise, and when Koode should invoke it.
 
 ## Capabilities
+
 - Specific task the agent excels at
 - Another specialized capability
 - When to use this agent vs others
 
 ## Context and examples
+
 Provide examples of when this agent should be used and what kinds of problems it solves.
 ```
 
 **Integration points**:
 
-* Agents appear in the `/agents` interface
-* Koode can invoke agents automatically based on task context
-* Agents can be invoked manually by users
-* Plugin agents work alongside built-in Koode agents
+- Agents appear in the `/agents` interface
+- Koode can invoke agents automatically based on task context
+- Agents can be invoked manually by users
+- Plugin agents work alongside built-in Koode agents
 
 ### Hooks
 
@@ -4714,41 +4734,41 @@ Plugins can provide event handlers that respond to Koode Code events automatical
 
 **Hook configuration**:
 
-```json  theme={null}
+```json theme={null}
 {
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${KOODE_PLUGIN_ROOT}/scripts/format-code.sh"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"PostToolUse": [
+			{
+				"matcher": "Write|Edit",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "${KOODE_PLUGIN_ROOT}/scripts/format-code.sh"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
 **Available events**:
 
-* `PreToolUse`: Before Koode uses any tool
-* `PostToolUse`: After Koode uses any tool
-* `UserPromptSubmit`: When user submits a prompt
-* `Notification`: When Koode Code sends notifications
-* `Stop`: When Koode attempts to stop
-* `SubagentStop`: When a subagent attempts to stop
-* `SessionStart`: At the beginning of sessions
-* `SessionEnd`: At the end of sessions
-* `PreCompact`: Before conversation history is compacted
+- `PreToolUse`: Before Koode uses any tool
+- `PostToolUse`: After Koode uses any tool
+- `UserPromptSubmit`: When user submits a prompt
+- `Notification`: When Koode Code sends notifications
+- `Stop`: When Koode attempts to stop
+- `SubagentStop`: When a subagent attempts to stop
+- `SessionStart`: At the beginning of sessions
+- `SessionEnd`: At the end of sessions
+- `PreCompact`: Before conversation history is compacted
 
 **Hook types**:
 
-* `command`: Execute shell commands or scripts
-* `validation`: Validate file contents or project state
-* `notification`: Send alerts or status updates
+- `command`: Execute shell commands or scripts
+- `validation`: Validate file contents or project state
+- `notification`: Send alerts or status updates
 
 ### MCP servers
 
@@ -4760,33 +4780,33 @@ Plugins can bundle Model Context Protocol (MCP) servers to connect Koode Code wi
 
 **MCP server configuration**:
 
-```json  theme={null}
+```json theme={null}
 {
-  "mcpServers": {
-    "plugin-database": {
-      "command": "${KOODE_PLUGIN_ROOT}/servers/db-server",
-      "args": ["--config", "${KOODE_PLUGIN_ROOT}/config.json"],
-      "env": {
-        "DB_PATH": "${KOODE_PLUGIN_ROOT}/data"
-      }
-    },
-    "plugin-api-client": {
-      "command": "npx",
-      "args": ["@company/mcp-server", "--plugin-mode"],
-      "cwd": "${KOODE_PLUGIN_ROOT}"
-    }
-  }
+	"mcpServers": {
+		"plugin-database": {
+			"command": "${KOODE_PLUGIN_ROOT}/servers/db-server",
+			"args": ["--config", "${KOODE_PLUGIN_ROOT}/config.json"],
+			"env": {
+				"DB_PATH": "${KOODE_PLUGIN_ROOT}/data"
+			}
+		},
+		"plugin-api-client": {
+			"command": "npx",
+			"args": ["@company/mcp-server", "--plugin-mode"],
+			"cwd": "${KOODE_PLUGIN_ROOT}"
+		}
+	}
 }
 ```
 
 **Integration behavior**:
 
-* Plugin MCP servers start automatically when the plugin is enabled
-* Servers appear as standard MCP tools in Koode's toolkit
-* Server capabilities integrate seamlessly with Koode's existing tools
-* Plugin servers can be configured independently of user MCP servers
+- Plugin MCP servers start automatically when the plugin is enabled
+- Servers appear as standard MCP tools in Koode's toolkit
+- Server capabilities integrate seamlessly with Koode's existing tools
+- Plugin servers can be configured independently of user MCP servers
 
-***
+---
 
 ## Plugin manifest schema
 
@@ -4794,24 +4814,24 @@ The `plugin.json` file defines your plugin's metadata and configuration. This se
 
 ### Complete schema
 
-```json  theme={null}
+```json theme={null}
 {
-  "name": "plugin-name",
-  "version": "1.2.0",
-  "description": "Brief plugin description",
-  "author": {
-    "name": "Author Name",
-    "email": "author@example.com",
-    "url": "https://github.com/author"
-  },
-  "homepage": "https://docs.example.com/plugin",
-  "repository": "https://github.com/author/plugin",
-  "license": "MIT",
-  "keywords": ["keyword1", "keyword2"],
-  "commands": ["./custom/commands/special.md"],
-  "agents": "./custom/agents/",
-  "hooks": "./config/hooks.json",
-  "mcpServers": "./mcp-config.json"
+	"name": "plugin-name",
+	"version": "1.2.0",
+	"description": "Brief plugin description",
+	"author": {
+		"name": "Author Name",
+		"email": "author@example.com",
+		"url": "https://github.com/author"
+	},
+	"homepage": "https://docs.example.com/plugin",
+	"repository": "https://github.com/author/plugin",
+	"license": "MIT",
+	"keywords": ["keyword1", "keyword2"],
+	"commands": ["./custom/commands/special.md"],
+	"agents": "./custom/agents/",
+	"hooks": "./config/hooks.json",
+	"mcpServers": "./mcp-config.json"
 }
 ```
 
@@ -4846,23 +4866,17 @@ The `plugin.json` file defines your plugin's metadata and configuration. This se
 
 **Important**: Custom paths supplement default directories - they don't replace them.
 
-* If `commands/` exists, it's loaded in addition to custom command paths
-* All paths must be relative to plugin root and start with `./`
-* Commands from custom paths use the same naming and namespacing rules
-* Multiple paths can be specified as arrays for flexibility
+- If `commands/` exists, it's loaded in addition to custom command paths
+- All paths must be relative to plugin root and start with `./`
+- Commands from custom paths use the same naming and namespacing rules
+- Multiple paths can be specified as arrays for flexibility
 
 **Path examples**:
 
-```json  theme={null}
+```json theme={null}
 {
-  "commands": [
-    "./specialized/deploy.md",
-    "./utilities/batch-process.md"
-  ],
-  "agents": [
-    "./custom-agents/reviewer.md",
-    "./custom-agents/tester.md"
-  ]
+	"commands": ["./specialized/deploy.md", "./utilities/batch-process.md"],
+	"agents": ["./custom-agents/reviewer.md", "./custom-agents/tester.md"]
 }
 ```
 
@@ -4870,24 +4884,24 @@ The `plugin.json` file defines your plugin's metadata and configuration. This se
 
 **`${KOODE_PLUGIN_ROOT}`**: Contains the absolute path to your plugin directory. Use this in hooks, MCP servers, and scripts to ensure correct paths regardless of installation location.
 
-```json  theme={null}
+```json theme={null}
 {
-  "hooks": {
-    "PostToolUse": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${KOODE_PLUGIN_ROOT}/scripts/process.sh"
-          }
-        ]
-      }
-    ]
-  }
+	"hooks": {
+		"PostToolUse": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "${KOODE_PLUGIN_ROOT}/scripts/process.sh"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 
-***
+---
 
 ## Plugin directory structure
 
@@ -4924,15 +4938,15 @@ enterprise-plugin/
 
 ### File locations reference
 
-| Component       | Default Location             | Purpose                      |
-| :-------------- | :--------------------------- | :--------------------------- |
+| Component       | Default Location            | Purpose                      |
+| :-------------- | :-------------------------- | :--------------------------- |
 | **Manifest**    | `.Koode-plugin/plugin.json` | Required metadata file       |
-| **Commands**    | `commands/`                  | Slash command markdown files |
-| **Agents**      | `agents/`                    | Subagent markdown files      |
-| **Hooks**       | `hooks/hooks.json`           | Hook configuration           |
-| **MCP servers** | `.mcp.json`                  | MCP server definitions       |
+| **Commands**    | `commands/`                 | Slash command markdown files |
+| **Agents**      | `agents/`                   | Subagent markdown files      |
+| **Hooks**       | `hooks/hooks.json`          | Hook configuration           |
+| **MCP servers** | `.mcp.json`                 | MCP server definitions       |
 
-***
+---
 
 ## Debugging and development tools
 
@@ -4940,28 +4954,28 @@ enterprise-plugin/
 
 Use `Koode --debug` to see plugin loading details:
 
-```bash  theme={null}
+```bash theme={null}
 Koode --debug
 ```
 
 This shows:
 
-* Which plugins are being loaded
-* Any errors in plugin manifests
-* Command, agent, and hook registration
-* MCP server initialization
+- Which plugins are being loaded
+- Any errors in plugin manifests
+- Command, agent, and hook registration
+- MCP server initialization
 
 ### Common issues
 
-| Issue                  | Cause                           | Solution                                             |
-| :--------------------- | :------------------------------ | :--------------------------------------------------- |
-| Plugin not loading     | Invalid `plugin.json`           | Validate JSON syntax                                 |
-| Commands not appearing | Wrong directory structure       | Ensure `commands/` at root, not in `.Koode-plugin/` |
-| Hooks not firing       | Script not executable           | Run `chmod +x script.sh`                             |
-| MCP server fails       | Missing `${KOODE_PLUGIN_ROOT}` | Use variable for all plugin paths                    |
-| Path errors            | Absolute paths used             | All paths must be relative and start with `./`       |
+| Issue                  | Cause                          | Solution                                            |
+| :--------------------- | :----------------------------- | :-------------------------------------------------- |
+| Plugin not loading     | Invalid `plugin.json`          | Validate JSON syntax                                |
+| Commands not appearing | Wrong directory structure      | Ensure `commands/` at root, not in `.Koode-plugin/` |
+| Hooks not firing       | Script not executable          | Run `chmod +x script.sh`                            |
+| MCP server fails       | Missing `${KOODE_PLUGIN_ROOT}` | Use variable for all plugin paths                   |
+| Path errors            | Absolute paths used            | All paths must be relative and start with `./`      |
 
-***
+---
 
 ## Distribution and versioning reference
 
@@ -4969,7 +4983,7 @@ This shows:
 
 Follow semantic versioning for plugin releases:
 
-```json  theme={null}
+```json theme={null}
 
 ## See also
 

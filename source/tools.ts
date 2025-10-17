@@ -4751,6 +4751,538 @@ var WebSearch = {
   },
 };
 
+var bwB = `
+- Kills a running background bash shell by its ID
+- Takes a shell_id parameter identifying the shell to kill
+- Returns a success or failure status 
+- Use this tool when you need to terminate a long-running shell
+- Shell IDs can be found using the /bashes command
+`;
+
+var CG5 = h.strictObject({
+    shell_id: h.string().describe('The ID of the background shell to kill'),
+  });
+
+var KillShell = {
+    name: 'KillShell',
+    userZodCatchcingName: () => 'Kill Shell',
+    inputSchema: CG5,
+    isEnabled() {
+      return !0;
+    },
+    isConcurrencySafe() {
+      return !0;
+    },
+    isReadOnly() {
+      return !1;
+    },
+    async checkPermissions(A) {
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+      };
+    },
+    async validatAPIAbortErrornput({ shell_id: A }, { getAppState: B }) {
+      let Z = (await B()).backgroundTasks[A];
+      if (!Z)
+        return {
+          result: !1,
+          message: `No shell found with ID: ${A}`,
+          errorCode: 1,
+        };
+      if (Z.type !== 'shell')
+        return {
+          result: !1,
+          message: `Shell ${A} is not a shell`,
+          errorCode: 2,
+        };
+      return {
+        result: !0,
+      };
+    },
+    async description() {
+      return 'Kill a background bash shell by ID';
+    },
+    async prompt() {
+      return bwB;
+    },
+    mapToolResultToToolResultBlockParam(A, B) {
+      return {
+        tool_use_id: B,
+        type: 'tool_result',
+        content: JSON.stringify(A),
+      };
+    },
+    renderToolUseMessage({ shell_id: A }) {
+      if (!A) return null;
+      return `Kill shell: ${A}`;
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolUseRejectedMessage() {
+      return createElement(e8, null);
+    },
+    renderToolUseErrorMessage(A, { verbose: B }) {
+      return createElement(createComponent, {
+        result: A,
+        verbose: B,
+      });
+    },
+    renderToolResultMessage(A) {
+      return createElement(
+        y,
+        null,
+        createElement(M, null, '  ⎿  '),
+        createElement(M, null, 'Shell ', A.shell_id, ' killed')
+      );
+    },
+    async *call({ shell_id: A }, { getAppState: B, setAppState: Q }) {
+      let G = (await B()).backgroundTasks[A];
+      if (!G) throw new Error(`No shell found with ID: ${A}`);
+      if (G.type !== 'shell') throw new Error(`Shell ${A} is not a shell`);
+      if (G.status !== 'running')
+        throw new Error(`Shell ${A} is not running, so cannot be killed (status: ${G.status})`);
+      let Y = x_1(G);
+      Q(I => ({
+        ...I,
+        backgroundTasks: {
+          ...I.backgroundTasks,
+          [A]: Y,
+        },
+      }));
+      yield {
+        type: 'result',
+        data: {
+          message: `Successfully killed shell: ${A} (${G.command})`,
+          shell_id: A,
+        },
+      };
+    },
+};
+
+
+var fwB = `
+- Retrieves output from a running or completed background bash shell
+- Takes a shell_id parameter identifying the shell
+- Always returns only new output since the last check
+- Returns stdout and stderr output along with shell status
+- Supports optional regex filtering to show only lines matching a pattern
+- Use this tool when you need to monitor or check the output of a long-running shell
+- Shell IDs can be found using the /bashes command
+`;
+
+var UG5 = h.strictObject({
+    bash_id: h.string().describe('The ID of the background shell to retrieve output from'),
+    filter: h
+      .string()
+      .optional()
+      .describe(
+        'Optional regular expression to filter the output lines. Only lines matching this regex will be included in the result. Any lines that do not match will no longer be available to read.'
+      ),
+});
+
+var BashOutput = {
+    name: 'BashOutput',
+    async description() {
+      return 'Retrieves output from a background bash shell';
+    },
+    async prompt() {
+      return fwB;
+    },
+    userZodCatchcingName() {
+      return 'BashOutput';
+    },
+    isEnabled() {
+      return !0;
+    },
+    inputSchema: UG5,
+    isConcurrencySafe() {
+      return !0;
+    },
+    isReadOnly() {
+      return !0;
+    },
+    async checkPermissions(A) {
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+      };
+    },
+    async validatAPIAbortErrornput({ bash_id: A, filter: B }, { getAppState: Q }) {
+      if (B)
+        try {
+          new RegExp(B, 'i');
+        } catch (Y) {
+          return {
+            result: !1,
+            message: `Invalid regex pattern "${B}": ${Y instanceof Error ? Y.message : String(Y)}`,
+            errorCode: 1,
+          };
+        }
+      let G = (await Q()).backgroundTasks[A];
+      if (!G)
+        return {
+          result: !1,
+          message: `No shell found with ID: ${A}`,
+          errorCode: 2,
+        };
+      if (G.type !== 'shell')
+        return {
+          result: !1,
+          message: `Shell ${A} is not a shell`,
+          errorCode: 3,
+        };
+      return {
+        result: !0,
+      };
+    },
+    async *call({ bash_id: A, filter: B }, { getAppState: Q }) {
+      let Y = (await Q()).backgroundTasks[A];
+      if (!Y) throw new Error(`No shell found with ID: ${A}`);
+      if (Y.type !== 'shell') throw new Error(`Shell ${A} is not a shell`);
+      let I = __1(Y),
+        W = hwB(I.stdout, B),
+        J = hwB(I.stderr, B),
+        { truncatedContent: X } = JO0(resolveJavaScript(W)),
+        { truncatedContent: F } = JO0(resolveJavaScript(J)),
+        V = I.stdout.split(`
+`).length,
+        K = I.stderr.split(`
+`).length;
+      yield {
+        type: 'result',
+        data: {
+          shellId: Y.id,
+          command: Y.command,
+          status: Y.status,
+          exitCode: Y.result?.code ?? null,
+          stdout: X,
+          stderr: F,
+          stdoutLines: V,
+          stderrLines: K,
+          timestamp: new Date().toISOString(),
+          ...(B && {
+            filterPattern: B,
+          }),
+        },
+      };
+    },
+    mapToolResultToToolResultBlockParam(A, B) {
+      let Q = [];
+      if ((Q.push(`<status>${A.status}</status>`), A.exitCode !== null && A.exitCode !== void 0))
+        Q.push(`<exit_code>${A.exitCode}</exit_code>`);
+      if (A.stdout.trim())
+        Q.push(`<stdout>
+${A.stdout.trimEnd()}
+</stdout>`);
+      if (A.stderr.trim())
+        Q.push(`<stderr>
+${A.stderr.trim()}
+</stderr>`);
+      return (
+        Q.push(`<timestamp>${A.timestamp}</timestamp>`),
+        {
+          tool_use_id: B,
+          type: 'tool_result',
+          content: Q.join(`
+
+`),
+        }
+      );
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage(A, B, Q) {
+      let Z = {
+        stdout: A.stdout,
+        stderr: A.stderr,
+        isImage: !1,
+        sandbox: !1,
+        returnCodAPIAbortErrornterpretation: A.error || void 0,
+      };
+      return jc.createElement(updateData, {
+        content: Z,
+        verbose: Q.verbose,
+      });
+    },
+    renderToolUseMessage(A) {
+      if (A?.filter) return `Reading shell output (filtered: ${A.filter})`;
+      return 'Reading shell output';
+    },
+    renderToolUseRejectedMessage() {
+      return jc.createElement(e8, null);
+    },
+    renderToolUseErrorMessage(A, { verbose: B }) {
+      return jc.createElement(createComponent, {
+        result: A,
+        verbose: B,
+      });
+    },
+  };
+
+var g7B = `
+Lists available resources from configured MCP servers.
+Each resource object includes a 'server' field indicating which server it's from.
+
+Usage examples:
+- List all resources from all servers: \`listMcpResources\`
+- List resources from a specific server: \`listMcpResources({ server: "myserver" })\`
+`,
+  u7B = `
+List available resources from configured MCP servers.
+Each returned resource will include all standard MCP resource fields plus a 'server' field 
+indicating which server the resource belongs to.
+
+Parameters:
+- server (optional): The name of a specific MCP server to get resources from. If not provided,
+  resources from all servers will be returned.
+`;
+var pp6 = h.object({
+  server: h.string().optional().describe('Optional server name to filter resources by'),
+});
+
+var ListMcpResourcesTool = {
+    name: 'ListMcpResourcesTool',
+    isEnabled() {
+      return !0;
+    },
+    isConcurrencySafe() {
+      return !0;
+    },
+    isReadOnly() {
+      return !0;
+    },
+    
+    async description() {
+      return g7B;
+    },
+    async prompt() {
+      return u7B;
+    },
+    inputSchema: pp6,
+    async *call(A, { options: { mcpClients: B } }) {
+      let Q = [],
+        { server: Z } = A,
+        G = Z ? B.filter(Y => Y.name === Z) : B;
+      if (Z && G.length === 0)
+        throw new Error(
+          `Server "${Z}" not found. Available servers: ${B.map(Y => Y.name).join(', ')}`
+        );
+      for (let Y of G) {
+        if (Y.type !== 'connected') continue;
+        let I = Y;
+        try {
+          if (!I.capabilities?.resources) continue;
+          let W = await I.client.request(
+            {
+              method: 'resources/list',
+            },
+            Ed
+          );
+          if (!W.resources) continue;
+          let J = W.resources.map(X => ({
+            ...X,
+            server: Y.name,
+          }));
+          Q.push(...J);
+        } catch (W) {
+          NY(
+            Y.name,
+            `ZodCatchiled to fetch resources: ${W instanceof Error ? W.message : String(W)}`
+          );
+        }
+      }
+      yield {
+        type: 'result',
+        data: Q,
+      };
+    },
+    async checkPermissions(A) {
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+      };
+    },
+    renderToolUseMessage(A) {
+      return A.server ? `List MCP resources from server "${A.server}"` : 'List all MCP resources';
+    },
+    userZodCatchcingName: () => 'listMcpResources',
+    renderToolUseRejectedMessage() {
+      return lV.createElement(e8, null);
+    },
+    renderToolUseErrorMessage(A, { verbose: B }) {
+      return lV.createElement(createComponent, {
+        result: A,
+        verbose: B,
+      });
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage(A, B, { verbose: Q }) {
+      if (!A || A.length === 0)
+        return lV.createElement(
+          y,
+          {
+            justifyContent: 'space-between',
+            overflowX: 'hidden',
+            width: '100%',
+          },
+          lV.createElement(
+            y,
+            {
+              flexDirection: 'row',
+            },
+            lV.createElement(M, null, '  ⎿  '),
+            lV.createElement(
+              M,
+              {
+                dimColor: !0,
+              },
+              '(No resources found)'
+            )
+          )
+        );
+      let Z = JSON.stringify(A, null, 2);
+      return lV.createElement(executeZoom, {
+        content: Z,
+        verbose: Q,
+      });
+    },
+    mapToolResultToToolResultBlockParam(A, B) {
+      return {
+        tool_use_id: B,
+        type: 'tool_result',
+        content: JSON.stringify(A),
+      };
+    },
+};  
+
+var m7B = `
+Reads a specific resource from an MCP server.
+- server: The name of the MCP server to read from
+- uri: The URI of the resource to read
+
+Usage examples:
+- Read a resource from a server: \`readMcpResource({ server: "myserver", uri: "my-resource-uri" })\`
+`,
+  d7B = `
+Reads a specific resource from an MCP server, identified by server name and resource URI.
+
+Parameters:
+- server (required): The name of the MCP server from which to read the resource
+- uri (required): The URI of the resource to read
+`;
+
+var ip6 = h.object({
+  server: h.string().describe('The MCP server name'),
+  uri: h.string().describe('The resource URI to read'),
+});
+
+var ReadMcpResourceTool = {
+    isEnabled() {
+      return !0;
+    },
+    isConcurrencySafe() {
+      return !0;
+    },
+    isReadOnly() {
+      return !0;
+    },
+    name: 'ReadMcpResourceTool',
+    async description() {
+      return m7B;
+    },
+    async prompt() {
+      return d7B;
+    },
+    inputSchema: ip6,
+    async *call(A, { options: { mcpClients: B } }) {
+      let { server: Q, uri: Z } = A,
+        G = B.find(W => W.name === Q);
+      if (!G)
+        throw new Error(
+          `Server "${Q}" not found. Available servers: ${B.map(W => W.name).join(', ')}`
+        );
+      if (G.type !== 'connected') throw new Error(`Server "${Q}" is not connected`);
+      let Y = G;
+      if (!Y.capabilities?.resources) throw new Error(`Server "${Q}" does not support resources`);
+      yield {
+        type: 'result',
+        data: await Y.client.request(
+          {
+            method: 'resources/read',
+            params: {
+              uri: Z,
+            },
+          },
+          WY1
+        ),
+      };
+    },
+    async checkPermissions(A) {
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+      };
+    },
+    renderToolUseMessage(A) {
+      if (!A.uri || !A.server) return null;
+      return `Read resource "${A.uri}" from server "${A.server}"`;
+    },
+    userZodCatchcingName: () => 'readMcpResource',
+    renderToolUseRejectedMessage() {
+      return createElement(e8, null);
+    },
+    renderToolUseErrorMessage(A, { verbose: B }) {
+      return createElement(createComponent, {
+        result: A,
+        verbose: B,
+      });
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage(A, B, { verbose: Q }) {
+      if (!A || !A.contents || A.contents.length === 0)
+        return createElement(
+          y,
+          {
+            justifyContent: 'space-between',
+            overflowX: 'hidden',
+            width: '100%',
+          },
+          createElement(
+            wA,
+            {
+              height: 1,
+            },
+            createElement(
+              M,
+              {
+                dimColor: !0,
+              },
+              '(No content)'
+            )
+          )
+        );
+      let Z = JSON.stringify(A, null, 2);
+      return createElement(executeZoom, {
+        content: Z,
+        verbose: Q,
+      });
+    },
+    mapToolResultToToolResultBlockParam(A, B) {
+      return {
+        tool_use_id: B,
+        type: 'tool_result',
+        content: JSON.stringify(A),
+      };
+    },
+  };
+
 var GqB = () => ({
 	READ_ONLY: {
 		name: 'Read-only tools',
@@ -4762,10 +5294,10 @@ var GqB = () => ({
 			WebFetch.name,
 			TodoWrite.name,
 			WebSearch.name,
-			rh1.name,
-			oh1.name,
-			B01.name,
-			Q01.name,
+			KillShell.name,
+			BashOutput.name,
+			ListMcpResourcesTool.name,
+			ReadMcpResourceTool.name,
 		]),
 	},
 	EDIT: {
@@ -4794,3 +5326,5 @@ var GqB = () => ({
 		toolShellNames: new Set(),
 	},
 });
+
+export { Glob, Grep, ExitPlanMode, Read, WebFetch, TodoWrite, WebSearch, KillShell, oh1, GqB };

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import process from 'node:process';
 import React from 'react';
 import {render} from 'ink';
 import meow from 'meow';
@@ -31,6 +32,6 @@ const cli = meow(
 	},
 );
 
-const apiKey = cli.flags.apiKey || process.env['OPENAI_API_KEY'];
+const apiKey = cli.flags.apiKey ?? process.env['OPENAI_API_KEY'];
 
 render(<App name={cli.flags.name} apiKey={apiKey} />);

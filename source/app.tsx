@@ -8,6 +8,7 @@ type Props = {
 };
 
 type Message = {
+	id: string;
 	role: 'user' | 'assistant';
 	content: string;
 };
@@ -16,7 +17,7 @@ export default function App({name = 'User', apiKey}: Props) {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [input, setInput] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState<string | undefined>(null);
 	const {exit} = useApp();
 
 	const openai = apiKey ? new OpenAI({apiKey}) : null;
@@ -25,16 +26,16 @@ export default function App({name = 'User', apiKey}: Props) {
 		if (key.escape) {
 			exit();
 		}
-		
+
 		if (key.return) {
 			if (input.trim()) {
-				handleUserInput(input.trim());
+				void handleUserInput(input.trim());
 				setInput('');
 			}
 		} else if (key.backspace || key.delete) {
-			setInput(prev => prev.slice(0, -1));
+			setInput(previous => previous.slice(0, -1));
 		} else if (input.length === 1 && input >= ' ') {
-			setInput(prev => prev + input);
+			setInput(previous => previous + input);
 		}
 	});
 
@@ -55,12 +56,18 @@ export default function App({name = 'User', apiKey}: Props) {
 		}
 
 		if (!openai) {
-			setError('OpenAI API key not provided. Use --api-key flag or set OPENAI_API_KEY environment variable.');
+			setError(
+				'OpenAI API key not provided. Use --api-key flag or set OPENAI_API_KEY environment variable.',
+			);
 			return;
 		}
 
-		const newUserMessage: Message = {role: 'user', content: userInput};
-		setMessages(prev => [...prev, newUserMessage]);
+		const newUserMessage: Message = {
+			id: `user-${Date.now()}`,
+			role: 'user',
+			content: userInput,
+		};
+		setMessages(previous => [...previous, newUserMessage]);
 		setIsLoading(true);
 		setError(null);
 
@@ -70,22 +77,31 @@ export default function App({name = 'User', apiKey}: Props) {
 				messages: [
 					{
 						role: 'system',
-						content: 'You are a helpful coding assistant. Provide clear, concise, and practical coding advice.'
+						content:
+							'You are a helpful coding assistant. Provide clear, concise, and practical coding advice.',
 					},
-					...messages.map(msg => ({role: msg.role, content: msg.content})),
-					{role: 'user', content: userInput}
+					...messages.map(message => ({
+						role: message.role,
+						content: message.content,
+					})),
+					{role: 'user', content: userInput},
 				],
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				max_tokens: 1000,
 			});
 
 			const assistantMessage: Message = {
+				id: `assistant-${Date.now()}`,
 				role: 'assistant',
-				content: response.choices[0]?.message?.content || 'No response received.'
+				content:
+					response.choices[0]?.message?.content ?? 'No response received.',
 			};
 
-			setMessages(prev => [...prev, assistantMessage]);
-		} catch (error) {
-			setError(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+			setMessages(previous => [...previous, assistantMessage]);
+		} catch (error: unknown) {
+			setError(
+				`Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+			);
 		} finally {
 			setIsLoading(false);
 		}
@@ -93,6 +109,7 @@ export default function App({name = 'User', apiKey}: Props) {
 
 	const showHelp = () => {
 		const helpMessage: Message = {
+			id: `help-${Date.now()}`,
 			role: 'assistant',
 			content: `Koode CLI - AI-powered coding assistant
 
@@ -103,19 +120,20 @@ Available commands:
 
 You can also use ESC key to exit.
 
-Type your coding questions or requests and get AI-powered assistance!`
+Type your coding questions or requests and get AI-powered assistance!`,
 		};
-		setMessages(prev => [...prev, helpMessage]);
+		setMessages(previous => [...previous, helpMessage]);
 	};
 
 	useEffect(() => {
 		const welcomeMessage: Message = {
+			id: 'welcome',
 			role: 'assistant',
 			content: `Welcome to Koode CLI, ${name}! 🚀
 
 I'm your AI-powered coding assistant. Ask me anything about programming, code review, debugging, or general development questions.
 
-Type /help for available commands or start asking questions!`
+Type /help for available commands or start asking questions!`,
 		};
 		setMessages([welcomeMessage]);
 	}, [name]);
@@ -125,13 +143,11 @@ Type /help for available commands or start asking questions!`
 			<Text bold color="cyan">
 				Koode CLI - AI Coding Assistant
 			</Text>
-			<Text color="gray">
-				Press ESC to exit • Type /help for commands
-			</Text>
+			<Text color="gray">Press ESC to exit • Type /help for commands</Text>
 			<Box marginY={1} flexDirection="column">
-				{messages.map((message, index) => (
-					<Box key={index} marginBottom={1}>
-						<Text color={message.role === 'user' ? 'green' : 'blue'} bold>
+				{messages.map(message => (
+					<Box key={message.id} marginBottom={1}>
+						<Text bold color={message.role === 'user' ? 'green' : 'blue'}>
 							{message.role === 'user' ? '> ' : '🤖 '}
 						</Text>
 						<Text>{message.content}</Text>

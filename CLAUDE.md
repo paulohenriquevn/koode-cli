@@ -8,6 +8,7 @@ koode-cli is the foundation for building an AI-powered coding assistant CLI tool
 
 **Current State**: Basic scaffolded project from create-ink-app with "Hello, name" greeting functionality
 **Goal**: Develop into a full-featured agentic coding tool that can help developers with tasks like:
+
 - Building features from natural language descriptions
 - Debugging and fixing code issues
 - Navigating and understanding codebases
@@ -41,6 +42,7 @@ Commander.js is "the complete solution for Node.js command-line interfaces" - it
 **Key Insight**: Commander handles the CLI logic and routing, while Ink handles the rich interactive UI. This separation creates a powerful, maintainable architecture.
 
 #### Core Commander.js Concepts
+
 - **Commands & Subcommands**: Hierarchical command structure (`koode chat`, `koode analyze <file>`)
 - **Options & Arguments**: Flexible parsing with validation (`--model <type>`, `<files...>`)
 - **Action Handlers**: Functions that execute when commands are invoked
@@ -48,6 +50,7 @@ Commander.js is "the complete solution for Node.js command-line interfaces" - it
 - **Lifecycle Hooks**: Pre/post action callbacks for validation and cleanup
 
 #### Core Ink Components
+
 - **`<Box>`**: Layout container with full Flexbox support (margin, padding, borders, colors)
 - **`<Text>`**: Text rendering with colors, styles (bold, italic, underline), and text wrapping
 - **`<Static>`**: Permanent content that doesn't rerender (perfect for logs, completed tasks)
@@ -56,6 +59,7 @@ Commander.js is "the complete solution for Node.js command-line interfaces" - it
 - **`<Transform>`**: Transform string output before rendering
 
 #### Essential Ink Hooks
+
 - **`useInput(handler)`**: Capture user keyboard input (arrows, enter, custom keys)
 - **`useApp()`**: Access app lifecycle methods (exit, unmount)
 - **`useFocus()`**: Create focusable components with Tab navigation
@@ -67,18 +71,19 @@ Commander.js is "the complete solution for Node.js command-line interfaces" - it
 **Hybrid Architecture**: Commander routes commands → Ink renders rich UI
 
 ```tsx
-import { Command } from 'commander';
-import { render } from 'ink';
+import {Command} from 'commander';
+import {render} from 'ink';
 
 const program = new Command();
 
-program.command('chat')
-  .option('-m, --model <type>', 'AI model to use', 'gpt-4')
-  .action((options) => {
-    // Commander parses, Ink renders
-    const ChatApp = () => <ChatInterface options={options} />;
-    render(<ChatApp />);
-  });
+program
+	.command('chat')
+	.option('-m, --model <type>', 'AI model to use', 'gpt-4')
+	.action(options => {
+		// Commander parses, Ink renders
+		const ChatApp = () => <ChatInterface options={options} />;
+		render(<ChatApp />);
+	});
 
 await program.parseAsync();
 ```
@@ -95,7 +100,7 @@ await program.parseAsync();
 
 ```bash
 koode chat [options]                    # Interactive AI conversation
-koode analyze <file|directory>          # Code analysis with AI  
+koode analyze <file|directory>          # Code analysis with AI
 koode generate <description>            # Generate code from prompt
 koode fix <files...>                    # Auto-fix issues in files
 koode explain <code|file>               # Explain code functionality
@@ -160,6 +165,7 @@ vitest run          # Test runner
 The project includes these key libraries for development:
 
 ### Core Infrastructure
+
 - **commander**: Advanced CLI framework with subcommands
 - **meow**: Simple CLI argument parsing
 - **ora**: Terminal spinners and loading indicators
@@ -167,12 +173,14 @@ The project includes these key libraries for development:
 - **chalk**: Terminal string styling (dev dependency)
 
 ### AI and Data Processing
+
 - **openai**: OpenAI API integration for AI features
 - **zod**: Runtime type validation and schema parsing
 - **ajv**: JSON schema validation
 - **lodash-es**: Utility functions
 
 ### System Integration
+
 - **cross-spawn**: Cross-platform process spawning
 - **spawn-rx**: Reactive process spawning
 - **shell-quote**: Shell command escaping
@@ -180,19 +188,22 @@ The project includes these key libraries for development:
 - **is-online**: Network connectivity detection
 
 ### File and Stream Processing
+
 - **globby**: File pattern matching
 - **ignore**: .gitignore-style file filtering
 - **combined-stream**: Stream combination utilities
 - **lru-cache**: Memory-efficient caching
 
 ### Development Tools
+
 - **winston**: Structured logging
 - **vitest**: Fast testing framework
 - **ink-testing-library**: React component testing for terminal
 
 ### Useful Ink Ecosystem Libraries
+
 - **ink-text-input**: Text input components
-- **ink-select-input**: Dropdown/select components  
+- **ink-select-input**: Dropdown/select components
 - **ink-spinner**: Loading spinners
 - **ink-progress-bar**: Progress indicators
 - **ink-table**: Data tables
@@ -202,6 +213,7 @@ The project includes these key libraries for development:
 ## Development Philosophy
 
 This project follows a foundation-first approach:
+
 - Start with solid CLI infrastructure using proven tools (Ink, TypeScript, Vitest)
 - Build incrementally towards AI-powered features using OpenAI integration
 - Maintain terminal-native UX principles with interactive prompts and visual feedback
@@ -212,7 +224,6 @@ This project follows a foundation-first approach:
 
 - ✅ **MUST**: 95%+ certainty before implementing
 - ❌ **NEVER**: Assume requirements or proceed without validation
-
 
 ### Core Development Principles
 
@@ -245,18 +256,18 @@ import React from 'react';
 import {render, Box, Text, useInput} from 'ink';
 
 const MyComponent = () => {
-  useInput((input, key) => {
-    if (input === 'q') {
-      process.exit(0);
-    }
-  });
+	useInput((input, key) => {
+		if (input === 'q') {
+			process.exit(0);
+		}
+	});
 
-  return (
-    <Box flexDirection="column" padding={1}>
-      <Text color="green">Hello from Ink!</Text>
-      <Text dimColor>Press 'q' to quit</Text>
-    </Box>
-  );
+	return (
+		<Box flexDirection="column" padding={1}>
+			<Text color="green">Hello from Ink!</Text>
+			<Text dimColor>Press 'q' to quit</Text>
+		</Box>
+	);
 };
 
 render(<MyComponent />);
@@ -265,47 +276,50 @@ render(<MyComponent />);
 ### Common Ink Patterns
 
 #### 1. Interactive Input Handler
+
 ```tsx
 const [userInput, setUserInput] = useState('');
 
 useInput((input, key) => {
-  if (key.return) {
-    // Process the input
-    console.log('User entered:', userInput);
-    setUserInput('');
-  } else if (key.backspace) {
-    setUserInput(prev => prev.slice(0, -1));
-  } else {
-    setUserInput(prev => prev + input);
-  }
+	if (key.return) {
+		// Process the input
+		console.log('User entered:', userInput);
+		setUserInput('');
+	} else if (key.backspace) {
+		setUserInput(prev => prev.slice(0, -1));
+	} else {
+		setUserInput(prev => prev + input);
+	}
 });
 ```
 
 #### 2. Static + Dynamic Content Pattern
+
 ```tsx
 <Box flexDirection="column">
-  {/* Static content that doesn't rerender */}
-  <Static items={completedTasks}>
-    {task => <Text key={task.id}>✓ {task.name}</Text>}
-  </Static>
-  
-  {/* Dynamic content that updates */}
-  <Box marginTop={1}>
-    <Text>Current task: {currentTask}</Text>
-  </Box>
+	{/* Static content that doesn't rerender */}
+	<Static items={completedTasks}>
+		{task => <Text key={task.id}>✓ {task.name}</Text>}
+	</Static>
+
+	{/* Dynamic content that updates */}
+	<Box marginTop={1}>
+		<Text>Current task: {currentTask}</Text>
+	</Box>
 </Box>
 ```
 
 #### 3. Focusable Navigation
+
 ```tsx
 const {isFocused} = useFocus();
 
 return (
-  <Box borderStyle={isFocused ? 'round' : undefined}>
-    <Text color={isFocused ? 'cyan' : 'white'}>
-      {isFocused ? '> ' : '  '}Menu Item
-    </Text>
-  </Box>
+	<Box borderStyle={isFocused ? 'round' : undefined}>
+		<Text color={isFocused ? 'cyan' : 'white'}>
+			{isFocused ? '> ' : '  '}Menu Item
+		</Text>
+	</Box>
 );
 ```
 
@@ -331,22 +345,23 @@ expect(lastFrame()).toContain('Hello from Ink!');
 ### Basic Command Structure
 
 ```tsx
-import { Command } from 'commander';
+import {Command} from 'commander';
 
 const program = new Command();
 
 program
-  .name('koode')
-  .description('AI-powered coding assistant')
-  .version('0.1.0');
+	.name('koode')
+	.description('AI-powered coding assistant')
+	.version('0.1.0');
 
 // Simple command
-program.command('chat')
-  .description('Start AI chat session')
-  .option('-m, --model <type>', 'AI model', 'gpt-4')
-  .action((options) => {
-    console.log(`Starting chat with ${options.model}`);
-  });
+program
+	.command('chat')
+	.description('Start AI chat session')
+	.option('-m, --model <type>', 'AI model', 'gpt-4')
+	.action(options => {
+		console.log(`Starting chat with ${options.model}`);
+	});
 
 program.parse();
 ```
@@ -354,66 +369,75 @@ program.parse();
 ### Common Commander Patterns
 
 #### 1. File Processing Commands
+
 ```tsx
-program.command('analyze')
-  .argument('<file>', 'file to analyze')
-  .option('-d, --depth <number>', 'analysis depth', '3')
-  .action((file, options) => {
-    analyzeFile(file, { depth: parseInt(options.depth) });
-  });
+program
+	.command('analyze')
+	.argument('<file>', 'file to analyze')
+	.option('-d, --depth <number>', 'analysis depth', '3')
+	.action((file, options) => {
+		analyzeFile(file, {depth: parseInt(options.depth)});
+	});
 ```
 
 #### 2. Variadic Arguments (Multiple Files)
+
 ```tsx
-program.command('fix')
-  .argument('<files...>', 'files to fix')
-  .option('--auto', 'auto-apply fixes')
-  .action((files, options) => {
-    files.forEach(file => fixFile(file, options.auto));
-  });
+program
+	.command('fix')
+	.argument('<files...>', 'files to fix')
+	.option('--auto', 'auto-apply fixes')
+	.action((files, options) => {
+		files.forEach(file => fixFile(file, options.auto));
+	});
 ```
 
 #### 3. Required vs Optional Options
+
 ```tsx
-program.command('deploy')
-  .requiredOption('--api-key <key>', 'OpenAI API key')
-  .option('--cache', 'enable caching', false)
-  .action((options) => {
-    // options.apiKey is guaranteed to exist
-    deploy(options.apiKey, options.cache);
-  });
+program
+	.command('deploy')
+	.requiredOption('--api-key <key>', 'OpenAI API key')
+	.option('--cache', 'enable caching', false)
+	.action(options => {
+		// options.apiKey is guaranteed to exist
+		deploy(options.apiKey, options.cache);
+	});
 ```
 
 #### 4. Advanced Option Processing
+
 ```tsx
 function parseContext(value, previous) {
-  return previous.concat([value]);
+	return previous.concat([value]);
 }
 
-program.command('generate')
-  .option('-c, --context <paths...>', 'context files', parseContext, [])
-  .option('--model <type>', 'AI model')
-    .choices(['gpt-4', 'gpt-3.5-turbo', 'claude'])
-    .default('gpt-4')
-  .action((options) => {
-    generateCode(options.context, options.model);
-  });
+program
+	.command('generate')
+	.option('-c, --context <paths...>', 'context files', parseContext, [])
+	.option('--model <type>', 'AI model')
+	.choices(['gpt-4', 'gpt-3.5-turbo', 'claude'])
+	.default('gpt-4')
+	.action(options => {
+		generateCode(options.context, options.model);
+	});
 ```
 
 #### 5. Lifecycle Hooks for Validation
+
 ```tsx
 program
-  .hook('preAction', (thisCommand, actionCommand) => {
-    // Validate environment before any command runs
-    if (!process.env.OPENAI_API_KEY && !actionCommand.opts().apiKey) {
-      console.error('Error: OpenAI API key required');
-      process.exit(1);
-    }
-  })
-  .hook('postAction', (thisCommand, actionCommand) => {
-    // Cleanup or logging after command completes
-    console.log(`Command ${actionCommand.name()} completed`);
-  });
+	.hook('preAction', (thisCommand, actionCommand) => {
+		// Validate environment before any command runs
+		if (!process.env.OPENAI_API_KEY && !actionCommand.opts().apiKey) {
+			console.error('Error: OpenAI API key required');
+			process.exit(1);
+		}
+	})
+	.hook('postAction', (thisCommand, actionCommand) => {
+		// Cleanup or logging after command completes
+		console.log(`Command ${actionCommand.name()} completed`);
+	});
 ```
 
 ### Commander + Ink Integration Best Practices
@@ -429,10 +453,10 @@ program
 ```tsx
 // Test command parsing
 const program = new Command();
-program.command('test').action((options) => {
-  // Command logic here
+program.command('test').action(options => {
+	// Command logic here
 });
 
 // Mock process.argv for testing
-program.parse(['node', 'script.js', 'test'], { from: 'node' });
+program.parse(['node', 'script.js', 'test'], {from: 'node'});
 ```
