@@ -861,14 +861,15 @@ var minimatchFunction = (A, B, Q = {}) => {
 minimatchFunction.sep = lG9;
 var globstarSymbol = Symbol('globstar **');
 minimatchFunction.GLOBSTAR = globstarSymbol;
-var nonSlashPattern = '[^/]',
-	nonSlashWildcardPattern = nonSlashPattern + '*?',
-	dotDirExcludePattern = '(?:(?!(?:\\/|^)(?:\\.{1,2})($|\\/)).)*?',
-	dotFileExcludePattern = '(?:(?!(?:\\/|^)\\.).)*?',
-	filterFunction =
-		(A, B = {}) =>
-		Q =>
-			FV(Q, A, B);
+
+var nonSlashPattern = '[^/]';
+
+var	nonSlashWildcardPattern = nonSlashPattern + '*?';
+var	dotDirExcludePattern = '(?:(?!(?:\\/|^)(?:\\.{1,2})($|\\/)).)*?';
+var dotFileExcludePattern = '(?:(?!(?:\\/|^)\\.).)*?';
+
+var filterFunction = (A, B = {}) => Q =>FV(Q, A, B);
+
 minimatchFunction.filter = filterFunction;
 // MODERNIZED: Using spread operator instead of Object.assign for better performance
 var mergeObjects = (A, B = {}) => ({...A, ...B}),
@@ -922,7 +923,8 @@ minimatchFunction.match = matchFunction;
 var zIA = /[?*]|[+@!]\(.*?\)|\[|\]/,
 	eG9 = A => A.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
-class MinimatchPattern {
+
+  class MinimatchPattern {
 	options;
 	set;
 	pattern;
@@ -2131,7 +2133,7 @@ var uI9 = (A, { forceKillAfterTimeout: B }, Q) => mI9(A) && B !== !1 && Q,
         `Expected the \`forceKillAfterTimeout\` option to be a non-negative integer, got \`${A}\` (${typeof A})`
       );
     return A;
-;
+  };
 
 var gI9 = (A, B, Q, Z) => {
     if (!uI9(B, Q, Z)) return;
@@ -3571,7 +3573,7 @@ Usage:
         let C = P4B(F),
           q = JSON.stringify(C);
         if (q.length > W)
-          throw new Error(`Notebook content (${dJ(q.length)}) exceeds maximum allowed size (${dJ(W)}). Use ${bashTooShellErrorame} with jq to read specific portions:
+          throw new Error(`Notebook content (${dJ(q.length)}) exceeds maximum allowed size (${dJ(W)}). Use ${bashTool} with jq to read specific portions:
   cat "${A}" | jq '.cells[:20]' # First 20 cells
   cat "${A}" | jq '.cells[100:120]' # Cells 100-120
   cat "${A}" | jq '.cells | length' # Count total cells
@@ -5283,10 +5285,1380 @@ var ReadMcpResourceTool = {
     },
   };
 
+var zZ = 'Read',
+
+var y6B = `Performs exact string replacements in files. 
+
+Usage:
+- You must use your \`${zZ}\` tool at least once in the conversation before editing. This tool will error if you attempt an edit without reading the file. 
+- When editing text from Read tool output, ensure you preserve the exact indentation (tabs/spaces) as it appears AFTER the line number prefix. The line number prefix format is: spaces + line number + tab. Everything after that tab is the actual file content to match. Never include any part of the line number prefix in the old_string or new_string.
+- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.
+- Only use emojis if the user explicitly requests it. Avoid adding emojis to files unless asked.
+- The edit will FAIL if \`old_string\` is not unique in the file. Either provide a larger string with more surrounding context to make it unique or use \`replace_all\` to change every instance of \`old_string\`. 
+- Use \`replace_all\` for replacing and renaming strings across the file. This parameter is useful if you want to rename a variable for instance.`;
+
+var y3B = h.strictObject({
+  file_path: h.string().describe('The absolute path to the file to modify'),
+  old_string: h.string().describe('The text to replace'),
+  new_string: h
+    .string()
+    .describe('The text to replace it with (must be different from old_string)'),
+  replace_all: h
+    .boolean()
+    .default(!1)
+    .optional()
+    .describe('Replace all occurences of old_string (default false)'),
+});
+
+var NameEdit = 'Edit';
+var Edit = {
+  name: NameEdit,
+  async description() {
+    return 'A tool for editing files';
+  },
+  async prompt() {
+    return y6B;
+  },
+  userZodCatchcingName(A) {
+    if (!A) return 'Update';
+    if (A.old_string === '') return 'Create';
+    return 'Update';
+  },
+  isEnabled() {
+    return !0;
+  },
+  inputSchema: y3B,
+  isConcurrencySafe() {
+    return !1;
+  },
+  isReadOnly() {
+    return !1;
+  },
+  getPath(A) {
+    return A.file_path;
+  },
+  async checkPermissions(A, B) {
+    let Q = await B.getAppState();
+    return checkEditPermissions(Edit, A, Q.toolPermissionContext);
+  },
+  renderToolUseMessage({ file_path: A }, { verbose: B }) {
+    if (!A) return null;
+    return B ? A : BJ(A);
+  },
+  renderToolUseProgressMessage() {
+    return null;
+  },
+  renderToolResultMessage({ filePath: A, structuredPatch: B }, Q, { style: Z, verbose: G }) {
+    return createElement(d_1, {
+      filePath: A,
+      structuredPatch: B,
+      style: Z,
+      verbose: G,
+    });
+  },
+  renderToolUseRejectedMessage(
+    { file_path: A, old_string: B, new_string: Q, replace_all: Z = !1 },
+    { style: G, verbose: Y }
+  ) {
+    try {
+      let I = fs().existsSync(A)
+          ? fs().readFileSync(A, {
+              encoding: 'utf8',
+            })
+          : '',
+        W = m11(I, B) || B,
+        { patch: J } = VU0({
+          filePath: A,
+          fileContents: I,
+          oldString: W,
+          newString: Q,
+          replaceAll: Z,
+        });
+      return createElement(p_1, {
+        file_path: A,
+        operation: B === '' ? 'write' : 'update',
+        patch: J,
+        style: G,
+        verbose: Y,
+      });
+    } catch (I) {
+      return (
+        console.error(I),
+        createElement(
+          wA,
+          {
+            height: 1,
+          },
+          createElement(M, null, '(No changes)')
+        )
+      );
+    }
+  },
+  async validatAPIAbortErrornput(
+    { file_path: A, old_string: B, new_string: Q, replace_all: Z = !1 },
+    { readFileState: G }
+  ) {
+    if (B === Q)
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: 'No changes to make: old_string and new_string are exactly the same.',
+        errorCode: 1,
+      };
+    let Y = Fv1(A) ? A : _n6(getCurrentWorkingDirectory(), A);
+    if (V$(Y))
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: 'File is in a directory that is ignored by your project configuration.',
+        errorCode: 2,
+      };
+    let I = fs();
+    if (I.existsSync(Y) && B === '') {
+      if (
+        I.readFileSync(Y, {
+          encoding: uJ(Y),
+        })
+          .replaceAll(
+            `\r
+`,
+            `
+`
+          )
+          .trim() !== ''
+      )
+        return {
+          result: !1,
+          behavior: 'ask',
+          message: 'Cannot create new file - file already exists.',
+          errorCode: 3,
+        };
+      return {
+        result: !0,
+      };
+    }
+    if (!I.existsSync(Y) && B === '')
+      return {
+        result: !0,
+      };
+    if (!I.existsSync(Y)) {
+      let H = y_1(Y),
+        D = 'File does not exist.',
+        C = getCurrentWorkingDirectory(),
+        q = getOriginalWorkingDirectory();
+      if (C !== q) D += ` Current working directory: ${C}`;
+      if (H) D += ` Did you mean ${H}?`;
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: D,
+        errorCode: 4,
+      };
+    }
+    if (Y.endsWith('.ipynb'))
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: `File is a Jupyter Notebook. Use the ${Kv} to edit this file.`,
+        errorCode: 5,
+      };
+    let W = G.get(Y);
+    if (!W)
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: 'File has not been read yet. Read it first before writing to it.',
+        meta: {
+          isFilePathAbsolute: String(Fv1(A)),
+        },
+        errorCode: 6,
+      };
+    let J = I.statSync(Y);
+    if (Math.floor(J.mtimeMs) > W.timestamp)
+      return {
+        result: !1,
+        behavior: 'ask',
+        message:
+          'File has been modified since read, either by the user or by a linter. Read it again before attempting to write it.',
+        errorCode: 7,
+      };
+    let F = I.readFileSync(Y, {
+        encoding: uJ(Y),
+      }).replaceAll(
+        `\r
+`,
+        `
+`
+      ),
+      V = m11(F, B);
+    if (!V)
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: `String to replace not found in file.
+String: ${B}`,
+        meta: {
+          isFilePathAbsolute: String(Fv1(A)),
+        },
+        errorCode: 8,
+      };
+    let K = F.split(V).length - 1;
+    if (K > 1 && !Z)
+      return {
+        result: !1,
+        behavior: 'ask',
+        message: `Found ${K} matches of the string to replace, but replace_all is false. To replace all occurrences, set replace_all to true. To replace only one occurrence, please provide more context to uniquely identify the instance.
+String: ${B}`,
+        meta: {
+          isFilePathAbsolute: String(Fv1(A)),
+          actualOldString: V,
+        },
+        errorCode: 9,
+      };
+    let z = Xv1(Y, F, () => {
+      return Z ? F.replaceAll(V, Q) : F.replace(V, Q);
+    });
+    if (z !== null) return z;
+    return {
+      result: !0,
+      meta: {
+        actualOldString: V,
+      },
+    };
+  },
+  inputsEquivalent(A, B) {
+    return l_1(
+      {
+        file_path: A.file_path,
+        edits: [
+          {
+            old_string: A.old_string,
+            new_string: A.new_string,
+            replace_all: A.replace_all ?? !1,
+          },
+        ],
+      },
+      {
+        file_path: B.file_path,
+        edits: [
+          {
+            old_string: B.old_string,
+            new_string: B.new_string,
+            replace_all: B.replace_all ?? !1,
+          },
+        ],
+      }
+    );
+  },
+  async *call(
+    { file_path: A, old_string: B, new_string: Q, replace_all: Z = !1 },
+    { readFileState: G, userModified: Y, updateFileHistoryState: I }
+  ) {
+    let W = fs(),
+      J = resolvePath(A);
+    await diagnosticsManager.beforeFileEdited(J);
+    let X = W.existsSync(J) ? DV(J) : '';
+    if (W.existsSync(J)) {
+      let q = W.statSync(J),
+        E = Math.floor(q.mtimeMs),
+        L = G.get(J);
+      if (!L || E > L.timestamp)
+        throw new Error(
+          'File has been unexpectedly modified. Read it again before attempting to write it.'
+        );
+    }
+    let F = m11(X, B) || B,
+      { patch: V, updatedFile: K } = VU0({
+        filePath: J,
+        fileContents: X,
+        oldString: F,
+        newString: Q,
+        replaceAll: Z,
+      }),
+      z = kn6(J);
+    W.mkdirSync(z);
+    let H = W.existsSync(J) ? fj(J) : 'LF',
+      D = W.existsSync(J) ? uJ(J) : 'utf8';
+    if (
+      (mv(J, K, D, H),
+      G.set(J, {
+        content: K,
+        timestamp: W.statSync(J).mtimeMs,
+      }),
+      J.endsWith(`${xn6}Jose.md`))
+    )
+      telemetry('tengu_write_Josemd', {});
+    (qd(V),
+      yield {
+        type: 'result',
+        data: {
+          filePath: A,
+          oldString: F,
+          newString: Q,
+          originalFile: X,
+          structuredPatch: V,
+          userModified: Y ?? !1,
+          replaceAll: Z,
+        },
+      });
+  },
+  mapToolResultToToolResultBlockParam(
+    { filePath: A, originalFile: B, oldString: Q, newString: Z, userModified: G, replaceAll: Y },
+    I
+  ) {
+    let W = G ? '.  The user modified your proposed changes before accepting them. ' : '';
+    if (Y)
+      return {
+        tool_use_id: I,
+        type: 'tool_result',
+        content: `The file ${A} has been updated${W}. All occurrences of '${Q}' were successfully replaced with '${Z}'.`,
+      };
+    let { snippet: J, startLine: X } = x6B(B || '', Q, Z);
+    return {
+      tool_use_id: I,
+      type: 'tool_result',
+      content: `The file ${A} has been updated${W}. Here's the result of running \`cat -n\` on a snippet of the edited file:
+${saveVersion({ content: J, startLine: X })}`,
+    };
+  },
+  renderToolUseErrorMessage(A, { verbose: B }) {
+    if (!B && typeof A === 'string' && oQ(A, 'tool_use_error')) {
+      if (oQ(A, 'tool_use_error')?.includes('File has not been read yet'))
+        return createElement(
+          wA,
+          null,
+          createElement(
+            M,
+            {
+              dimColor: !0,
+            },
+            'File must be read first'
+          )
+        );
+      return createElement(
+        wA,
+        null,
+        createElement(
+          M,
+          {
+            color: 'error',
+          },
+          'Error editing file'
+        )
+      );
+    }
+    return createElement(createComponent, {
+      result: A,
+      verbose: B,
+    });
+  },
+};
+
+var NameMultiEdit = 'MultiEdit',
+var y6B = `Performs exact string replacements in files. 
+
+Usage:
+- You must use your \`${zZ}\` tool at least once in the conversation before editing. This tool will error if you attempt an edit without reading the file. 
+- When editing text from Read tool output, ensure you preserve the exact indentation (tabs/spaces) as it appears AFTER the line number prefix. The line number prefix format is: spaces + line number + tab. Everything after that tab is the actual file content to match. Never include any part of the line number prefix in the old_string or new_string.
+- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.
+- Only use emojis if the user explicitly requests it. Avoid adding emojis to files unless asked.
+- The edit will FAIL if \`old_string\` is not unique in the file. Either provide a larger string with more surrounding context to make it unique or use \`replace_all\` to change every instance of \`old_string\`. 
+- Use \`replace_all\` for replacing and renaming strings across the file. This parameter is useful if you want to rename a variable for instance.`;
+
+
+var fn6 = h.strictObject({
+  file_path: h
+    .string()
+    .describe('The path to the file to modify (absolute or relative to current directory)'),
+  edits: h
+    .array(f3B)
+    .min(1, 'At least one edit is required')
+    .describe('Array of edit operations to perform sequentially on the file'),
+});
+
+
+var MultiEdit = {
+    name: NameMultiEdit,
+    async description() {
+      return 'A tool for editing files';
+    },
+    async prompt() {
+      return j2B;
+    },
+    userZodCatchcingName(A) {
+      if (!A || !A.edits) return 'Update';
+      if (b3B(A.edits)) return 'Create';
+      return 'Update';
+    },
+    isEnabled() {
+      return !0;
+    },
+    inputSchema: fn6,
+    isConcurrencySafe() {
+      return !1;
+    },
+    isReadOnly() {
+      return !1;
+    },
+    getPath(A) {
+      return A.file_path;
+    },
+    async checkPermissions(A, B) {
+      return Edit.checkPermissions(
+        {
+          file_path: A.file_path,
+          old_string: '',
+          new_string: '',
+        },
+        B
+      );
+    },
+    renderToolUseMessage({ file_path: A }, { theme: B, verbose: Q }) {
+      return Edit.renderToolUseMessage(
+        {
+          file_path: A,
+          old_string: '',
+          new_string: '',
+        },
+        {
+          theme: B,
+          verbose: Q,
+        }
+      );
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage(
+      { filePath: A, originalFileContents: B, structuredPatch: Q, userModified: Z },
+      G,
+      Y
+    ) {
+      return Edit.renderToolResultMessage(
+        {
+          filePath: A,
+          originalFile: B,
+          structuredPatch: Q,
+          oldString: '',
+          newString: '',
+          userModified: Z,
+          replaceAll: !1,
+        },
+        G,
+        Y
+      );
+    },
+    renderToolUseRejectedMessage({ file_path: A, edits: B }, { style: Q, verbose: Z }) {
+      try {
+        let G = fs().existsSync(A)
+            ? fs().readFileSync(A, {
+                encoding: 'utf8',
+              })
+            : '',
+          { patch: Y } = _j({
+            filePath: A,
+            fileContents: G,
+            edits: ZY1(B),
+          });
+        return createElement(p_1, {
+          file_path: A,
+          operation: b3B(B) ? 'write' : 'update',
+          patch: Y,
+          style: Q,
+          verbose: Z,
+        });
+      } catch (G) {
+        return (
+          logError(G, c3A),
+          createElement(
+            wA,
+            {
+              height: 1,
+            },
+            createElement(M, null, '(No changes)')
+          )
+        );
+      }
+    },
+    async validatAPIAbortErrornput({ file_path: A, edits: B }, Q) {
+      for (let Y of B) {
+        let I = await Edit.validatAPIAbortErrornput(
+          {
+            file_path: A,
+            old_string: Y.old_string,
+            new_string: Y.new_string,
+            replace_all: Y.replace_all,
+          },
+          Q
+        );
+        if (!I.result) return I;
+      }
+      let Z = resolvePath(A),
+        G = fs();
+      if (G.existsSync(Z)) {
+        let Y = G.readFileSync(Z, {
+            encoding: 'utf8',
+          }),
+          I = Xv1(Z, Y, () => {
+            let { updatedFile: W } = _j({
+              filePath: Z,
+              fileContents: Y,
+              edits: ZY1(B),
+            });
+            return W;
+          });
+        if (I !== null) return I;
+      }
+      return {
+        result: !0,
+      };
+    },
+    inputsEquivalent(A, B) {
+      let Q = Z => ({
+        file_path: Z.file_path,
+        edits: ZY1(Z.edits),
+      });
+      return l_1(Q(A), Q(B));
+    },
+    async *call(
+      { file_path: A, edits: B },
+      { readFileState: Q, userModified: Z, updateFileHistoryState: G }
+    ) {
+      let Y = ZY1(B),
+        I = fs(),
+        W = resolvePath(A);
+      await diagnosticsManager.beforeFileEdited(W);
+      let J = I.existsSync(W) ? DV(W) : '';
+      if (I.existsSync(W)) {
+        let D = I.statSync(W),
+          C = Math.floor(D.mtimeMs),
+          q = Q.get(W);
+        if (!q || C > q.timestamp)
+          throw new Error(
+            'File has been unexpectedly modified. Read it again before attempting to write it.'
+          );
+      }
+      let { patch: X, updatedFile: F } = _j({
+          filePath: W,
+          fileContents: J,
+          edits: Y,
+        }),
+        V = vn6(W);
+      I.mkdirSync(V);
+      let K = I.existsSync(W) ? fj(W) : 'LF',
+        z = I.existsSync(W) ? uJ(W) : 'utf8';
+      if (
+        (mv(W, F, z, K),
+        Q.set(W, {
+          content: F,
+          timestamp: I.statSync(W).mtimeMs,
+        }),
+        W.endsWith(`${bn6}Jose.md`))
+      )
+        telemetry('tengu_write_Josemd', {});
+      (qd(X),
+        yield {
+          type: 'result',
+          data: {
+            filePath: A,
+            edits: Y,
+            originalFileContents: J,
+            structuredPatch: X,
+            userModified: Z ?? !1,
+          },
+        });
+    },
+    mapToolResultToToolResultBlockParam({ filePath: A, edits: B, userModified: Q }, Z) {
+      let G = Q ? '.  The user modified your proposed changes before accepting them.' : '';
+      return {
+        tool_use_id: Z,
+        type: 'tool_result',
+        content: `Applied ${B.length} edit${B.length === 1 ? '' : 's'} to ${A}${G}:
+${B.map(
+  (Y, I) =>
+    `${I + 1}. Replaced "${Y.old_string.substring(0, 50)}${Y.old_string.length > 50 ? '...' : ''}" with "${Y.new_string.substring(0, 50)}${Y.new_string.length > 50 ? '...' : ''}"`
+).join(`
+`)}`,
+      };
+    },
+    renderToolUseErrorMessage(A, B) {
+      return Edit.renderToolUseErrorMessage(A, B);
+    },
+};
+
+
+var NameWrite = 'Write';
+var S2B = `Writes a file to the local filesystem.
+
+Usage:
+- This tool will overwrite the existing file if there is one at the provided path.
+- If this is an existing file, you MUST use the ${zZ} tool first to read the file's contents. This tool will fail if you did not read the file first.
+- ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.
+- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+- Only use emojis if the user explicitly requests it. Avoid writing emojis to files unless asked.`;
+
+var pn6 = h.strictObject({
+    file_path: h
+      .string()
+      .describe('The path to the file to write (absolute or relative to current directory)'),
+    content: h.string().describe('The content to write to the file'),
+});
+
+var Write = {
+    name: NameWrite,
+    async description() {
+      return 'Write a file to the local filesystem.';
+    },
+    userZodCatchcingName() {
+      return 'Write';
+    },
+    async prompt() {
+      return S2B;
+    },
+    isEnabled() {
+      return !0;
+    },
+    renderToolUseMessage(A, { verbose: B }) {
+      if (!A.file_path) return null;
+      return B ? A.file_path : BJ(A.file_path);
+    },
+    inputSchema: pn6,
+    isConcurrencySafe() {
+      return !1;
+    },
+    isReadOnly() {
+      return !1;
+    },
+    getPath(A) {
+      return A.file_path;
+    },
+    async checkPermissions(A, B) {
+      let Q = await B.getAppState();
+      return checkEditPermissions(Write, A, Q.toolPermissionContext);
+    },
+    renderToolUseRejectedMessage(
+      { file_path: A, content: B },
+      { columns: Q, style: Z, verbose: G }
+    ) {
+      try {
+        let Y = fs(),
+          I = mn6(A) ? A : dn6(getCurrentWorkingDirectory(), A),
+          W = Y.existsSync(I),
+          J = W ? uJ(I) : 'utf-8',
+          X = W
+            ? Y.readFileSync(I, {
+                encoding: J,
+              })
+            : null,
+          F = X ? 'update' : 'create',
+          V = K$({
+            filePath: A,
+            fileContents: X ?? '',
+            edits: [
+              {
+                old_string: X ?? '',
+                new_string: B,
+                replace_all: !1,
+              },
+            ],
+          }),
+          K = createElement(
+            y,
+            {
+              flexDirection: 'row',
+            },
+            createElement(
+              M,
+              {
+                color: 'error',
+              },
+              'User rejected ',
+              F === 'update' ? 'update' : 'write',
+              ' to',
+              ' '
+            ),
+            createElement(
+              M,
+              {
+                bold: !0,
+                color: 'error',
+              },
+              G ? A : h3B(getCurrentWorkingDirectory(), A)
+            )
+          );
+        if (Z === 'condensed' && !G) return K;
+        return createElement(
+          wA,
+          null,
+          createElement(
+            y,
+            {
+              flexDirection: 'column',
+            },
+            K,
+            GW(
+              V.map(z =>
+                createElement(
+                  y,
+                  {
+                    flexDirection: 'column',
+                    key: z.newStart,
+                  },
+                  createElement(Oz, {
+                    patch: z,
+                    dim: !0,
+                    width: Q - 12,
+                  })
+                )
+              ),
+              z =>
+                createElement(
+                  y,
+                  {
+                    key: `ellipsis-${z}`,
+                  },
+                  createElement(
+                    M,
+                    {
+                      dimColor: !0,
+                    },
+                    '...'
+                  )
+                )
+            )
+          )
+        );
+      } catch (Y) {
+        return (
+          logError(Y, r3A),
+          createElement(
+            y,
+            {
+              flexDirection: 'column',
+            },
+            createElement(M, null, '  ', '⎿ (No changes)')
+          )
+        );
+      }
+    },
+    renderToolUseErrorMessage(A, { verbose: B }) {
+      if (!B && typeof A === 'string' && oQ(A, 'tool_use_error'))
+        return createElement(
+          wA,
+          null,
+          createElement(
+            M,
+            {
+              color: 'error',
+            },
+            'Error writing file'
+          )
+        );
+      return createElement(createComponent, {
+        result: A,
+        verbose: B,
+      });
+    },
+    renderToolUseProgressMessage() {
+      return null;
+    },
+    renderToolResultMessage(
+      { filePath: A, content: B, structuredPatch: Q, type: Z },
+      G,
+      { style: Y, verbose: I }
+    ) {
+      switch (Z) {
+        case 'create': {
+          let W = B || '(No content)',
+            J = B.split(hn6).length,
+            X = J - g3B,
+            F = createElement(
+              M,
+              null,
+              'Wrote ',
+              createElement(
+                M,
+                {
+                  bold: !0,
+                },
+                J
+              ),
+              ' lines to',
+              ' ',
+              createElement(
+                M,
+                {
+                  bold: !0,
+                },
+                I ? A : h3B(getCurrentWorkingDirectory(), A)
+              )
+            );
+          if (Y === 'condensed' && !I) return F;
+          return createElement(
+            wA,
+            null,
+            createElement(
+              y,
+              {
+                flexDirection: 'column',
+              },
+              F,
+              createElement(
+                y,
+                {
+                  flexDirection: 'column',
+                },
+                createElement($$, {
+                  code: I
+                    ? W
+                    : W.split(
+                        `
+`
+                      )
+                        .slice(0, g3B)
+                        .filter(V => V.trim() !== '').join(`
+`),
+                  language: un6(A).slice(1),
+                }),
+                !I &&
+                  X > 0 &&
+                  createElement(
+                    M,
+                    {
+                      dimColor: !0,
+                    },
+                    '… +',
+                    X,
+                    ' ',
+                    X === 1 ? 'line' : 'lines',
+                    ' ',
+                    J > 0 && createElement(normalizeInput, null)
+                  )
+              )
+            )
+          );
+        }
+        case 'update':
+          return createElement(d_1, {
+            filePath: A,
+            structuredPatch: Q,
+            verbose: I,
+          });
+      }
+    },
+    async validatAPIAbortErrornput({ file_path: A }, { readFileState: B }) {
+      let Q = resolve(A);
+      if (V$(Q))
+        return {
+          result: !1,
+          message: 'File is in a directory that is ignored by your project configuration.',
+          errorCode: 1,
+        };
+      let Z = fs();
+      if (!Z.existsSync(Q))
+        return {
+          result: !0,
+        };
+      let G = B.get(Q);
+      if (!G || Z.statSync(Q).mtimeMs > G.timestamp) {
+        // Auto-read file and add to readFileState like Read tool does
+        try {
+          let currentContent = Z.readFileSync(Q, { encoding: uJ(Q) });
+          B.set(Q, {
+            content: currentContent,
+            timestamp: Z.statSync(Q).mtimeMs,
+          });
+        } catch (error) {
+          return {
+            result: !1,
+            message: `ZodCatchiled to read existing file: ${error.message}`,
+            errorCode: 2,
+          };
+        }
+      }
+      return {
+        result: !0,
+      };
+    },
+    async *call({ file_path: A, content: B }, { readFileState: Q, updateFileHistoryState: Z }) {
+      let G = resolve(A),
+        Y = gn6(G),
+        I = fs();
+      await diagnosticsManager.beforeFileEdited(G);
+      let W = I.existsSync(G);
+      if (W) {
+        let K = I.statSync(G),
+          z = Math.floor(K.mtimeMs),
+          H = Q.get(G);
+        if (!H || z > H.timestamp) {
+          // Auto-read file and add to readFileState like Read tool does
+          let currentContent = I.readFileSync(G, { encoding: uJ(G) });
+          Q.set(G, {
+            content: currentContent,
+            timestamp: z,
+          });
+        }
+      }
+      let J = W ? uJ(G) : 'utf-8',
+        X = W
+          ? I.readFileSync(G, {
+              encoding: J,
+            })
+          : null,
+        F = W ? fj(G) : await m3B();
+      if (
+        (I.mkdirSync(Y),
+        mv(G, B, J, F),
+        Q.set(G, {
+          content: B,
+          timestamp: I.statSync(G).mtimeMs,
+        }),
+        G.endsWith(`${cn6}Jose.md`))
+      )
+        telemetry('tengu_write_Josemd', {});
+      if (X) {
+        let K = K$({
+            filePath: A,
+            fileContents: X,
+            edits: [
+              {
+                old_string: X,
+                new_string: B,
+                replace_all: !1,
+              },
+            ],
+          }),
+          z = {
+            type: 'update',
+            filePath: A,
+            content: B,
+            structuredPatch: K,
+          };
+        (qd(K),
+          yield {
+            type: 'result',
+            data: z,
+          });
+        return;
+      }
+      let V = {
+        type: 'create',
+        filePath: A,
+        content: B,
+        structuredPatch: [],
+      };
+      (qd([], B),
+        yield {
+          type: 'result',
+          data: V,
+        });
+    },
+    mapToolResultToToolResultBlockParam({ filePath: A, content: B, type: Q }, Z) {
+      switch (Q) {
+        case 'create':
+          return {
+            tool_use_id: Z,
+            type: 'tool_result',
+            content: `File created successfully at: ${A}`,
+          };
+        case 'update':
+          return {
+            tool_use_id: Z,
+            type: 'tool_result',
+            content: `The file ${A} has been updated. Here's the result of running \`cat -n\` on a snippet of the edited file:
+${saveVersion({
+  content:
+    B.split(/\r?\n/).length > u3B
+      ? B.split(/\r?\n/).slice(0, u3B).join(`
+`) + ln6
+      : B,
+  startLine: 1,
+})}`,
+          };
+      }
+    },
+};
+
+function r2B() {
+  return `Executes a given bash command in a persistent shell session with optional timeout, ensuring proper handling and security measures.
+
+Before executing the command, please follow these steps:
+
+1. Directory Verification:
+   - If the command will create new directories or files, first use \`ls\` to verify the parent directory exists and is the correct location
+   - For example, before running "mkdir foo/bar", first use \`ls foo\` to check that "foo" exists and is the intended parent directory
+
+2. Command Execution:
+   - Always quote file paths that contain spaces with double quotes (e.g., cd "path with spaces/file.txt")
+   - Examples of proper quoting:
+     - cd "/Users/name/My Documents" (correct)
+     - cd /Users/name/My Documents (incorrect - will fail)
+     - python "/path/with spaces/script.py" (correct)
+     - python /path/with spaces/script.py (incorrect - will fail)
+   - After ensuring proper quoting, execute the command.
+   - Capture the output of the command.
+
+Usage notes:
+  - The command argument is required.
+  - You can specify an optional timeout in milliseconds (up to ${uk1()}ms / ${uk1() / 60000} minutes). If not specified, commands will timeout after ${mergeConfiguration()}ms (${mergeConfiguration() / 60000} minutes).
+  - It is very helpful if you write a clear, concise description of what this command does in 5-10 words.
+  - If the output exceeds ${wG1()} characters, output will be truncated before being returned to you.
+  - You can use the \`run_in_background\` parameter to run the command in the background, which allows you to continue working while the command runs. You can monitor the output using the ${bashTooShellErrorame} tool as it becomes available. Never use \`run_in_background\` to run 'sleep' as it will return immediately. You do not need to use '&' at the end of the command when using this parameter.
+  - VERY IMPORTANT: You MUST avoid using search commands like \`find\` and \`grep\`. Instead use ${Z$}, ${mM}, or ${C3} to search. ${`You MUST avoid read tools like \`cat\`, \`head\`, and \`tail\`, and use ${zZ} to read files.`}
+ - If you _still_ need to run \`grep\`, STOP. ALWAYS USE ripgrep at \`rg\` first, which all Jose Code users have pre-installed.
+  - When issuing multiple commands, use the ';' or '&&' operator to separate them. DO NOT use newlines (newlines are ok in quoted strings).
+  - Try to maintain your current working directory throughout the session by using absolute paths and avoiding usage of \`cd\`. You may use \`cd\` if the User explicitly requests it.
+    <good-example>
+    pytest /foo/bar/tests
+    </good-example>
+    <bad-example>
+    cd /foo/bar && pytest tests
+    </bad-example>
+
+${Q_6()}`;
+}
+
+function G6B(A) {
+  let { command: B } = A;
+  if (!WF(B, Y => `$${Y}`).success)
+    return {
+      behavior: 'passthrough',
+      message: 'Command cannot be parsed, requires further permission checks',
+    };
+  if ('sandbox' in A ? !!A.sandbox : !1)
+    return {
+      behavior: 'allow',
+      updatedInput: A,
+    };
+  if (qv(B).behavior !== 'passthrough')
+    return {
+      behavior: 'passthrough',
+      message: 'Command is not read-only, requires further permission checks',
+    };
+  if (
+    fV(B).every(Y => {
+      if (qv(Y).behavior !== 'passthrough') return !1;
+      return jm6(Y);
+    })
+  )
+    return {
+      behavior: 'allow',
+      updatedInput: A,
+    };
+  return {
+    behavior: 'passthrough',
+    message: 'Command is not read-only, requires further permission checks',
+  };
+}
+
+var bashTool = 'Bash';
+
+var hm6 = h.strictObject({
+    command: h.string().describe('The command to execute'),
+    timeout: h.number().optional().describe(`Optional timeout in milliseconds (max ${uk1()})`),
+    description: h.string().optional()
+      .describe(`Clear, concise description of what this command does in 5-10 words, in active voice. Examples:
+Input: ls
+Output: List files in current directory
+
+Input: git status
+Output: Show working tree status
+
+Input: npm install
+Output: Install package dependencies
+
+Input: mkdir foo
+Output: Create directory 'foo'`),
+    run_in_background: h
+      .boolean()
+      .optional()
+      .describe(
+        'Set to true to run this command in the background. Use BashOutput to read the output later.'
+      ),
+});
+
+var Bash = {
+  name: bashTool,
+  async description({ description: A }) {
+    return A || 'Run shell command';
+  },
+  async prompt() {
+    return r2B();
+  },
+  isConcurrencySafe(A) {
+    return this.isReadOnly(A);
+  },
+  isReadOnly(A) {
+    return G6B(A).behavior === 'allow';
+  },
+  inputSchema: hm6,
+  userZodCatchcingName(A) {
+    if (!A) return 'Bash';
+    return ('sandbox' in A ? !!A.sandbox : !1) ? 'SandboxedBash' : 'Bash';
+  },
+  isEnabled() {
+    return !0;
+  },
+  async checkPermissions(A, B) {
+    if ('sandbox' in A ? !!A.sandbox : !1)
+      return {
+        behavior: 'allow',
+        updatedInput: A,
+      };
+    return eC0(A, B);
+  },
+  renderToolUseMessage(A, { verbose: B }) {
+    let { command: Q } = A;
+    if (!Q) return null;
+    let Z = Q;
+    if (Q.includes(`"$(cat <<'EOF'`)) {
+      let G = Q.match(/^(.*?)"?\$\(cat <<'EOF'\n([\s\S]*?)\n\s*EOF\n\s*\)"(.*)$/);
+      if (G && G[1] && G[2]) {
+        let Y = G[1],
+          I = G[2],
+          W = G[3] || '';
+        Z = `${Y.trim()} "${I.trim()}"${W.trim()}`;
+      }
+    }
+    if (!B) {
+      let G = Z.split(`
+`),
+        Y = G.length > J6B,
+        I = Z.length > AU0;
+      if (Y || I) {
+        let W = Z;
+        if (Y)
+          W = G.slice(0, J6B).join(`
+`);
+        if (W.length > AU0) W = W.slice(0, AU0);
+        return createElement(M, null, W.trim(), '…');
+      }
+    }
+    return Z;
+  },
+  renderToolUseRejectedMessage() {
+    return createElement(e8, null);
+  },
+  renderToolUseProgressMessage(A, { verbose: B }) {
+    let Q = A.at(-1);
+    if (!Q || !Q.data || !Q.data.output)
+      return createElement(
+        wA,
+        {
+          height: 1,
+        },
+        createElement(
+          M,
+          {
+            dimColor: !0,
+          },
+          'Running…'
+        )
+      );
+    let Z = Q.data;
+    return createElement(R_1, {
+      fullOutput: Z.fullOutput,
+      output: Z.output,
+      elapsedTimeSeconds: Z.elapsedTimeSeconds,
+      totalLines: Z.totalLines,
+      verbose: B,
+    });
+  },
+  renderToolUseQueuedMessage() {
+    return createElement(
+      wA,
+      {
+        height: 1,
+      },
+      createElement(
+        M,
+        {
+          dimColor: !0,
+        },
+        'Waiting…'
+      )
+    );
+  },
+  renderToolResultMessage(A, B, { verbose: Q }) {
+    return createElement(updateData, {
+      content: A,
+      verbose: Q,
+    });
+  },
+  mapToolResultToToolResultBlockParam(
+    { interrupted: A, stdout: B, stderr: Q, summary: Z, isImage: G, backgroundTaskId: Y },
+    I
+  ) {
+    if (G) {
+      let F = B.trim().match(/^data:([^;]+);base64,(.+)$/);
+      if (F) {
+        let V = F[1],
+          K = F[2];
+        return {
+          tool_use_id: I,
+          type: 'tool_result',
+          content: [
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: V || 'image/jpeg',
+                data: K || '',
+              },
+            },
+          ],
+        };
+      }
+    }
+    if (Z)
+      return {
+        tool_use_id: I,
+        type: 'tool_result',
+        content: Z,
+        is_error: A,
+      };
+    let W = B;
+    if (B) ((W = B.replace(/^(\s*\n)+/, '')), (W = W.trimEnd()));
+    let J = Q.trim();
+    if (A) {
+      if (Q) J += b_1;
+      J += '<error>Command was aborted before completion</error>';
+    }
+    let X = Y ? `Command running in background with ID: ${Y}` : '';
+    return {
+      tool_use_id: I,
+      type: 'tool_result',
+      content: [W, J, X].filter(Boolean).join(`
+`),
+      is_error: A,
+    };
+  },
+  async *call(A, B) {
+    let {
+        abortController: Q,
+        readFileState: Z,
+        options: { isNonInteractiveSession: G },
+        getAppState: Y,
+        setAppState: I,
+        setToolJSX: W,
+        messages: J,
+      } = B,
+      X = new ContentBuffer(),
+      F = new ContentBuffer(),
+      V,
+      K = 0,
+      z = !1,
+      H,
+      C = B.agentId !== getSessionId();
+    try {
+      let u = lm6({
+          input: A,
+          abortController: Q,
+          setAppState: I,
+          setToolJSX: W,
+          preventCwdChanges: C,
+        }),
+        o;
+      do
+        if (((o = await u.next()), !o.done)) {
+          let m = o.value;
+          yield {
+            type: 'progress',
+            toolUsAPIAbortErrorD: `bash-progress-${K++}`,
+            data: {
+              type: 'bash_progress',
+              output: m.output,
+              fullOutput: m.fullOutput,
+              elapsedTimeSeconds: m.elapsedTimeSeconds,
+              totalLines: m.totalLines,
+            },
+          };
+        }
+      while (!o.done);
+      if (
+        ((H = o.value),
+        mm6(A.command, H.code),
+        X.append((H.stdout || '').trimEnd() + b_1),
+        (V = Y6B(A.command, H.code, H.stdout || '', H.stderr || '')),
+        H.stderr && H.stderr.includes(".git/index.lock': File exists"))
+      )
+      if (V.isError) {
+        if ((F.append((H.stderr || '').trimEnd() + b_1), H.code !== 0))
+          F.append(`Exit code ${H.code}`);
+      } else X.append((H.stderr || '').trimEnd() + b_1);
+      if (!C) {
+        let m = await Y();
+        if (ik1(m.toolPermissionContext)) {
+          let j = F.toString();
+          (F.clear(), F.append(pk1(j)));
+        }
+      }
+      if (V.isError) throw new ShellError(H.stdout, H.stderr, H.code, H.interrupted);
+      z = H.interrupted;
+    } finally {
+      if (W) W(null);
+    }
+    let q = X.toString(),
+      E = F.toString();
+    DBB(A.command, q, G).then(async u => {
+      for (let o of u) {
+        let m = xm6(o) ? o : vm6(getCurrentWorkingDirectory(), o);
+        try {
+          if (
+            !(
+              await B6.validatAPIAbortErrornput({
+                file_path: m,
+              })
+            ).result
+          ) {
+            Z.delete(m);
+            continue;
+          }
+          await eM(
+            B6.call(
+              {
+                file_path: m,
+              },
+              B
+            )
+          );
+        } catch (j) {
+          (Z.delete(m), logError(j, X3A));
+        }
+      }
+    });
+    let L = await cm6(q, E, A.command, J || []),
+      O = L?.shouldSummarize === !0,
+      R = L?.modelReason,
+      P = A.command.split(' ')[0];
+    let { truncatedContent: k, isImage: b } = pM(resolveJavaScript(q)),
+      { truncatedContent: S } = pM(resolveJavaScript(E));
+    yield {
+      type: 'result',
+      data: {
+        stdout: k,
+        stderr: S,
+        summary: O ? L?.summary : void 0,
+        rawOutputPath: O ? L?.rawOutputPath : void 0,
+        interrupted: z,
+        isImage: b,
+        returnCodAPIAbortErrornterpretation: V?.message,
+        backgroundTaskId: H.backgroundTaskId,
+      },
+    };
+  },
+  renderToolUseErrorMessage(A, { verbose: B }) {
+    return createElement(createComponent, {
+      result: A,
+      verbose: B,
+    });
+  },
+};
+
 var GqB = () => ({
 	READ_ONLY: {
 		name: 'Read-only tools',
-		toolShellNames: new Set([
+		toolNames: new Set([
 			Glob.name,
 			Grep.name,
 			ExitPlanMode.name,
@@ -5302,29 +6674,28 @@ var GqB = () => ({
 	},
 	EDIT: {
 		name: 'Edit tools',
-		toolShellNames: new Set([
-			LI.name, 
-			IE.name, 
-			vF.name, 
-			kO.name
+		toolNames: new Set([
+			Edit.name, 
+			MultiEdit.name, 
+			Write.name, 
 		]),
 	},
 	EXECUTION: {
 		name: 'Execution tools',
-		toolShellNames: new Set([
-			gQ.name, 
+		toolNames: new Set([
+			Bash.name, 
 			void 0
 		].filter(Boolean)),
 	},
 	MCP: {
 		name: 'MCP tools',
-		toolShellNames: new Set(),
+		toolNames: new Set(),
 		isMcp: !0,
 	},
 	OTHER: {
 		name: 'Other tools',
-		toolShellNames: new Set(),
+		toolNames: new Set(),
 	},
 });
 
-export { Glob, Grep, ExitPlanMode, Read, WebFetch, TodoWrite, WebSearch, KillShell, oh1, GqB };
+export {GqB };

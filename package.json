@@ -75,8 +75,7 @@
 		"extends": "xo-react",
 		"prettier": true,
 		"ignores": [
-			"docs/**",
-			"source/tools.ts"
+			"docs/**"
 		],
 		"rules": {
 			"react/prop-types": "off",
