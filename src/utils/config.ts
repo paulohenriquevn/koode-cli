@@ -17,11 +17,11 @@ const defaultConfig = {
 
 export type Config = typeof defaultConfig;
 
-export const CLI_DIR = path.join(os.homedir(), '.p90-cli');
+export const CLI_DIR = path.join(os.homedir(), '.koode-cli');
 export const CONFIG_PATH = path.join(CLI_DIR, 'config.json');
 
 /**
- * Loads configuration from ~/.p90-cli/config.json
+ * Loads configuration from ~/.koode-cli/config.json
  * Creates the config file with defaults if it doesn't exist.
  */
 export function getConfig(): Config {

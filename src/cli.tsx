@@ -1,5 +1,5 @@
 import meow from 'meow';
-import {useReducer, useMemo} from 'react';
+import React, {useReducer, useMemo} from 'react';
 import {render, Box, Text, Static} from 'ink';
 import {TextInput} from '@inkjs/ui';
 import {spawnSync} from 'child_process';
@@ -39,7 +39,7 @@ function CLI() {
 						/>
 					) : (
 						<ChatHistoryItem
-							key={`${message.p90_metadata.message_id}`}
+							key={`${message.koode_metadata.message_id}`}
 							message={message}
 						/>
 					)
@@ -95,8 +95,8 @@ function getView(state: CLIState): View {
 const cli = meow(
 	`
   Usage
-    $ p90
-    $ p90 <flag>
+    $ koode
+    $ koode <flag>
 
   Options
     --version                       Print version and exit
@@ -106,8 +106,8 @@ const cli = meow(
     -c, --config                    Open the instructions file in your editor
 
   Examples
-    $ p90
-    $ p90 -c
+    $ koode
+    $ koode -c
 `,
 	{
 		importMeta: import.meta,

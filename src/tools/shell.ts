@@ -79,7 +79,7 @@ export async function shellCommand(args: ShellCommandArgs): Promise<any> {
 					stdout: stdout,
 					stderr: stderr,
 					exit_code: getExitCode(code, signal),
-					p90_metadata: {
+					koode_metadata: {
 						tool_cli_display_name: commandName,
 						tool_cli_display_output: formatForCLI(
 							stdout.trim() || stderr.trim(),
@@ -104,7 +104,7 @@ function getErrorResult(commandName: string, error: unknown): any {
 		stdout: '',
 		stderr: String(error),
 		exit_code: 1,
-		p90_metadata: {
+		koode_metadata: {
 			tool_cli_display_name: commandName,
 			tool_cli_display_output: formatForCLI(
 				`Error executing command:\n${String(error)}`,

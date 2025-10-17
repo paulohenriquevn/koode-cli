@@ -18,7 +18,7 @@ export async function chat(
 				model: getConfig().model,
 				messages: messages.map(m => ({
 					...m,
-					p90_metadata: undefined,
+					koode_metadata: undefined,
 				})),
 				stream: false,
 				tool_choice: 'auto',
@@ -35,7 +35,7 @@ export async function chat(
 	const choice = data.choices[0];
 	const assistantMessage: Message = {
 		...choice.message,
-		p90_metadata: {message_id: randomUUID().toString()},
+		koode_metadata: {message_id: randomUUID().toString()},
 	};
 
 	return assistantMessage;

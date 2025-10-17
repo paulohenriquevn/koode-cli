@@ -11,19 +11,19 @@ export async function dispatchTool(toolCall: ToolCall): Promise<Message> {
 	const args = JSON.parse(toolCall.function.arguments) as any;
 	const toolResponse = await toolMapping[toolName](args);
 
-	const p90_metadata = toolResponse.p90_metadata || {};
-	delete toolResponse.p90_metadata;
+	const koode_metadata = toolResponse.koode_metadata || {};
+	delete toolResponse.koode_metadata;
 
 	return {
 		role: 'tool',
 		tool_call_id: toolCall.id,
 		name: toolName,
 		content: JSON.stringify(toolResponse),
-		p90_metadata: {
-			// Set defaults if `p90_metadata` is not provided.
+		koode_metadata: {
+			// Set defaults if `koode_metadata` is not provided.
 			tool_cli_display_name: toolName,
 			tool_cli_display_output: getDefaultCLIDisplayOutput(toolResponse),
-			...p90_metadata,
+			...koode_metadata,
 			message_id: randomUUID().toString(),
 		},
 	};

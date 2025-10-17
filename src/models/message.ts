@@ -57,7 +57,7 @@ export interface Message {
 	name?: string; // Optional name for the participant
 	tool_calls?: ToolCall[]; // For assistant messages that call tools
 	tool_call_id?: string; // For tool role messages responding to a specific tool call
-	p90_metadata: {
+	koode_metadata: {
 		message_id: string;
 		tool_cli_display_name?: string;
 		tool_cli_display_output?: string;

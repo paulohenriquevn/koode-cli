@@ -5,7 +5,7 @@ import * as path from 'path';
 import {CLI_DIR} from './config';
 import {serialize} from './ensure';
 
-const logFilePath = path.join(CLI_DIR, 'p90.log');
+const logFilePath = path.join(CLI_DIR, 'koode.log');
 
 // Ensure the CLI_DIR exists
 if (!fs.existsSync(CLI_DIR)) {

@@ -2,22 +2,28 @@
 	"name": "koode-cli",
 	"version": "0.0.0",
 	"license": "MIT",
-	"bin": "dist/cli.js",
+	"bin": "dist/koode.js",
 	"type": "module",
 	"engines": {
 		"node": ">=16"
 	},
 	"scripts": {
-		"build": "tsc",
-		"dev": "tsc --watch",
-		"test": "prettier --check . && vitest run",
-		"test:watch": "vitest",
-		"test:ui": "vitest --ui"
+		"build": "node build.mjs",
+		"build:dev": "node build.mjs --dev",
+		"commitmsg": "commitlint -e",
+		"dev": "node build.mjs --dev && node dist/koode-dev.js --debug",
+		"lint": "eslint --plugin prettier --ext .js,.jsx,.ts,.tsx,.json .",
+		"lint:fix": "eslint --fix --plugin prettier --ext .js,.jsx,.ts,.tsx,.json .",
+		"prepare": "husky install",
+		"start": "node dist/koode.js",
+		"start:dev": "node dist/koode-dev.js --debug",
+		"test": "vitest run"
 	},
 	"files": [
 		"dist"
 	],
 	"dependencies": {
+		"@inkjs/ui": "^2.0.0",
 		"ajv": "^8.17.1",
 		"boxen": "^8.0.1",
 		"cli-boxes": "^4.0.1",
@@ -26,7 +32,7 @@
 		"cross-spawn": "^7.0.6",
 		"globby": "^15.0.0",
 		"ignore": "^7.0.5",
-		"ink": "^4.1.0",
+		"ink": "^5.2.1",
 		"ink-big-text": "^2.0.0",
 		"ink-gradient": "^3.0.0",
 		"is-online": "^12.0.1",

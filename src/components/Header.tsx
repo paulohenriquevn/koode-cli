@@ -14,8 +14,8 @@ interface HeaderProps {
 function Header({model, cwd, hasApiKey, debug}: HeaderProps) {
 	return (
 		<>
-			<Gradient name={theme.p90Logo}>
-				<BigText text="P90" />
+			<Gradient name={theme.koodeLogo}>
+				<BigText text="koode" />
 			</Gradient>
 			<Box
 				flexDirection="column"
@@ -23,13 +23,13 @@ function Header({model, cwd, hasApiKey, debug}: HeaderProps) {
 				borderStyle="bold"
 				borderColor={theme.borderColor}
 			>
-				<Text color={theme.p90Header}>model: {model}</Text>
-				<Text color={theme.p90Header}>cwd: {cwd}</Text>
-				<Text color={theme.p90Header}>
+				<Text color={theme.koodeHeader}>model: {model}</Text>
+				<Text color={theme.koodeHeader}>cwd: {cwd}</Text>
+				<Text color={theme.koodeHeader}>
 					api_key: {hasApiKey ? 'set' : 'unset'}
 				</Text>
 				{debug ? (
-					<Text color={theme.p90Header}>debug: enabled</Text>
+					<Text color={theme.koodeHeader}>debug: enabled</Text>
 				) : undefined}
 			</Box>
 		</>

@@ -26,10 +26,10 @@ function ChatHistoryItem({message}: ChatHistoryItemProps) {
 		case 'assistant':
 			return (
 				<Box flexDirection="column" paddingX={6}>
-					<Text bold color={theme.p90Header}>
-						p90
+					<Text bold color={theme.koodeHeader}>
+						koode
 					</Text>
-					<Text color={theme.p90Text}>
+					<Text color={theme.koodeText}>
 						{messageText}
 						<Newline />
 					</Text>
@@ -39,10 +39,10 @@ function ChatHistoryItem({message}: ChatHistoryItemProps) {
 			return (
 				<Box flexDirection="column" paddingX={6}>
 					<Text bold color={theme.toolHeader}>
-						{`tool - ${message.p90_metadata.tool_cli_display_name}`}
+						{`tool - ${message.koode_metadata.tool_cli_display_name}`}
 					</Text>
 					<Text color={theme.toolText}>
-						{message.p90_metadata.tool_cli_display_output ||
+						{message.koode_metadata.tool_cli_display_output ||
 							messageText}
 						<Newline />
 					</Text>

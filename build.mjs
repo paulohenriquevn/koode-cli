@@ -38,35 +38,33 @@ const isDevBuild = process.argv.includes('--dev');
 
 const plugins = [ignoreReactDevToolsPlugin];
 
-// Build Hygiene, ensure we drop previous dist dir and any leftover files
+// Build Hygiene, ensure we create dist dir if it doesn't exist
 const outPath = path.resolve(OUT_DIR);
-if (fs.existsSync(outPath)) {
-	fs.rmSync(outPath, {recursive: true, force: true});
+if (!fs.existsSync(outPath)) {
+	fs.mkdirSync(outPath, {recursive: true});
 }
 
-// Add a shebang that enables source‑map support for dev builds so that stack
-// traces point to the original TypeScript lines without requiring callers to
-// remember to set NODE_OPTIONS manually.
-if (isDevBuild) {
-	const devShebangLine =
-		'#!/usr/bin/env -S NODE_OPTIONS=--enable-source-maps node\n';
-	const devShebangPlugin = {
-		name: 'dev-shebang',
-		setup(build) {
-			build.onEnd(async () => {
-				const outFile = path.resolve(
-					isDevBuild ? `${OUT_DIR}/p90-dev.js` : `${OUT_DIR}/p90.js`,
-				);
-				let code = await fs.promises.readFile(outFile, 'utf8');
-				if (code.startsWith('#!')) {
-					code = code.replace(/^#!.*\n/, devShebangLine);
-					await fs.promises.writeFile(outFile, code, 'utf8');
-				}
-			});
-		},
-	};
-	plugins.push(devShebangPlugin);
-}
+// Add shebang for both dev and production builds
+const shebangLine = isDevBuild 
+	? '#!/usr/bin/env -S NODE_OPTIONS=--enable-source-maps node\n'
+	: '#!/usr/bin/env node\n';
+
+const shebangPlugin = {
+	name: 'shebang',
+	setup(build) {
+		build.onEnd(async () => {
+			const outFile = path.resolve(
+				isDevBuild ? `${OUT_DIR}/koode-dev.js` : `${OUT_DIR}/koode.js`,
+			);
+			let code = await fs.promises.readFile(outFile, 'utf8');
+			code = shebangLine + code;
+			await fs.promises.writeFile(outFile, code, 'utf8');
+			// Make file executable
+			await fs.promises.chmod(outFile, 0o755);
+		});
+	},
+};
+plugins.push(shebangPlugin);
 
 esbuild
 	.build({
@@ -78,10 +76,12 @@ esbuild
 		format: 'esm',
 		platform: 'node',
 		tsconfig: 'tsconfig.json',
-		outfile: isDevBuild ? `${OUT_DIR}/p90-dev.js` : `${OUT_DIR}/p90.js`,
+		outfile: isDevBuild ? `${OUT_DIR}/koode-dev.js` : `${OUT_DIR}/koode.js`,
 		minify: !isDevBuild,
 		sourcemap: isDevBuild ? 'inline' : true,
 		plugins,
 		inject: ['./require-shim.js'],
+		jsx: 'automatic',
+		jsxImportSource: 'react',
 	})
 	.catch(() => process.exit(1));

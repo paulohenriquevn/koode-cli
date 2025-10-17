@@ -18,7 +18,7 @@ export function useHandlers({state, dispatch}: UseHandlerParams) {
 	const handleSubmit = useCallback(
 		async (input: string) => {
 			const userMessage: Message = {
-				p90_metadata: {
+				koode_metadata: {
 					message_id: randomUUID().toString(),
 				},
 				role: 'user',
@@ -83,7 +83,7 @@ function logMessage(message: Message) {
 	const trimmed =
 		content.length > 100 ? `${content.substring(0, 100)} [...]` : content;
 	log.info(
-		`Message ID: ${message.p90_metadata.message_id}, Role: ${message.role}, Content: "${trimmed}"`,
+		`Message ID: ${message.koode_metadata.message_id}, Role: ${message.role}, Content: "${trimmed}"`,
 	);
 }
 

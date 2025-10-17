@@ -2,7 +2,34 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "🔗 Attach to koode-cli (Port 9229)",
+			"name": "🚀 Launch Koode CLI (Production)",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder}/dist/koode.js",
+			"args": ["--debug"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**"],
+			"sourceMaps": true,
+			"outFiles": ["${workspaceFolder}/dist/**/*.js"],
+			"preLaunchTask": "build"
+		},
+		{
+			"name": "🔧 Launch Koode CLI (Development)",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceFolder}/dist/koode-dev.js",
+			"args": ["--debug"],
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**"],
+			"sourceMaps": true,
+			"outFiles": ["${workspaceFolder}/dist/**/*.js"],
+			"preLaunchTask": "build:dev",
+			"env": {
+				"NODE_OPTIONS": "--enable-source-maps"
+			}
+		},
+		{
+			"name": "🔗 Attach to Running Koode CLI",
 			"type": "node",
 			"request": "attach",
 			"port": 9229,
@@ -13,36 +40,17 @@
 			"console": "integratedTerminal"
 		},
 		{
-			"name": "🔗 Attach to koode-cli (Port 9230 - Breakpoint)",
-			"type": "node",
-			"request": "attach",
-			"port": 9230,
-			"restart": true,
-			"localRoot": "${workspaceFolder}",
-			"remoteRoot": "${workspaceFolder}",
-			"skipFiles": ["<node_internals>/**"],
-			"console": "integratedTerminal"
-		},
-		{
-			"name": "🚀 Launch koode-cli (Debug)",
+			"name": "🧪 Debug TypeScript Source",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceFolder}/dist/start.js",
-			"args": ["--debug", "teste debug vscode"],
+			"program": "${workspaceFolder}/src/cli.tsx",
+			"args": ["--debug"],
 			"console": "integratedTerminal",
 			"skipFiles": ["<node_internals>/**"],
-			"sourceMaps": true,
-			"outFiles": ["${workspaceFolder}/dist/**/*.js"]
-		},
-		{
-			"name": "⚡ Launch koode-cli (TypeScript Direct)",
-			"type": "node",
-			"request": "launch",
-			"program": "${workspaceFolder}/source/start.tsx",
-			"args": ["--debug", "teste typescript"],
-			"console": "integratedTerminal",
-			"skipFiles": ["<node_internals>/**"],
-			"runtimeArgs": ["--loader", "tsx"]
+			"runtimeArgs": ["--loader", "tsx"],
+			"env": {
+				"NODE_OPTIONS": "--loader tsx --enable-source-maps"
+			}
 		}
 	]
 }

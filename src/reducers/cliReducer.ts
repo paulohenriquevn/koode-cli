@@ -29,7 +29,7 @@ export function getInitialState(): CLIState {
 			{
 				role: 'system',
 				content: [{type: 'text', text: getSystemPrompt()}],
-				p90_metadata: {
+				koode_metadata: {
 					message_id: randomUUID().toString(),
 				},
 			},

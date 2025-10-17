@@ -9,4 +9,6 @@
  * CommonJS module loader.
  */
 import {createRequire} from 'module';
+import React from 'react';
 globalThis.require = createRequire(import.meta.url);
+globalThis.React = React;
