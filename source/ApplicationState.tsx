@@ -4,7 +4,7 @@
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join, resolve, basename, extname } from 'path';
 import { homedir } from 'os';
-import { status, DevToolCategory } from './devtools.js';
+import { status, DevToolCategory } from './DevTools.js';
 
 // Core application state interfaces
 export interface WorkspaceState {
