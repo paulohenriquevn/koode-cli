@@ -636,7 +636,7 @@ var wN9 = (A, B = {}) => {
 		}, [B.isActive, Q, G, A]);
 };
 
-function Zg1({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
+function ToolSelector({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
 	let G = useMemo(() => gwB(A), [A]),
 		Y = B.includes('*') ? G.map(S => S.name) : B,
 		[I, W] = useState(Y),
