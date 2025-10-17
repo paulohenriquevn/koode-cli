@@ -1,18 +1,16 @@
-import {homedir} from 'node:os';
-import {basename, delimiter, relative, resolve, sep} from 'node:path';
-import {createElement, Fragment} from 'react';
-import {isBuffer, memoize} from 'lodash-es';
 import {ChildProcess, execFile} from 'node:child_process';
-import {fileURLToPath} from 'node:url';
-import {join} from 'node:path';
-import {spawn} from 'spawn-rx';
 import {SIGTERM} from 'node:constants';
 import {createReadStream, createWriteStream} from 'node:fs';
+import {homedir} from 'node:os';
+import {basename, delimiter, join, relative, resolve, sep} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import CombinedStream from 'combined-stream';
+import {isBuffer, memoize} from 'lodash-es';
 import {minimatch} from 'minimatch';
+import {spawn} from 'spawn-rx';
+import {createElement, Fragment} from 'react';
 
-
-var bashMaxOutputLengthZodReadonlylidator = {
+const bashMaxOutputLengthZodReadonlylidator = {
 	name: 'BASH_MAX_OUTPUT_LENGTH',
 	default: 30000,
 	validate: value => {
@@ -41,7 +39,7 @@ var bashMaxOutputLengthZodReadonlylidator = {
 	},
 };
 
-var joseCodeMaxOutputTokensZodReadonlylidator = {
+const joseCodeMaxOutputTokensZodReadonlylidator = {
 	name: 'Jose_CODE_MAX_OUTPUT_TOKENS',
 	default: 32000,
 	validate: value => {
@@ -117,7 +115,7 @@ function createInitialGlobalState() {
 		inMemoryErrorLog: [],
 	};
 }
-var globalState = createInitialGlobalState();
+const globalState = createInitialGlobalState();
 
 function getFlagSettingsPath() {
 	return globalState.flagSettingsPath;
@@ -127,7 +125,7 @@ function setFlagSettingsPath(flagSettingsPath: undefined) {
 	globalState.flagSettingsPath = flagSettingsPath;
 }
 
-var XG5 = h.strictObject({
+const XG5 = h.strictObject({
 	pattern: h.string().describe('The glob pattern to match files against'),
 	path: h
 		.string()
@@ -2127,11 +2125,11 @@ function getInternalCurrentDirectory() {
 function getSystemConfigPath() {
   switch (zB()) {
     case 'macos':
-      return '/Library/Application Support/JoseCode';
+      return '/Library/Application Support/koode-cli';
     case 'windows':
-      return 'C:\\ProgramData\\JoseCode';
+      return 'C:\\ProgramData\\koode-cli';
     default:
-      return '/etc/Jose-code';
+      return '/etc/koode-cli';
   }
 }
 
@@ -4969,14 +4967,14 @@ var wG5 = h.strictObject({
 function getSettingsPath(A) {
 	switch (A) {
 		case 'projectSettings':
-			return join('.Jose', 'settings.json');
+			return join('.koode-cli', 'settings.json');
 		case 'localSettings':
-			return join('.Jose', 'settings.local.json');
+			return join('.koode-cli', 'settings.local.json');
 	}
 }
 
 export function getConfigDirectory() {
-	return process.env.JOSE_CONFIG_DIR ?? join(homedir(), '.Jose');
+	return process.env.KOODE_CONFIG_DIR ?? join(homedir(), '.koode-cli');
 }
 
 function HwA(A, B) {
