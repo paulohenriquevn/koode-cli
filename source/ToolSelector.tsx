@@ -7,6 +7,7 @@ import {
 	useMemo,
 	useState,
 } from 'react';
+import {Box, Text} from 'ink';
 import WUA from 'node:process';
 import {EventEmitter as EventEmitter} from 'node:events';
 import react_reconciler from 'react-reconciler'; // PwA - React Reconcil
@@ -811,76 +812,47 @@ function ToolSelector({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
 				X(Math.min(O.length - 1, u));
 			}
 		}),
-		createElement(
-			y,
-			{
-				flexDirection: 'column',
-				marginTop: 1,
-			},
-			createElement(
-				M,
-				{
-					color: J === 0 ? 'suggestion' : void 0,
-					bold: J === 0,
-				},
-				J === 0 ? `${e0.pointer} ` : '  ',
-				'[ Continue ]',
-			),
-			createElement(
-				M,
-				{
-					dimColor: !0,
-				},
-				'─'.repeat(40),
-			),
-			O.slice(1).map((S, c) => {
+		<Box flexDirection="column" marginTop={1}>
+			<Text
+				color={J === 0 ? 'suggestion' : undefined}
+				bold={J === 0}
+			>
+				{J === 0 ? `${e0.pointer} ` : '  '}
+				[ Continue ]
+			</Text>
+			<Text dimColor={true}>
+				{'─'.repeat(40)}
+			</Text>
+			{O.slice(1).map((S, c) => {
 				let u = c + 1 === J,
 					o = S.isToggle,
 					m = S.isHeader;
-				return createElement(
-					Fragment,
-					{
-						key: S.id,
-					},
-					o &&
-						createElement(
-							M,
-							{
-								dimColor: !0,
-							},
-							'─'.repeat(40),
-						),
-					m &&
-						c > 0 &&
-						createElement(y, {
-							marginTop: 1,
-						}),
-					createElement(
-						M,
-						{
-							color: m ? void 0 : u ? 'suggestion' : void 0,
-							dimColor: m,
-							bold: o && u,
-						},
-						m ? '' : u ? `${e0.pointer} ` : '  ',
-						o ? `[ ${S.label} ]` : S.label,
-					),
+				return (
+					<Fragment key={S.id}>
+						{o && (
+							<Text dimColor={true}>
+								{'─'.repeat(40)}
+							</Text>
+						)}
+						{m && c > 0 && (
+							<Box marginTop={1} />
+						)}
+						<Text
+							color={m ? undefined : u ? 'suggestion' : undefined}
+							dimColor={m}
+							bold={o && u}
+						>
+							{m ? '' : u ? `${e0.pointer} ` : '  '}
+							{o ? `[ ${S.label} ]` : S.label}
+						</Text>
+					</Fragment>
 				);
-			}),
-			createElement(
-				y,
-				{
-					marginTop: 1,
-					flexDirection: 'column',
-				},
-				createElement(
-					M,
-					{
-						dimColor: !0,
-					},
-					H ? 'All tools selected' : `${z.size} of ${G.length} tools selected`,
-				),
-			),
-		)
+			})}
+			<Box marginTop={1} flexDirection="column">
+				<Text dimColor={true}>
+					{H ? 'All tools selected' : `${z.size} of ${G.length} tools selected`}
+				</Text>
+			</Box>
+		</Box>
 	);
 }
