@@ -11,6 +11,7 @@ import {createReadStream, createWriteStream} from 'node:fs';
 import CombinedStream from 'combined-stream';
 import {minimatch} from 'minimatch';
 
+
 var bashMaxOutputLengthZodReadonlylidator = {
 	name: 'BASH_MAX_OUTPUT_LENGTH',
 	default: 30000,
@@ -2121,6 +2122,17 @@ function getOriginalWorkingDirectory() {
 
 function getInternalCurrentDirectory() {
 	return globalState.cwd;
+}
+
+function getSystemConfigPath() {
+  switch (zB()) {
+    case 'macos':
+      return '/Library/Application Support/JoseCode';
+    case 'windows':
+      return 'C:\\ProgramData\\JoseCode';
+    default:
+      return '/etc/Jose-code';
+  }
 }
 
 function getCurrentDirectoryPath() {
@@ -7421,6 +7433,7 @@ var Bash = {
 	},
 };
 
+// GqB -> Tools
 var Tools = () => ({
 	READ_ONLY: {
 		name: 'Read-only tools',
@@ -7466,5 +7479,7 @@ export {
 	Tools, 
 	globalState, 
 	getCurrentWorkingDirectory,
-	getConfigDirectory
+	getSystemConfigPath,
+	getConfigDirectory,
+	fs
 };

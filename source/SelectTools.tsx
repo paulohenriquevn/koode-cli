@@ -11,7 +11,7 @@ import {
 import {Box, Text} from 'ink';
 import {ToolSelector, wN9} from './ToolSelector.js';
 import { getConfigDirectory, getCurrentWorkingDirectory, globalState } from './tools.js';
-import { join } from 'lodash-es';
+import {join} from 'node:path';
 
 function AZ() {
 	let A = useContext(createContext(null));
@@ -325,3 +325,6 @@ function SelectTools({tools: A}) {
 		}),
 	);
 }
+
+
+export {SelectTools, DO0, nG};

@@ -12,6 +12,7 @@ import WUA from 'node:process';
 import {EventEmitter as EventEmitter} from 'node:events';
 import react_reconciler from 'react-reconciler'; // PwA - React Reconcil
 import {ExitPlanMode, Tools} from './tools.js';
+import {join} from 'node:path';
 
 var Task = 'Task';
 
@@ -637,6 +638,7 @@ var wN9 = (A, B = {}) => {
 		}, [B.isActive, Q, G, A]);
 };
 
+//# Zg1 -> ToolSelector
 function ToolSelector({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
 	let G = useMemo(() => gwB(A), [A]),
 		Y = B.includes('*') ? G.map(S => S.name) : B,
