@@ -1401,6 +1401,83 @@ var wN9 = (A, B = {}) => {
 };
 
 //# Zg1 -> ToolSelector
+/**
+ *   Propósito:
+  Interface interativa principal para seleção de ferramentas em agentes CLI.
+
+  Props:
+  - tools: A - Array de todas as ferramentas disponíveis
+  - initialTools: B - Ferramentas pré-selecionadas (array ou ['*'])
+  - onComplete: Q - Callback com ferramentas selecionadas finais
+  - onCancel: Z - Callback para cancelar operação
+
+  Estado Interno:
+  - I, W - Ferramentas atualmente selecionadas
+  - J, X - Índice da opção destacada no menu
+  - F, V - Modo avançado (mostra ferramentas individuais)
+
+  Funcionalidades Principais:
+
+  1. Filtragem e Categorização
+
+  - Remove ferramentas protegidas via gwB()
+  - Agrupa ferramentas por categorias:
+    - readOnly - Ferramentas de leitura
+    - edit - Ferramentas de edição
+    - execution - Ferramentas de execução
+    - mcp - Ferramentas MCP (Model Context Protocol)
+    - other - Outras ferramentas
+
+  2. Interface de Seleção
+
+  - Navegação por teclado: Setas ↑↓ para navegar
+  - Seleção: Enter para alternar seleção
+  - Cancelamento: Esc para cancelar ou voltar ao inicial
+  - Modo avançado: Toggle para mostrar/ocultar opções detalhadas
+
+  3. Opções de Menu
+
+  - [ Continue ] - Confirma seleção atual
+  - ☐/☑ All tools - Seleciona/deseleciona todas
+  - ☐/☑ [Categoria] - Seleção por grupo
+  - Show/Hide advanced options - Toggle modo avançado
+
+  4. Modo Avançado
+
+  - Servidores MCP: Agrupamento por servidor
+  - Ferramentas individuais: Lista completa com checkboxes
+  - Headers visuais: Separação clara entre seções
+
+  5. Feedback Visual
+
+  - Indicadores: ❯ para item ativo, ☐☑ para checkboxes
+  - Separadores: Linhas ─ entre seções
+  - Contador: "X of Y tools selected"
+  - Cores: Destaque para item selecionado
+
+  Estrutura de Interface:
+  [ Continue ]
+  ────────────────
+  ☐ All tools
+  ☐ Read-only tools
+  ☐ Edit tools
+  ☐ Execution tools
+  ☐ MCP tools
+  ☐ Other tools
+  ────────────────
+  [ Show advanced options ]
+
+  5 of 20 tools selected
+
+  Integração:
+  - Usa hook wN9() para captura de teclado
+  - Integra com sistema de categorização Tools()
+  - Suporte completo a servidores MCP
+  - Renderização com componentes Ink (Box, Text)
+
+  O ToolSelector é o motor principal da seleção de ferramentas, oferecendo interface rica e navegação intuitiva para configuração granular de agentes.
+
+ */
 function ToolSelector({tools: A, initialTools: B, onComplete: Q, onCancel: Z}) {
 	let G = useMemo(() => gwB(A), [A]),
 		Y = B.includes('*') ? G.map(S => S.name) : B,

@@ -301,6 +301,25 @@ function nG({
 }
 
 // YqB ->SelectTools
+/*
+Propósito:
+  Etapa de seleção de ferramentas em um wizard de criação de agentes.
+
+  Funcionalidade:
+  - Interface de Seleção: Permite ao usuário escolher quais ferramentas o agente terá acesso
+  - Gerenciamento de Estado: Integra com contexto de wizard para persistir seleções
+  - Navegação: Controla fluxo entre etapas do wizard (voltar/avançar)
+
+  Props:
+  - tools: A - Array de ferramentas disponíveis para seleção
+
+  Comportamento:
+  - Ferramentas Iniciais: Carrega seleções anteriores ou seleciona todas por padrão
+  - Callback onComplete: Salva ferramentas selecionadas no estado do wizard e avança
+  - Callback onCancel: Retorna à etapa anterior
+  - UI: Renderiza interface com instruções de navegação
+
+*/
 function SelectTools({tools: A}) {
 	let {goNext: B, goBack: Q, updateWizardData: Z, wizardData: G} = AZ(),
 		Y = W => {

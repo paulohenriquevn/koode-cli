@@ -519,7 +519,13 @@ function DR1(A) {
   return A.charAt(0).toUpperCase() + A.slice(1);
 }
 
-function JqB({ tools: A, existingAgents: B, onSave: Q, onSaveAndEdit: Z, error: G }) {
+// JqB-> AgentConfirmationStep
+/**
+  - Exibir preview/confirmação dos dados do agente
+  - Validar o agente antes do salvamento
+  - Mostrar interface de confirmação com opções de salvar
+ */
+function AgentConfirmationStep({ tools: A, existingAgents: B, onSave: Q, onSaveAndEdit: Z, error: G }) {
   let { goBack: Y, wizardData: I } = AZ();
   wN9((F, V) => {
     if (V.escape) Y();
@@ -772,7 +778,15 @@ function JqB({ tools: A, existingAgents: B, onSave: Q, onSaveAndEdit: Z, error: 
   );
 }
 
-function XqB({tools: A, existingAgents: B, onComplete: Q}) {
+// XqB-> AgentSaveController
+/**
+  - Gerenciar o processo de salvamento de agentes
+  - Coordenar ações de salvar e salvar+editar
+  - Controlar o estado de erro
+  - Renderizar o componente de confirmação AgentConfirmationStep
+
+ */
+function AgentSaveController({tools: A, existingAgents: B, onComplete: Q}) {
 	let {wizardData: Z} = AZ(),
 		[G, Y] = useState(null),
 		I = useCallback(async () => {
@@ -830,3 +844,5 @@ function XqB({tools: A, existingAgents: B, onComplete: Q}) {
 		error: G,
 	});
 }
+
+export { AgentSaveController, AgentConfirmationStep };

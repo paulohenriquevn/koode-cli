@@ -1,0 +1,69 @@
+{
+  "extends": [
+    "xo-react",
+    "@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-unused-vars": "off",
+    "react/prop-types": "off",
+    "unicorn/expiring-todo-comments": "off"
+  },
+  "overrides": [
+    {
+      "files": ["jose-cli-code-original.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "vars": "all",
+            "args": "none",
+            "ignoreRestSiblings": true,
+            "varsIgnorePattern": "^_"
+          }
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "prefer-const": "off",
+        "no-var": "off",
+        "unicorn/prefer-module": "off",
+        "unicorn/no-array-for-each": "off",
+        "complexity": "off",
+        "max-params": "off",
+        "max-statements": "off"
+      }
+    }
+  ],
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+  "settings": {
+    "react": {
+      "version": "18.2.0"
+    }
+  }
+}
